@@ -200,7 +200,7 @@
 
         <div class="w-full max-w-[390px] h-[844px] sm:w-[390px] sm:h-[844px] bg-background relative overflow-hidden flex flex-col rounded-[2.5rem] border-[10px] border-black shadow-2xl shrink-0 transition-colors duration-300">
             <!-- Create Post Flow -->
-            <div x-show="activePhone === \'create\'" class="absolute inset-0 flex flex-col">
+            <div x-show="activePhone === 'create'" class="absolute inset-0 flex flex-col">
 
             
             <!-- Status Bar -->
@@ -238,7 +238,7 @@
                             <!-- MODE 1: 360 PANORAMA SCENE -->
                             <div x-show="previewMode === '360'" class="absolute inset-0 w-full h-full">
                                 <!-- Preview Image -->
-                                <img src="https://picsum.photos/seed/spiritmountain360/800/800" alt="360 Panorama Preview" class="absolute inset-0 w-full h-full object-cover">
+                                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" alt="360 Panorama Preview" class="absolute inset-0 w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 pointer-events-none"></div>
 
                                 <!-- Top Right: Fullscreen Expand Button -->
@@ -617,7 +617,7 @@
             >
                 <!-- Mode 1: Fullscreen 360 View -->
                 <div x-show="previewMode === '360'" class="absolute inset-0 w-full h-full">
-                    <img src="https://picsum.photos/seed/spiritmountain360/800/800" class="absolute inset-0 w-full h-full object-cover" alt="Fullscreen 360">
+                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Fullscreen 360">
                     
                     <!-- Scrim Gradients -->
                     <div class="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-black/85 via-black/40 to-transparent pointer-events-none z-10"></div>
@@ -1372,7 +1372,7 @@
                                 <!-- Item 1 -->
                                 <div class="flex items-center justify-between gap-3">
                                     <div class="flex-1 flex items-center gap-3 p-2.5 rounded-2xl border border-primary bg-primary/[0.03] shadow-sm">
-                                        <img src="https://picsum.photos/seed/bali/100/100" class="w-[48px] h-[48px] rounded-xl object-cover shrink-0 border border-border/50" alt="">
+                                        <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=200&auto=format&fit=crop" class="w-[48px] h-[48px] rounded-xl object-cover shrink-0 border border-border/50" alt="">
                                         <div class="min-w-0">
                                             <div class="text-[13px] font-bold truncate leading-tight">Batur Caldera Rim Trail</div>
                                             <div class="text-[10px] font-semibold text-muted-foreground mt-1.5 truncate"><i class="ph-fill ph-map-pin"></i> 28.4 km • Bali, Indonesia</div>
@@ -1383,7 +1383,7 @@
                                 <!-- Item 2 -->
                                 <div class="flex items-center justify-between gap-3">
                                     <div class="flex-1 flex items-center gap-3 p-2.5 rounded-2xl border border-border bg-card shadow-sm">
-                                        <img src="https://picsum.photos/seed/lombok/100/100" class="w-[48px] h-[48px] rounded-xl object-cover shrink-0 border border-border/50" alt="">
+                                        <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=200&auto=format&fit=crop" class="w-[48px] h-[48px] rounded-xl object-cover shrink-0 border border-border/50" alt="">
                                         <div class="min-w-0">
                                             <div class="text-[13px] font-bold truncate leading-tight">Rinjani Summit Route</div>
                                             <div class="text-[10px] font-semibold text-muted-foreground mt-1.5 truncate"><i class="ph-fill ph-map-pin"></i> 41.2 km • Lombok</div>
@@ -1598,45 +1598,18 @@
             fullscreenOpen: false,
             
             trails: [
-                { id: 1, name: 'Batur Caldera Rim Trail', dist: '28.4 km', loc: 'Bali, Indonesia', img: 'https://picsum.photos/seed/bali/100/100' },
-                { id: 2, name: 'Rinjani Summit Route', dist: '41.2 km', loc: 'Lombok, Indonesia', img: 'https://picsum.photos/seed/lombok/100/100' },
-                { id: 3, name: 'Komodo Island Explorer', dist: '18.6 km', loc: 'NTT, Indonesia', img: 'https://picsum.photos/seed/komodo/100/100' },
-                { id: 4, name: 'Taman Nasional Baluran', dist: '12.4 km', loc: 'East Java', img: 'https://picsum.photos/seed/java1/100/100' },
-                { id: 5, name: 'Ijen Crater Trail', dist: '14.1 km', loc: 'East Java', img: 'https://picsum.photos/seed/java2/100/100' },
-                { id: 6, name: 'Mount Prau Hike', dist: '6.2 km', loc: 'Central Java', img: 'https://picsum.photos/seed/java3/100/100' },
+                { id: 1, name: 'Batur Caldera Rim Trail', dist: '28.4 km', loc: 'Bali, Indonesia', img: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=200&auto=format&fit=crop' },
+                { id: 2, name: 'Rinjani Summit Route', dist: '41.2 km', loc: 'Lombok, Indonesia', img: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=200&auto=format&fit=crop' },
+                { id: 3, name: 'Komodo Island Explorer', dist: '18.6 km', loc: 'NTT, Indonesia', img: 'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=200&auto=format&fit=crop' },
+                { id: 4, name: 'Taman Nasional Baluran', dist: '12.4 km', loc: 'East Java', img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=200&auto=format&fit=crop' },
+                { id: 5, name: 'Ijen Crater Trail', dist: '14.1 km', loc: 'East Java', img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=200&auto=format&fit=crop' },
+                { id: 6, name: 'Mount Prau Hike', dist: '6.2 km', loc: 'Central Java', img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=200&auto=format&fit=crop' },
             ],
 
             openModal(scenario) {
                 this.modalOpen = true;
                 this.selectedItem = null;
                 this.modalState = 'loading';
-                setTimeout(() => {
-                    if (scenario === 'data') {
-                        this.modalState = 'list';
-                    } else if (scenario === 'empty') {
-                        this.modalState = 'empty';
-                    }
-                }, 1500);
-            },
-
-            closeModal() {
-                this.modalOpen = false;
-            }
-        }
-    },
-                { id: 2, name: 'Rinjani Summit Route', dist: '41.2 km', loc: 'Lombok, Indonesia', img: 'https://picsum.photos/seed/lombok/100/100' },
-                { id: 3, name: 'Komodo Island Explorer', dist: '18.6 km', loc: 'NTT, Indonesia', img: 'https://picsum.photos/seed/komodo/100/100' },
-                { id: 4, name: 'Taman Nasional Baluran', dist: '12.4 km', loc: 'East Java', img: 'https://picsum.photos/seed/java1/100/100' },
-                { id: 5, name: 'Ijen Crater Trail', dist: '14.1 km', loc: 'East Java', img: 'https://picsum.photos/seed/java2/100/100' },
-                { id: 6, name: 'Mount Prau Hike', dist: '6.2 km', loc: 'Central Java', img: 'https://picsum.photos/seed/java3/100/100' },
-            ],
-
-            openModal(scenario) {
-                this.modalOpen = true;
-                this.selectedItem = null;
-                
-                this.modalState = 'loading';
-                
                 setTimeout(() => {
                     if (scenario === 'data') {
                         this.modalState = 'list';
