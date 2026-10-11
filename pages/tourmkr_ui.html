@@ -1116,26 +1116,28 @@
     </section>
 
     <!-- ============================================== -->
-    <!-- 2. STATIC PREVIEWS SECTION -->
+    <!-- 2. STATIC PREVIEWS SECTION (ALL SCREEN STATES) -->
     <!-- ============================================== -->
-    <section class="flex flex-col items-center gap-12 border-t border-border/50 pt-16 pb-12 w-full">
-        <div class="text-center">
+    <section class="flex flex-col items-center gap-12 border-t border-border/50 pt-16 pb-16 w-full">
+        <div class="text-center max-w-[650px]">
             <h2 class="text-3xl font-bold mb-2">Screen States</h2>
-            <p class="text-muted-foreground font-medium">Detailed static visual specifications across all prototype states.</p>
+            <p class="text-muted-foreground font-medium text-sm">
+                Daftar lengkap seluruh halaman dan kondisi status antarmuka Tourmkr Mobile, dari pemilihan sumber, loading, list data, empty state, step rute & peta, konfirmasi publish, hingga detail 360 panorama.
+            </p>
         </div>
         
-        <div class="flex flex-wrap justify-center gap-12 w-full items-start">
+        <div class="flex flex-wrap justify-center gap-10 w-full items-start">
             
-            <!-- ====== PREVIEW 1 ====== -->
-            <div class="flex flex-col gap-5 items-center">
-                <span class="text-[13px] font-bold text-foreground bg-card border border-border px-5 py-2 rounded-full shadow-sm">1. Platform Source</span>
+            <!-- ====== PREVIEW 1: Platform Source (Step 1: Add Image) ====== -->
+            <div class="flex flex-col gap-4 items-center">
+                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">1. Platform Source</span>
                 <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
                     <div class="h-12 flex justify-between items-center px-5 text-[14px] font-semibold bg-background shrink-0">
                         <span>9:41</span>
                         <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-lg"></i></div>
                     </div>
                     <div class="flex-1 flex flex-col pb-8">
-                        <div class="flex items-center gap-3 px-5 mt-3 mb-8">
+                        <div class="flex items-center gap-3 px-5 mt-3 mb-6">
                             <span class="text-muted-foreground"><i class="ph ph-arrow-left text-xl"></i></span>
                             <div>
                                 <h1 class="text-[15px] font-bold">Create New Post</h1>
@@ -1144,18 +1146,42 @@
                         </div>
                         <div class="px-5">
                             <div class="text-[13px] font-bold mb-4">Step 1 of 3: Add Image</div>
-                            <div class="flex items-center gap-3 mb-6 px-1">
-                                <i class="ph ph-aperture text-xl text-muted-foreground"></i>
-                                <span class="text-[13px] font-bold text-foreground">Virtual Tour / Trail Embed</span>
+                            <div class="grid grid-cols-[1.2fr_1fr] gap-3 mb-6">
+                                <div class="h-11 border border-border rounded-xl bg-card shadow-sm text-[12px] font-bold flex items-center justify-center gap-2 text-foreground"><i class="ph ph-plus-circle text-lg text-muted-foreground"></i> Change</div>
+                                <div class="h-11 bg-primary rounded-xl shadow-md text-primary-foreground text-[12px] font-bold flex items-center justify-center">Next &rarr;</div>
                             </div>
-                            <div class="grid grid-cols-2 gap-3 mb-6">
-                                <div class="flex items-center gap-2.5 p-3 rounded-2xl border-2 border-primary bg-primary/[0.03] shadow-sm">
-                                    <div class="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center"><i class="ph-fill ph-mountains text-foreground"></i></div>
-                                    <div class="flex-1 min-w-0"><div class="text-[12px] font-bold truncate leading-tight">Tourmkr</div><div class="text-[10px] font-semibold text-primary mt-0.5">Trails & Tours</div></div>
+                            <div class="flex items-center gap-2.5 mb-5 px-1">
+                                <i class="ph ph-aperture text-lg text-muted-foreground"></i>
+                                <span class="text-[12px] font-bold text-foreground">Virtual Tour / Trail Embed</span>
+                            </div>
+                            <div class="mb-6">
+                                <h2 class="text-[12px] font-semibold text-foreground mb-2.5 px-1">Select Platform</h2>
+                                <div class="grid grid-cols-2 gap-2.5">
+                                    <div class="flex items-center gap-2.5 p-3 rounded-2xl border-2 border-primary bg-primary/[0.03] shadow-sm">
+                                        <div class="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center"><i class="ph-fill ph-mountains text-foreground"></i></div>
+                                        <div class="flex-1 min-w-0"><div class="text-[12px] font-bold truncate leading-tight">Tourmkr</div><div class="text-[10px] font-semibold text-primary mt-0.5">Trails & Tours</div></div>
+                                    </div>
+                                    <div class="flex items-center gap-2.5 p-3 rounded-2xl border border-border bg-card shadow-sm">
+                                        <div class="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center"><i class="ph-fill ph-map-pin text-[#3B82F6]"></i></div>
+                                        <div class="flex-1 min-w-0"><div class="text-[12px] font-bold truncate leading-tight">Google</div><div class="text-[10px] font-semibold text-muted-foreground mt-0.5">Explore 360°</div></div>
+                                    </div>
                                 </div>
-                                <div class="flex items-center gap-2.5 p-3 rounded-2xl border border-border bg-card shadow-sm">
-                                    <div class="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center"><i class="ph-fill ph-map-pin text-[#3B82F6]"></i></div>
-                                    <div class="flex-1 min-w-0"><div class="text-[12px] font-bold truncate leading-tight">Google</div><div class="text-[10px] font-semibold text-muted-foreground mt-0.5">Explore 360°</div></div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="flex items-center justify-between mb-2.5 px-1">
+                                    <h2 class="text-[12px] font-semibold text-foreground">Tourmkr Source</h2><i class="ph-fill ph-info text-primary text-[14px]"></i>
+                                </div>
+                                <div class="rounded-2xl border border-border overflow-hidden bg-card shadow-sm divide-y divide-border">
+                                    <div class="flex items-center p-3.5 gap-3.5 bg-secondary/50">
+                                        <div class="w-8 h-8 rounded-xl bg-background flex items-center justify-center border border-border/50 shrink-0"><i class="ph ph-list-dashes text-base text-foreground"></i></div>
+                                        <div class="flex-1"><div class="text-[12px] font-bold">Select from Tourmkr</div><div class="text-[10px] text-muted-foreground mt-0.5">Use existing trails</div></div>
+                                        <i class="ph ph-caret-right text-foreground text-sm"></i>
+                                    </div>
+                                    <div class="flex items-center p-3.5 gap-3.5">
+                                        <div class="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center shrink-0"><i class="ph ph-link text-base text-foreground"></i></div>
+                                        <div class="flex-1"><div class="text-[12px] font-bold">Add link instead</div><div class="text-[10px] text-muted-foreground mt-0.5">Paste a Tourmkr URL</div></div>
+                                        <i class="ph ph-caret-right text-muted-foreground text-sm"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1163,21 +1189,350 @@
                 </div>
             </div>
 
-            <!-- ====== PREVIEW 2 ====== -->
-            <div class="flex flex-col gap-5 items-center">
-                <span class="text-[13px] font-bold text-foreground bg-card border border-border px-5 py-2 rounded-full shadow-sm">2. 360 Post Detail</span>
+            <!-- ====== PREVIEW 2: Loading Context ====== -->
+            <div class="flex flex-col gap-4 items-center">
+                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">2. Loading Context</span>
+                <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
+                    <div class="h-12 flex justify-between items-center px-5 text-[14px] font-semibold bg-background shrink-0">
+                        <span>9:41</span>
+                        <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-lg"></i></div>
+                    </div>
+                    
+                    <div class="absolute inset-0 pt-14 opacity-20 pointer-events-none">
+                        <div class="w-full h-full bg-background mt-4 p-5"><div class="w-1/2 h-4 bg-muted mb-4"></div><div class="w-full h-20 bg-muted rounded-xl"></div></div>
+                    </div>
+
+                    <div class="absolute inset-0 z-[60] bg-black/60 rounded-[inherit] dark:bg-black/80 backdrop-blur-[2px]"></div>
+                    <div class="absolute bottom-0 left-0 right-0 h-[88%] bg-background flex flex-col pt-3 z-[70] shadow-[0_-20px_50px_rgba(0,0,0,0.3)] rounded-t-[2rem]">
+                        <div class="w-full flex justify-center pb-4 pt-1 shrink-0 bg-background z-50">
+                            <div class="w-10 h-1 bg-border rounded-full"></div>
+                        </div>
+                        <div class="px-5 pb-4 border-b border-border relative shrink-0">
+                            <span class="absolute right-4 top-0 text-muted-foreground"><i class="ph ph-x text-lg"></i></span>
+                            <h2 class="text-[16px] font-bold text-foreground">Select from my Tourmkr</h2>
+                            <p class="text-[11px] font-medium text-muted-foreground mt-1">Choose a trail or tour to embed.</p>
+                        </div>
+                        <div class="flex-1 flex flex-col items-center justify-center px-8 relative">
+                            <div class="relative w-20 h-20 flex items-center justify-center mb-6">
+                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center shadow-lg relative z-10">
+                                    <i class="ph-bold ph-arrows-clockwise text-primary-foreground text-xl animate-spin"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-[14px] font-bold text-foreground mb-1.5 text-center">Loading your Tourmkr data...</h3>
+                            <p class="text-[11px] font-normal text-muted-foreground text-center leading-relaxed mb-12">We're fetching your latest trails and tours.<br>This may take a few seconds.</p>
+                            
+                            <div class="w-full px-2">
+                                <div class="text-[11px] font-bold text-muted-foreground mb-2.5 px-1">You're signed in as</div>
+                                <div class="bg-card border border-border rounded-2xl p-3.5 flex items-center gap-3 mb-3 shadow-sm">
+                                    <div class="w-9 h-9 bg-secondary rounded-full flex items-center justify-center border border-border/50 shrink-0 font-bold text-primary text-xs">AR</div>
+                                    <div>
+                                        <div class="text-[12px] font-bold text-foreground">Alex Rivera</div>
+                                        <div class="text-[10px] text-muted-foreground">alex.rivera@tourmkr.com</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== PREVIEW 3: Data Loaded (List) ====== -->
+            <div class="flex flex-col gap-4 items-center">
+                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">3. Data Loaded (List)</span>
+                <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
+                    <div class="h-12 flex justify-between items-center px-5 text-[14px] font-semibold bg-background shrink-0">
+                        <span>9:41</span>
+                        <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-lg"></i></div>
+                    </div>
+                    
+                    <div class="absolute inset-0 pt-14 opacity-20 pointer-events-none">
+                        <div class="w-full h-full bg-background mt-4 p-5"><div class="w-1/2 h-4 bg-muted mb-4"></div><div class="w-full h-20 bg-muted rounded-xl"></div></div>
+                    </div>
+
+                    <div class="absolute inset-0 z-[60] bg-black/60 rounded-[inherit] dark:bg-black/80 backdrop-blur-[2px]"></div>
+                    <div class="absolute bottom-0 left-0 right-0 h-[88%] bg-background flex flex-col pt-3 z-[70] shadow-[0_-20px_50px_rgba(0,0,0,0.3)] rounded-t-[2rem] overflow-hidden">
+                        <div class="w-full flex justify-center pb-4 pt-1 shrink-0 bg-background z-50">
+                            <div class="w-10 h-1 bg-border rounded-full"></div>
+                        </div>
+                        <div class="px-5 pb-4 border-b border-border relative shrink-0">
+                            <span class="absolute right-4 top-0 text-muted-foreground"><i class="ph ph-x text-lg"></i></span>
+                            <h2 class="text-[16px] font-bold text-foreground">Select from my Tourmkr</h2>
+                            <p class="text-[11px] font-medium text-muted-foreground mt-1">Choose a trail or tour to embed.</p>
+                        </div>
+                        
+                        <div class="px-5 py-3 shrink-0">
+                            <div class="relative">
+                                <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground text-[16px]"></i>
+                                <div class="w-full bg-card border border-border/80 rounded-[14px] py-2.5 pl-10 pr-3 text-[12px] text-muted-foreground font-medium shadow-sm">Search your trails...</div>
+                            </div>
+                        </div>
+
+                        <div class="flex-1 overflow-hidden px-5 pt-1">
+                            <div class="flex flex-col gap-3">
+                                <!-- Item 1 -->
+                                <div class="flex items-center justify-between gap-3">
+                                    <div class="flex-1 flex items-center gap-3 p-2.5 rounded-2xl border-2 border-primary bg-primary/[0.04] shadow-sm">
+                                        <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=200&auto=format&fit=crop" class="w-[44px] h-[44px] rounded-xl object-cover shrink-0 border border-border/50" alt="">
+                                        <div class="min-w-0">
+                                            <div class="text-[12px] font-bold text-foreground truncate leading-tight">Batur Caldera Rim Trail</div>
+                                            <div class="text-[10px] font-semibold text-muted-foreground mt-1 truncate"><i class="ph-fill ph-map-pin"></i> 28.4 km • Bali, Indonesia</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center shrink-0 shadow-sm ml-1 text-white text-[10px]"><i class="ph-bold ph-check"></i></div>
+                                </div>
+                                <!-- Item 2 -->
+                                <div class="flex items-center justify-between gap-3">
+                                    <div class="flex-1 flex items-center gap-3 p-2.5 rounded-2xl border border-border bg-card shadow-sm">
+                                        <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=200&auto=format&fit=crop" class="w-[44px] h-[44px] rounded-xl object-cover shrink-0 border border-border/50" alt="">
+                                        <div class="min-w-0">
+                                            <div class="text-[12px] font-bold text-foreground truncate leading-tight">Rinjani Summit Route</div>
+                                            <div class="text-[10px] font-semibold text-muted-foreground mt-1 truncate"><i class="ph-fill ph-map-pin"></i> 41.2 km • Lombok</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-5 h-5 rounded-full border-2 border-muted-foreground shrink-0 shadow-sm ml-1"></div>
+                                </div>
+                                <!-- Item 3 -->
+                                <div class="flex items-center justify-between gap-3">
+                                    <div class="flex-1 flex items-center gap-3 p-2.5 rounded-2xl border border-border bg-card shadow-sm">
+                                        <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=200&auto=format&fit=crop" class="w-[44px] h-[44px] rounded-xl object-cover shrink-0 border border-border/50" alt="">
+                                        <div class="min-w-0">
+                                            <div class="text-[12px] font-bold text-foreground truncate leading-tight">Komodo Island Explorer</div>
+                                            <div class="text-[10px] font-semibold text-muted-foreground mt-1 truncate"><i class="ph-fill ph-map-pin"></i> 18.6 km • Flores, NTT</div>
+                                        </div>
+                                    </div>
+                                    <div class="w-5 h-5 rounded-full border-2 border-muted-foreground shrink-0 shadow-sm ml-1"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="shrink-0 p-4 bg-background border-t border-border">
+                            <div class="grid grid-cols-[1fr_1.5fr] gap-3">
+                                <div class="h-11 bg-card text-center rounded-xl border border-border text-[12px] font-bold shadow-sm flex items-center justify-center text-foreground">Cancel</div>
+                                <div class="h-11 bg-primary text-center rounded-xl text-[12px] font-bold text-primary-foreground shadow-md flex items-center justify-center">Select (1)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== PREVIEW 4: Empty State ====== -->
+            <div class="flex flex-col gap-4 items-center">
+                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">4. Empty State</span>
+                <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
+                    <div class="h-12 flex justify-between items-center px-5 text-[14px] font-semibold bg-background shrink-0">
+                        <span>9:41</span>
+                        <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-lg"></i></div>
+                    </div>
+                    
+                    <div class="absolute inset-0 pt-14 opacity-20 pointer-events-none">
+                        <div class="w-full h-full bg-background mt-4 p-5"><div class="w-1/2 h-4 bg-muted mb-4"></div><div class="w-full h-20 bg-muted rounded-xl"></div></div>
+                    </div>
+
+                    <div class="absolute inset-0 z-[60] bg-black/60 rounded-[inherit] dark:bg-black/80 backdrop-blur-[2px]"></div>
+                    <div class="absolute bottom-0 left-0 right-0 h-[88%] bg-background flex flex-col pt-3 z-[70] shadow-[0_-20px_50px_rgba(0,0,0,0.3)] rounded-t-[2rem] overflow-hidden">
+                        <div class="w-full flex justify-center pb-4 pt-1 shrink-0 bg-background z-50">
+                            <div class="w-10 h-1 bg-border rounded-full"></div>
+                        </div>
+                        <div class="px-5 pb-4 border-b border-border relative shrink-0">
+                            <span class="absolute right-4 top-0 text-muted-foreground"><i class="ph ph-x text-lg"></i></span>
+                            <h2 class="text-[16px] font-bold text-foreground">Select from my Tourmkr</h2>
+                            <p class="text-[11px] font-medium text-muted-foreground mt-1">Choose a trail or tour to embed.</p>
+                        </div>
+                        
+                        <div class="flex-1 flex flex-col items-center justify-center px-6 pb-8">
+                            <div class="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-3 text-primary text-2xl">
+                                <i class="ph-fill ph-mountains"></i>
+                            </div>
+                            <h3 class="text-[15px] font-bold text-foreground mb-1 text-center">You don't have any trails or tours yet</h3>
+                            <p class="text-[11px] font-medium text-muted-foreground text-center leading-relaxed max-w-[220px] mb-8">
+                                Looks like you haven't created any trails or tours on Tourmkr.
+                            </p>
+                            
+                            <div class="w-full flex flex-col gap-2.5">
+                                <div class="h-11 w-full rounded-xl bg-primary text-primary-foreground text-[12px] font-bold flex items-center justify-center gap-2 shadow-sm">
+                                    <i class="ph ph-arrow-square-out text-base"></i> Create on Tourmkr
+                                </div>
+                                <div class="text-[10px] font-semibold text-muted-foreground text-center py-0.5">or</div>
+                                <div class="h-11 w-full rounded-xl border border-border bg-card text-foreground text-[12px] font-bold flex items-center justify-center gap-2 shadow-sm">
+                                    <i class="ph ph-link text-base text-muted-foreground"></i> Add link instead
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== PREVIEW 5: Step 2: 360 Preview ====== -->
+            <div class="flex flex-col gap-4 items-center">
+                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">5. Step 2: 360 Scene View</span>
+                <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
+                    <div class="h-12 flex justify-between items-center px-5 text-[14px] font-semibold bg-background shrink-0">
+                        <span>9:41</span>
+                        <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-lg"></i></div>
+                    </div>
+                    <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-6 px-5">
+                        <div class="flex items-center gap-3 mt-2 mb-4">
+                            <span class="text-muted-foreground"><i class="ph ph-arrow-left text-xl"></i></span>
+                            <div>
+                                <h1 class="text-[14px] font-bold text-foreground">Create New Post</h1>
+                                <p class="text-[10px] text-muted-foreground">Step 2: Trail & Route Details</p>
+                            </div>
+                        </div>
+                        <div class="rounded-2xl bg-card border border-border/80 overflow-hidden relative aspect-[4/3] w-full mb-3 shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg"><i class="ph-fill ph-play text-xl ml-0.5"></i></div>
+                            </div>
+                            <div class="absolute bottom-3 left-3 text-white">
+                                <div class="text-xs font-bold leading-tight">Spirit Mountain</div>
+                                <div class="text-[10px] text-white/80">Duluth, MN</div>
+                            </div>
+                        </div>
+                        <div class="w-full bg-secondary p-1 rounded-xl flex items-center mb-4 text-xs font-bold">
+                            <div class="flex-1 py-1.5 text-center bg-card rounded-lg shadow-sm text-foreground">360° Scene</div>
+                            <div class="flex-1 py-1.5 text-center text-muted-foreground">Route Map</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-card border border-border flex items-center justify-between mb-3 shadow-sm">
+                            <div><div class="text-xs font-bold">Route Overview</div><div class="text-[10px] text-muted-foreground">4 waypoints</div></div>
+                            <div class="text-right font-bold text-xs">4.2 km <span class="text-[10px] font-normal text-muted-foreground">+350m</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== PREVIEW 6: Step 2: Route Map & Key Points ====== -->
+            <div class="flex flex-col gap-4 items-center">
+                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">6. Step 2: Route Map View</span>
+                <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
+                    <div class="h-12 flex justify-between items-center px-5 text-[14px] font-semibold bg-background shrink-0">
+                        <span>9:41</span>
+                        <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-lg"></i></div>
+                    </div>
+                    <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-6 px-5">
+                        <div class="flex items-center gap-3 mt-2 mb-4">
+                            <span class="text-muted-foreground"><i class="ph ph-arrow-left text-xl"></i></span>
+                            <div>
+                                <h1 class="text-[14px] font-bold text-foreground">Create New Post</h1>
+                                <p class="text-[10px] text-muted-foreground">Route Map with Waypoints</p>
+                            </div>
+                        </div>
+                        <div class="rounded-2xl bg-card border border-border/80 overflow-hidden relative aspect-[4/3] w-full mb-3 shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+                            <div class="absolute top-2.5 left-2.5 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-md">Discovery</div>
+                            <div class="absolute bottom-2.5 inset-x-2.5 flex gap-1.5 overflow-x-auto no-scrollbar">
+                                <div class="px-2.5 py-1 rounded-lg bg-card/90 text-foreground text-[10px] font-bold shrink-0 flex items-center gap-1 border border-border"><i class="ph-fill ph-flag text-emerald-400"></i> Start 725m</div>
+                                <div class="px-2.5 py-1 rounded-lg bg-card/90 text-foreground text-[10px] font-bold shrink-0 flex items-center gap-1 border border-border"><i class="ph-fill ph-mountains text-purple-400"></i> Ridge Summit 1,075m</div>
+                            </div>
+                        </div>
+                        <div class="w-full bg-secondary p-1 rounded-xl flex items-center mb-4 text-xs font-bold">
+                            <div class="flex-1 py-1.5 text-center text-muted-foreground">360° Scene</div>
+                            <div class="flex-1 py-1.5 text-center bg-card rounded-lg shadow-sm text-foreground">Route Map</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== PREVIEW 7: Step 2: Map Focus (Fullscreen) ====== -->
+            <div class="flex flex-col gap-4 items-center">
+                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">7. Map Focus (Fullscreen)</span>
+                <div class="w-[340px] h-[736px] bg-[#1a1c23] relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border text-white">
+                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-80" alt="">
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/80"></div>
+                    <div class="absolute top-10 inset-x-4 flex items-center justify-between z-20">
+                        <span class="bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-lg">Discovery 4.2 km</span>
+                        <span class="bg-black/60 border border-white/20 text-white text-xs px-2.5 py-1 rounded-lg">FIT</span>
+                    </div>
+                    <div class="absolute bottom-6 inset-x-4 z-20 flex flex-col gap-2">
+                        <div class="text-xs font-bold">Elevation Profile (+350m gain)</div>
+                        <div class="h-12 bg-black/60 rounded-xl p-2 border border-white/10 flex items-end">
+                            <div class="w-full h-6 bg-primary/30 rounded flex items-end"><div class="w-3/4 h-full bg-primary/60 rounded"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== PREVIEW 8: Step 3: Description & Confirmation ====== -->
+            <div class="flex flex-col gap-4 items-center">
+                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">8. Step 3: Confirmation</span>
+                <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
+                    <div class="h-12 flex justify-between items-center px-5 text-[14px] font-semibold bg-background shrink-0">
+                        <span>9:41</span>
+                        <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-lg"></i></div>
+                    </div>
+                    <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-6 px-5">
+                        <div class="flex items-center gap-3 mt-2 mb-4">
+                            <span class="text-muted-foreground"><i class="ph ph-arrow-left text-xl"></i></span>
+                            <div>
+                                <h1 class="text-[14px] font-bold text-foreground">Create New Post</h1>
+                                <p class="text-[10px] text-muted-foreground">Step 3: Description & Review</p>
+                            </div>
+                        </div>
+                        <div class="rounded-2xl bg-card border border-border overflow-hidden relative aspect-[16/10] w-full mb-3 shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1548777123-e216912df7d8?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+                            <div class="absolute bottom-2.5 left-2.5 text-white text-xs font-bold">Spirit Mountain</div>
+                        </div>
+                        <div class="p-3 rounded-xl bg-card border border-border mb-3 text-xs text-muted-foreground leading-relaxed shadow-sm">
+                            Spectacular 360-degree panoramic vista along the Spirit Mountain ridge trail.
+                        </div>
+                        <div class="flex gap-2 mb-4">
+                            <span class="px-2.5 py-1 bg-primary text-white text-[11px] font-bold rounded-lg">Trail</span>
+                            <span class="px-2.5 py-1 bg-card border border-border text-[11px] font-semibold rounded-lg text-muted-foreground">Nature</span>
+                        </div>
+                        <div class="w-full h-11 bg-primary rounded-xl text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md">
+                            <i class="ph-bold ph-paper-plane-tilt"></i> Publish Post
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== PREVIEW 9: Post 360 View ====== -->
+            <div class="flex flex-col gap-4 items-center">
+                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">9. Post 360 View</span>
                 <div class="w-[340px] h-[736px] bg-black relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-white/10">
                     <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0" alt="">
                     <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80"></div>
-                    <div class="absolute bottom-6 left-5 right-5 text-white z-20">
-                        <div class="flex items-center gap-3 mb-2">
-                            <div class="w-9 h-9 rounded-full bg-[#A69389] flex items-center justify-center font-bold text-xs text-gray-800">FR</div>
+                    <div class="absolute top-10 inset-x-4 flex justify-between items-center text-white z-20">
+                        <span class="w-8 h-8 rounded-lg bg-black/60 flex items-center justify-center text-xs border border-white/20"><i class="ph-bold ph-arrow-left"></i></span>
+                        <span class="text-xs font-bold bg-black/60 px-3 py-1 rounded-xl border border-white/20 truncate">PT. Go Thru Media Indonesia</span>
+                        <span class="w-8 h-8 rounded-lg bg-black/60 flex items-center justify-center text-xs border border-white/20"><i class="ph-bold ph-dots-three"></i></span>
+                    </div>
+                    <div class="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 z-20">
+                        <div class="bg-white px-2.5 py-0.5 rounded-full text-gray-900 font-bold text-[11px] shadow">Stove Info</div>
+                        <div class="w-4 h-4 rounded-full bg-[#00A3FF] border border-white shadow"></div>
+                    </div>
+                    <div class="absolute bottom-5 left-4 right-4 text-white z-20">
+                        <div class="flex items-center gap-2.5 mb-2">
+                            <div class="w-8 h-8 rounded-full bg-[#A69389] flex items-center justify-center font-bold text-[11px] text-gray-800">FR</div>
                             <div>
-                                <h3 class="text-sm font-bold">Filo Rial</h3>
-                                <p class="text-[11px] text-gray-300">@filorial</p>
+                                <h3 class="text-xs font-bold leading-tight">Filo Rial</h3>
+                                <p class="text-[10px] text-gray-300">@filorial</p>
                             </div>
                         </div>
-                        <p class="text-xs text-gray-200">PT. Go Thru Media Indonesia</p>
+                        <div class="text-center text-[11px] text-white/80 font-semibold pt-1">^ Swipe up for details</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ====== PREVIEW 10: Details (Expanded Sheet) ====== -->
+            <div class="flex flex-col gap-4 items-center">
+                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">10. Details (Expanded Sheet)</span>
+                <div class="w-[340px] h-[736px] bg-black relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-white/10">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0 filter blur-[1px]" alt="">
+                    <div class="absolute inset-0 bg-black/50 z-10"></div>
+                    <div class="absolute bottom-0 inset-x-0 bg-white flex flex-col pt-3 pb-8 z-20 rounded-t-[1.75rem] px-5 shadow-2xl text-gray-900">
+                        <div class="w-full flex justify-center pb-3 pt-1"><div class="w-10 h-1 bg-gray-300 rounded-full"></div></div>
+                        <div class="text-center font-bold text-sm mb-3">Details</div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-9 h-9 rounded-full bg-[#A69389] flex items-center justify-center font-bold text-xs text-gray-800">FR</div>
+                            <div>
+                                <h4 class="text-xs font-bold">Filo Rial</h4>
+                                <p class="text-[10px] text-gray-500">@filorial</p>
+                            </div>
+                        </div>
+                        <p class="text-xs font-medium text-gray-700">My 360</p>
                     </div>
                 </div>
             </div>
