@@ -79,6 +79,35 @@
             scrollbar-width: none;
         }
 
+        .custom-radio {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--muted-foreground);
+            border-radius: 50%;
+            background-color: transparent;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s ease;
+            margin: 0;
+            padding: 0;
+        }
+        .custom-radio:checked {
+            border-color: var(--primary);
+        }
+        .custom-radio:checked::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary);
+            border-radius: 50%;
+        }
+
         @keyframes custom-ping {
             0% { transform: scale(0.8); opacity: 0.8; }
             100% { transform: scale(1.6); opacity: 0; }
@@ -170,14 +199,14 @@
     <section x-data="prototype()" class="flex flex-col items-center gap-6">
         <div class="text-center flex flex-col items-center">
             <h2 class="text-3xl font-bold mb-2">Interactive Prototype</h2>
-            <p class="text-muted-foreground text-sm max-w-[500px]">
-                Simulasi alur menyeluruh dari pemilihan tour sampai publikasi dan tampilan live 360 detail.
+            <p class="text-muted-foreground text-sm max-w-[540px]">
+                Alur lengkap dari <strong>Step 1: Add Image & Select Platform</strong> ➔ <strong>Step 2: Details & Route Map</strong> ➔ <strong>Step 3: Review</strong> ➔ <strong>Post Detail 360</strong>.
             </p>
 
             <!-- Flow Step Jumper Tabs for Client Convenience -->
             <div class="inline-flex items-center gap-1.5 p-1.5 bg-card/90 backdrop-blur-md rounded-2xl border border-border shadow-sm mt-4 select-none">
                 <button @click="flowStep = 'step1'" :class="flowStep === 'step1' ? 'bg-primary text-white shadow-sm font-bold' : 'text-muted-foreground hover:text-foreground font-semibold'" class="px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all">
-                    <span>1️⃣</span> Step 1: Select
+                    <span>1️⃣</span> Step 1: Add Image
                 </button>
                 <button @click="flowStep = 'step2'" :class="flowStep === 'step2' ? 'bg-primary text-white shadow-sm font-bold' : 'text-muted-foreground hover:text-foreground font-semibold'" class="px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all">
                     <span>2️⃣</span> Step 2: Details
@@ -194,6 +223,15 @@
         <!-- Phone Shell Container -->
         <div class="w-full max-w-[390px] h-[844px] sm:w-[390px] sm:h-[844px] bg-background relative overflow-hidden flex flex-col rounded-[2.5rem] border-[10px] border-black shadow-[0_25px_60px_rgba(0,0,0,0.8)] shrink-0 transition-colors duration-300">
             
+            <!-- Hidden file input for real image upload simulation -->
+            <input 
+                type="file" 
+                accept="image/*" 
+                x-ref="fileInput" 
+                @change="handleFileUpload($event)" 
+                class="hidden"
+            >
+
             <!-- Celebration Toast on Publish -->
             <div 
                 x-show="publishSuccessToast"
@@ -211,14 +249,14 @@
                 </div>
                 <div class="flex-1 min-w-0">
                     <div class="text-[13px] font-bold">Post Published Successfully!</div>
-                    <div class="text-[11px] text-white/80">Dialihkan ke Live Post Detail 360...</div>
+                    <div class="text-[11px] text-white/80">Menampilkan Live Post Detail 360...</div>
                 </div>
             </div>
 
             <!-- ============================================== -->
-            <!-- STEP 1: SELECT TOUR                            -->
+            <!-- STEP 1: ADD IMAGE & SELECT PLATFORM (INITIAL)  -->
             <!-- ============================================== -->
-            <div x-show="flowStep === 'step1'" class="absolute inset-0 flex flex-col">
+            <div x-show="flowStep === 'step1'" class="absolute inset-0 flex flex-col bg-background">
                 <!-- Status Bar -->
                 <div class="h-12 flex justify-between items-center px-6 text-[15px] font-semibold shrink-0 bg-background select-none">
                     <span>9:41</span>
@@ -230,7 +268,8 @@
                 </div>
 
                 <!-- Scrollable Content -->
-                <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-28 relative z-10 bg-background">
+                <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-8 relative z-10 bg-background">
+                    <!-- Title Header -->
                     <div class="flex items-center gap-4 px-6 mt-3 mb-8 select-none">
                         <button class="p-2 -ml-2 text-muted-foreground hover:text-foreground active:scale-95 transition-transform outline-none"><i class="ph ph-arrow-left text-2xl"></i></button>
                         <div>
@@ -240,134 +279,97 @@
                     </div>
 
                     <div class="px-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="text-[14px] font-semibold text-foreground">Step 1: <span class="font-bold">Select Tour</span></div>
-                            <div class="text-[12px] font-medium text-muted-foreground">1 Out of 3</div>
+                        <div class="text-[14px] font-semibold text-foreground mb-4">Step 1 of 3: Add Image</div>
+
+                        <!-- Top Action Buttons: Change/Select Image & Next -->
+                        <div class="grid grid-cols-[1.2fr_1fr] gap-3 mb-6">
+                            <button 
+                                @click="$refs.fileInput.click()" 
+                                class="h-12 rounded-xl border border-border bg-card text-foreground text-[14px] font-semibold flex items-center justify-center gap-2 hover:bg-secondary active:scale-[0.98] transition-all shadow-sm outline-none"
+                            >
+                                <i class="ph ph-plus-circle text-lg text-muted-foreground"></i>
+                                <span x-text="customImageName ? 'Change Image' : 'Change'">Change</span>
+                            </button>
+                            <button 
+                                @click="flowStep = 'step2'" 
+                                class="h-12 rounded-xl bg-primary text-primary-foreground text-[14px] font-semibold flex items-center justify-center gap-2 hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md outline-none"
+                            >
+                                Next <i class="ph ph-arrow-right text-lg"></i>
+                            </button>
                         </div>
 
-                        <!-- 360 Scene / Post Preview Section -->
-                        <div class="flex flex-col mb-6">
-                            <!-- Preview Card Frame -->
-                            <div class="rounded-[1.5rem] bg-card border border-border/50 overflow-hidden shadow-sm relative group aspect-[4/3] w-full isolate">
-                                
-                                <!-- MODE 1: 360 PANORAMA SCENE -->
-                                <div x-show="previewMode === '360'" class="absolute inset-0 w-full h-full">
-                                    <img :src="selectedTrail.img" alt="360 Panorama Preview" class="absolute inset-0 w-full h-full object-cover">
-                                    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 pointer-events-none"></div>
-
-                                    <!-- Top Right: Fullscreen Expand Button -->
-                                    <div class="absolute top-3.5 right-3.5 z-20">
-                                        <button @click="fullscreenOpen = true" class="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/80 transition-colors shadow-lg outline-none active:scale-95" title="Buka Layar Penuh">
-                                            <i class="ph ph-arrows-out text-sm"></i>
-                                        </button>
-                                    </div>
-
-                                    <!-- Center Play Button (Interactive Pulse) -->
-                                    <div class="absolute inset-0 flex items-center justify-center">
-                                        <button class="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-[0_0_20px_rgba(91,75,255,0.4)] hover:scale-105 active:scale-95 transition-all outline-none rotate-0 group-hover:rotate-12 z-20">
-                                            <i class="ph-fill ph-play text-2xl ml-1"></i>
-                                        </button>
-                                        <div class="absolute w-14 h-14 rounded-full bg-primary/30 animate-ring z-10"></div>
-                                        <div class="absolute w-14 h-14 rounded-full bg-primary/20 animate-ring z-10" style="animation-delay: 0.5s"></div>
-                                    </div>
-
-                                    <!-- Bottom Details -->
-                                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end z-20">
-                                        <div class="text-white text-shadow-sm pr-3">
-                                            <div class="text-sm font-bold leading-tight drop-shadow-md" x-text="selectedTrail.name">Spirit Mountain</div>
-                                            <div class="text-[11px] font-medium opacity-80 mt-0.5 flex items-center gap-1"><i class="ph-fill ph-map-pin text-primary"></i><span x-text="selectedTrail.loc">Duluth, MN</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- MODE 2: FULL ROUTE MAP VIEW -->
-                                <div x-show="previewMode === 'map'" style="display: none;" class="absolute inset-0 w-full h-full bg-[#1a1c23] flex flex-col select-none overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-85" alt="Map Base">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
-                                    <div class="absolute bottom-4 left-4 right-4 text-white z-20">
-                                        <div class="text-sm font-bold" x-text="`${selectedTrail.name} Map`">Route Map</div>
-                                        <div class="text-[11px] opacity-80 mt-0.5" x-text="`${selectedTrail.dist} • 4 Waypoints`">4.2 km</div>
-                                    </div>
-                                </div>
+                        <!-- Selected Image Preview Chip if uploaded -->
+                        <div x-show="customImageName" style="display: none;" class="mb-6 p-3 rounded-2xl bg-primary/[0.06] border border-primary/30 flex items-center gap-3">
+                            <img :src="selectedTrail.img" class="w-12 h-12 rounded-xl object-cover border border-border/80 shrink-0">
+                            <div class="flex-1 min-w-0">
+                                <div class="text-[13px] font-bold text-foreground truncate" x-text="customImageName">custom_image.jpg</div>
+                                <div class="text-[11px] text-primary font-semibold flex items-center gap-1 mt-0.5"><i class="ph-fill ph-check-circle"></i> File gambar siap digunakan</div>
                             </div>
-
-                            <!-- TABS SWITCHER -->
-                            <div class="w-full bg-secondary/80 dark:bg-[#151c2e] p-1 rounded-2xl border border-border flex items-center shadow-sm mt-3.5 select-none">
-                                <button 
-                                    @click="previewMode = '360'" 
-                                    :class="previewMode === '360' ? 'bg-card text-foreground shadow-sm font-bold border border-border/50' : 'text-muted-foreground hover:text-foreground font-semibold'" 
-                                    class="flex-1 py-2 px-3 rounded-xl text-[13px] flex items-center justify-center gap-2 transition-all outline-none">
-                                    <i class="ph-fill ph-cube text-primary text-base"></i>
-                                    <span>360° Scene</span>
-                                </button>
-                                <button 
-                                    @click="previewMode = 'map'" 
-                                    :class="previewMode === 'map' ? 'bg-card text-foreground shadow-sm font-bold border border-border/50' : 'text-muted-foreground hover:text-foreground font-semibold'" 
-                                    class="flex-1 py-2 px-3 rounded-xl text-[13px] flex items-center justify-center gap-2 transition-all outline-none">
-                                    <i class="ph-fill ph-map-trifold text-primary text-base"></i>
-                                    <span>Route Map</span>
-                                </button>
-                            </div>
+                            <button @click="resetImage()" class="p-1.5 text-muted-foreground hover:text-red-500 rounded-lg transition-colors">
+                                <i class="ph ph-x text-base"></i>
+                            </button>
                         </div>
 
-                        <div class="flex items-center gap-3 mb-6 select-none px-1">
-                            <i class="ph ph-link text-xl text-muted-foreground"></i>
-                            <span class="text-[13px] font-bold text-foreground">Virtual Tour / Trail Embed</span>
+                        <!-- Section: Virtual Tour / Trail Embed -->
+                        <div class="flex items-center gap-3 mb-8 select-none px-1">
+                            <i class="ph ph-aperture text-xl text-muted-foreground"></i>
+                            <span class="text-[13px] font-semibold text-foreground">Virtual Tour / Trail Embed</span>
                         </div>
 
+                        <!-- Select Platform -->
                         <div class="mb-10 select-none">
-                            <div class="flex items-center justify-between mb-3 px-1 select-none">
-                                <h2 class="text-[13px] font-semibold text-foreground">Select Platform</h2>
-                                <span class="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">360° VIRTUAL TOUR / TRAIL</span>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3 relative">
-                                <button class="relative flex flex-col gap-2 p-3 rounded-2xl border-2 border-primary bg-primary/[0.04] text-left shadow-sm">
-                                    <div class="absolute top-3 right-3 w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(91,75,255,0.6)]"></div>
-                                    <div class="w-8 h-8 rounded-lg bg-card border border-border/50 flex items-center justify-center shrink-0 shadow-sm">
-                                        <i class="ph-fill ph-cube text-primary text-base"></i>
+                            <h2 class="text-[13px] font-semibold text-foreground mb-3 px-1">Select Platform</h2>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button class="flex items-center gap-3 p-3.5 rounded-2xl border-2 border-primary bg-primary/[0.03] active:scale-[0.98] transition-all text-left shadow-sm outline-none">
+                                    <div class="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center relative overflow-hidden shrink-0">
+                                        <i class="ph-fill ph-mountains text-foreground text-lg"></i>
+                                        <div class="absolute bottom-0 w-full h-2/5 bg-gradient-to-t from-green-600/30 dark:from-green-900/60 to-transparent"></div>
                                     </div>
-                                    <div class="flex-1 min-w-0 w-full">
-                                        <div class="text-[13px] text-foreground font-semibold leading-tight truncate">TourMkr</div>
-                                        <div class="text-[10px] text-muted-foreground font-medium mt-0.5 truncate">Tour & Trail GPS</div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-[13px] text-foreground font-semibold leading-tight truncate">Tourmkr</div>
+                                        <div class="text-[11px] text-primary font-medium mt-0.5">Trails & Tours</div>
                                     </div>
                                 </button>
-                                <button class="relative flex flex-col gap-2 p-3 rounded-2xl border border-border/70 bg-card text-left opacity-70 hover:opacity-100 transition-opacity">
-                                    <div class="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center shrink-0">
-                                        <i class="ph-fill ph-map-pin text-[#3B82F6] text-base"></i>
+                                <button class="flex items-center gap-3 p-3.5 rounded-2xl border border-border hover:border-muted-foreground/30 hover:bg-secondary bg-card active:scale-[0.98] transition-all text-left shadow-sm outline-none">
+                                    <div class="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center shrink-0">
+                                        <i class="ph-fill ph-map-pin text-[#3B82F6] text-lg"></i>
                                     </div>
-                                    <div class="flex-1 min-w-0 w-full">
-                                        <div class="text-[13px] text-foreground font-semibold leading-tight truncate">Google Street View</div>
-                                        <div class="text-[10px] text-muted-foreground font-medium mt-0.5 truncate">Street View 360°</div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-[13px] text-foreground font-semibold leading-tight truncate">Google</div>
+                                        <div class="text-[11px] text-muted-foreground font-medium mt-0.5 truncate">Explore 360°</div>
                                     </div>
                                 </button>
                             </div>
                         </div>
 
+                        <!-- Tourmkr Source Selection -->
                         <div class="mb-8">
                             <div class="flex items-center justify-between mb-3 px-1 select-none">
-                                <h2 class="text-[13px] font-semibold text-foreground">TourMkr Source</h2>
-                                <span class="text-[10px] text-primary font-bold cursor-pointer hover:underline" @click="openModal('data')">Open list modal</span>
+                                <h2 class="text-[13px] font-semibold text-foreground">Tourmkr Source</h2>
+                                <i class="ph-fill ph-info text-primary text-base"></i>
                             </div>
-                            <div class="rounded-2xl border border-border overflow-hidden bg-card shadow-sm divide-y divide-border">
-                                <button @click="openModal('data')" class="w-full flex items-center justify-between p-4 bg-secondary/40 hover:bg-secondary/70 transition-colors text-left group">
-                                    <div class="flex items-center gap-3.5">
-                                        <div class="w-10 h-10 rounded-xl bg-card border border-border/60 flex items-center justify-center shrink-0 shadow-sm">
+                            
+                            <div class="rounded-2xl border border-border bg-card shadow-sm flex flex-col overflow-hidden divide-y divide-border">
+                                <button @click="openModal('data')" class="flex items-center justify-between p-4 hover:bg-secondary active:bg-secondary/70 transition-colors text-left group outline-none">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded-xl bg-secondary group-hover:bg-background flex items-center justify-center transition-colors shrink-0 border border-border/50">
                                             <i class="ph ph-list-dashes text-xl text-foreground"></i>
                                         </div>
                                         <div>
-                                            <div class="text-[14px] text-foreground font-semibold">Select from my Tourmkr</div>
-                                            <div class="text-[12px] text-muted-foreground font-medium mt-0.5" x-text="`Selected: ${selectedTrail.name}`">Choose your tour</div>
+                                            <div class="text-[14px] text-foreground font-semibold">Select from Tourmkr</div>
+                                            <div class="text-[12px] text-muted-foreground font-medium mt-0.5" x-text="selectedItem ? `Selected: ${selectedTrail.name}` : 'Use existing trails'">Use existing trails</div>
                                         </div>
                                     </div>
                                     <i class="ph ph-caret-right text-muted-foreground group-hover:text-foreground transition-colors text-lg"></i>
                                 </button>
-                                <button @click="openModal('empty')" class="w-full flex items-center justify-between p-4 hover:bg-secondary/40 transition-colors text-left group">
-                                    <div class="flex items-center gap-3.5">
+                                
+                                <button @click="openModal('empty')" class="flex items-center justify-between p-4 hover:bg-secondary active:bg-secondary/70 transition-colors text-left group outline-none">
+                                    <div class="flex items-center gap-4">
                                         <div class="w-10 h-10 rounded-xl bg-secondary group-hover:bg-background flex items-center justify-center transition-colors shrink-0 border border-border/50">
                                             <i class="ph ph-link text-xl text-foreground"></i>
                                         </div>
                                         <div>
-                                            <div class="text-[14px] text-foreground font-semibold">Add link from Tourmkr</div>
+                                            <div class="text-[14px] text-foreground font-semibold">Add link instead</div>
                                             <div class="text-[12px] text-muted-foreground font-medium mt-0.5">Paste a Tourmkr URL</div>
                                         </div>
                                     </div>
@@ -375,24 +377,22 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Fixed Bottom Actions Bar -->
-                <div class="absolute bottom-0 inset-x-0 p-4 pb-6 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex items-center justify-between gap-3 select-none">
-                    <button @click="openModal('data')" class="flex-1 h-11 px-3 rounded-xl border border-border bg-card text-foreground text-[13px] font-semibold flex items-center justify-center gap-1.5 hover:bg-secondary active:scale-[0.98] transition-all shadow-sm outline-none whitespace-nowrap">
-                        <i class="ph ph-arrow-counter-clockwise text-base text-muted-foreground"></i>
-                        <span>Change tour</span>
-                    </button>
-                    <button @click="flowStep = 'step2'" class="flex-1 h-11 px-3 rounded-xl bg-primary text-primary-foreground text-[13px] font-semibold flex items-center justify-center gap-1.5 hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md outline-none whitespace-nowrap">
-                        <span>Next</span>
-                        <i class="ph ph-arrow-right text-base"></i>
-                    </button>
+                        <div class="flex gap-4 px-2 select-none items-start">
+                            <div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                                <i class="ph-fill ph-check-shield text-primary text-[12px]"></i>
+                            </div>
+                            <div class="text-[12px] text-muted-foreground font-medium leading-relaxed">
+                                Your Tourmkr data will be fetched securely using your connected account.
+                                <br><a href="#" class="text-primary hover:underline font-semibold mt-1 inline-block">New to Tourmkr? Create an account</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- ============================================== -->
-            <!-- STEP 2: CONTENT & DETAILS                      -->
+            <!-- STEP 2: CONTENT & DETAILS (WITH 360/MAP)       -->
             <!-- ============================================== -->
             <div x-show="flowStep === 'step2'" style="display: none;" class="absolute inset-0 flex flex-col bg-background">
                 <!-- Status Bar -->
@@ -502,24 +502,46 @@
                                             </button>
                                         </div>
 
-                                        <!-- Waypoints Cards -->
+                                        <!-- Waypoints Cards (CLEAN & BUG-FREE WITHOUT CLIPPING) -->
                                         <div x-show="mapBottomTab === 'waypoints'" class="flex overflow-x-auto no-scrollbar snap-x px-3 gap-2">
-                                            <div class="w-[210px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2 shadow-lg flex items-center gap-2 snap-start shrink-0">
-                                                <div class="w-8 h-8 rounded-lg bg-emerald-500/15 flex items-center justify-center shrink-0">
-                                                    <i class="ph-fill ph-flag text-emerald-400 text-sm"></i>
+                                            <!-- Point 1: Start -->
+                                            <div class="w-[180px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2.5 shadow-lg flex items-center gap-2.5 snap-start shrink-0">
+                                                <div class="w-8 h-8 rounded-lg bg-emerald-500/15 flex items-center justify-center shrink-0 text-emerald-400">
+                                                    <i class="ph-fill ph-flag text-base"></i>
                                                 </div>
                                                 <div class="flex-1 min-w-0">
                                                     <div class="text-[11px] font-bold text-foreground truncate">Start Point</div>
-                                                    <div class="text-[9px] text-muted-foreground">725m elevation</div>
+                                                    <div class="text-[9px] text-muted-foreground mt-0.5">725m elevation</div>
                                                 </div>
                                             </div>
-                                            <div class="w-[210px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2 shadow-lg flex items-center gap-2 snap-start shrink-0">
-                                                <div class="w-8 h-8 rounded-lg bg-purple-500/15 flex items-center justify-center shrink-0 text-purple-400 font-bold text-xs">
-                                                    Summit
+                                            <!-- Point 2: Scenic View -->
+                                            <div class="w-[180px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2.5 shadow-lg flex items-center gap-2.5 snap-start shrink-0">
+                                                <div class="w-8 h-8 rounded-lg bg-blue-500/15 flex items-center justify-center shrink-0 text-blue-400">
+                                                    <i class="ph-fill ph-eye text-base"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="text-[11px] font-bold text-foreground truncate">Scenic Vista</div>
+                                                    <div class="text-[9px] text-muted-foreground mt-0.5">820m elevation</div>
+                                                </div>
+                                            </div>
+                                            <!-- Point 3: Summit Peak (CLEAN ICON - NO OVERFLOW CLIPPING) -->
+                                            <div class="w-[180px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2.5 shadow-lg flex items-center gap-2.5 snap-start shrink-0">
+                                                <div class="w-8 h-8 rounded-lg bg-purple-500/15 flex items-center justify-center shrink-0 text-purple-400">
+                                                    <i class="ph-fill ph-mountains text-base"></i>
                                                 </div>
                                                 <div class="flex-1 min-w-0">
                                                     <div class="text-[11px] font-bold text-foreground truncate">Ridge Summit</div>
-                                                    <div class="text-[9px] text-muted-foreground">1,075m elevation</div>
+                                                    <div class="text-[9px] text-muted-foreground mt-0.5">1,075m elevation</div>
+                                                </div>
+                                            </div>
+                                            <!-- Point 4: Finish -->
+                                            <div class="w-[180px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2.5 shadow-lg flex items-center gap-2.5 snap-start shrink-0">
+                                                <div class="w-8 h-8 rounded-lg bg-amber-500/15 flex items-center justify-center shrink-0 text-amber-400">
+                                                    <i class="ph-fill ph-check-circle text-base"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="text-[11px] font-bold text-foreground truncate">Finish Point</div>
+                                                    <div class="text-[9px] text-muted-foreground mt-0.5">840m elevation</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -791,7 +813,7 @@
                 <!-- Floating Restart Button for Client Experience -->
                 <button 
                     @click="restartFlow()" 
-                    class="absolute top-28 left-1/2 -translate-x-[40%] z-30 bg-primary/90 hover:bg-primary text-white text-[11px] font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur-md active:scale-95 transition-all outline-none"
+                    class="absolute top-28 left-1/2 -translate-x-1/2 z-30 bg-primary/90 hover:bg-primary text-white text-[11px] font-bold px-3.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur-md active:scale-95 transition-all outline-none"
                     title="Ulangi simulasi alur dari awal"
                 >
                     <i class="ph-bold ph-arrow-counter-clockwise"></i>
@@ -942,7 +964,7 @@
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                     @click="closeModal()"
-                    class="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                    class="absolute inset-0 bg-black/60 rounded-[inherit] dark:bg-black/80 backdrop-blur-[2px]"
                 ></div>
 
                 <div 
@@ -953,75 +975,117 @@
                     x-transition:leave="transition-transform ease-in duration-200"
                     x-transition:leave-start="translate-y-0"
                     x-transition:leave-end="translate-y-full"
-                    class="relative w-full bg-background flex flex-col h-[75%] max-h-[620px] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[1.75rem] overflow-hidden z-[70] border-t border-border"
+                    class="relative w-full h-[88%] bg-background flex flex-col pt-3 shadow-[0_-20px_50px_rgba(0,0,0,0.4)] rounded-t-[2.25rem] overflow-hidden z-[70] border-t border-border"
                 >
-                    <div class="w-full flex justify-center pb-2 pt-3 shrink-0">
-                        <div class="w-10 h-1 bg-border rounded-full"></div>
+                    <div class="w-full flex justify-center pb-5 pt-2 shrink-0 bg-background z-50">
+                        <div class="w-12 h-1.5 bg-border rounded-full"></div>
                     </div>
 
-                    <div class="px-6 pb-4 shrink-0 flex items-center justify-between border-b border-border select-none">
-                        <h2 class="text-[17px] font-bold text-foreground">Select from my Tourmkr</h2>
-                        <button @click="closeModal()" class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground active:scale-95 transition-all outline-none">
-                            <i class="ph ph-x text-base"></i>
+                    <div class="px-6 pb-4 shrink-0 border-b border-border relative select-none bg-background z-40">
+                        <button @click="closeModal()" class="absolute right-4 top-0 p-2 text-muted-foreground hover:text-foreground rounded-full hover:bg-secondary active:scale-95 transition-all outline-none">
+                            <i class="ph ph-x text-xl"></i>
                         </button>
+                        <h2 class="text-[18px] font-bold text-foreground">Select from my Tourmkr</h2>
+                        <p class="text-[12px] font-medium text-muted-foreground mt-1">Choose a trail or tour to embed.</p>
                     </div>
 
-                    <!-- STATE: LOADING SKELETON -->
-                    <div x-show="modalState === 'loading'" class="flex-1 overflow-y-auto p-6 flex flex-col gap-4">
-                        <template x-for="i in 4" :key="i">
-                            <div class="h-20 w-full rounded-2xl bg-secondary/60 animate-pulse flex items-center p-3 gap-3">
-                                <div class="w-14 h-14 rounded-xl bg-border/50 shrink-0"></div>
-                                <div class="flex-1 flex flex-col gap-2">
-                                    <div class="w-3/4 h-3.5 bg-border/50 rounded-md"></div>
-                                    <div class="w-1/2 h-2.5 bg-border/40 rounded-md"></div>
-                                </div>
+                    <!-- STATE 1: LOADING SKELETON WITH USER CONTEXT -->
+                    <div x-show="modalState === 'loading'" x-transition:enter="transition-opacity ease-out duration-200" class="flex-1 flex flex-col items-center justify-center px-10 relative select-none bg-background">
+                        <div class="relative w-24 h-24 flex items-center justify-center mb-8">
+                            <div class="w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg relative z-10">
+                                <i class="ph-bold ph-arrows-clockwise text-primary-foreground text-2xl animate-spin"></i>
                             </div>
-                        </template>
-                    </div>
-
-                    <!-- STATE: LIST -->
-                    <div x-show="modalState === 'list'" style="display: none;" class="flex-1 overflow-y-auto no-scrollbar p-6 flex flex-col gap-3">
-                        <template x-for="trail in trails" :key="trail.id">
-                            <div 
-                                @click="chooseTrail(trail)"
-                                :class="selectedTrail.name === trail.name ? 'border-primary ring-2 ring-primary/20 bg-primary/[0.04]' : 'border-border bg-card hover:bg-secondary/40'"
-                                class="flex items-center gap-3.5 p-3 rounded-2xl border transition-all cursor-pointer shadow-sm select-none"
-                            >
-                                <img :src="trail.img" class="w-14 h-14 rounded-xl object-cover shrink-0 border border-border/50">
-                                <div class="flex-1 min-w-0">
-                                    <div class="text-[14px] font-bold text-foreground truncate" x-text="trail.name"></div>
-                                    <div class="text-[11px] text-muted-foreground font-medium mt-0.5" x-text="`${trail.dist} • ${trail.loc}`"></div>
-                                </div>
-                                <div 
-                                    :class="selectedTrail.name === trail.name ? 'border-primary bg-primary text-white' : 'border-border bg-background'"
-                                    class="w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors"
-                                >
-                                    <i x-show="selectedTrail.name === trail.name" class="ph-bold ph-check text-xs"></i>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-
-                    <!-- Modal Bottom Action -->
-                    <div x-show="modalState === 'list'" style="display: none;" class="p-4 bg-background border-t border-border shrink-0 select-none">
-                        <button 
-                            @click="applySelection()"
-                            class="w-full h-12 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-[14px] shadow-md transition-all active:scale-[0.98] outline-none"
-                        >
-                            Select This Tour
-                        </button>
-                    </div>
-
-                    <!-- STATE: EMPTY -->
-                    <div x-show="modalState === 'empty'" style="display: none;" class="flex-1 flex flex-col items-center justify-center px-8 pb-12 select-none bg-background">
-                        <div class="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-4 text-primary text-2xl">
-                            <i class="ph-fill ph-mountains"></i>
                         </div>
-                        <h3 class="text-[16px] font-bold text-foreground mb-2 text-center">No tours found</h3>
-                        <p class="text-[12px] text-muted-foreground text-center mb-6">You don't have any saved tours on Tourmkr yet.</p>
-                        <button @click="openModal('data')" class="h-11 px-5 rounded-xl bg-primary text-primary-foreground font-semibold text-xs active:scale-95 transition-all">
-                            Load Demo Trails
-                        </button>
+                        <h3 class="text-[15px] font-bold text-foreground mb-2 text-center">Loading your Tourmkr data...</h3>
+                        <p class="text-[13px] font-normal text-muted-foreground text-center leading-relaxed">
+                            We're fetching your latest trails and tours.<br>This may take a few seconds.
+                        </p>
+                        
+                        <div class="absolute bottom-10 w-full px-6 left-0">
+                            <div class="text-[12px] font-semibold text-muted-foreground mb-3 px-1">You're signed in as</div>
+                            <div class="bg-card border border-border rounded-2xl p-4 flex items-center gap-4 mb-5 shadow-sm">
+                                <div class="w-11 h-11 bg-secondary rounded-full flex items-center justify-center shrink-0 border border-border/50">
+                                    <i class="ph-fill ph-user text-muted-foreground text-xl"></i>
+                                </div>
+                                <div>
+                                    <div class="text-[14px] font-semibold text-foreground">Alex Rivera</div>
+                                    <div class="text-[12px] font-medium text-muted-foreground mt-0.5">alex.rivera@tourmkr.com</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STATE 2: DATA LOADED (LIST WITH SEARCH & RADIO) -->
+                    <div x-show="modalState === 'list'" style="display: none;" class="flex-1 flex flex-col overflow-hidden bg-background">
+                        <div class="px-6 py-4 shrink-0 select-none">
+                            <div class="relative">
+                                <i class="ph ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground text-lg"></i>
+                                <input type="text" placeholder="Search your trails..." class="w-full bg-card border border-border/80 rounded-[14px] py-2.5 h-11 pl-11 pr-4 text-[13px] font-medium text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors shadow-sm">
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 overflow-y-auto no-scrollbar px-6 pb-[120px]">
+                            <div class="flex flex-col gap-3.5">
+                                <template x-for="item in trails" :key="item.id">
+                                    <label class="flex items-center justify-between gap-4 cursor-pointer group select-none transition-transform active:scale-[0.99]">
+                                        <div class="flex-1 flex items-center gap-3.5 p-3 rounded-2xl border transition-all" 
+                                             :class="selectedItem == item.id ? 'border-primary bg-primary/[0.04] ring-2 ring-primary/20' : 'border-border bg-card group-hover:border-muted-foreground/40'">
+                                            <img :src="item.img" class="w-[52px] h-[52px] rounded-xl object-cover shrink-0 border border-border/50">
+                                            <div class="min-w-0 py-1 flex-1">
+                                                <div class="text-[14px] font-bold text-foreground truncate" x-text="item.name"></div>
+                                                <div class="flex items-center gap-1.5 mt-1.5">
+                                                    <i class="ph-fill ph-map-pin text-[11px] text-muted-foreground"></i>
+                                                    <div class="text-[11px] font-semibold text-muted-foreground truncate">
+                                                        <span x-text="item.dist"></span> • <span x-text="item.loc"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="radio" name="selectedTrail" :value="item.id" x-model="selectedItem" @change="chooseTrail(item)" class="custom-radio shrink-0 shadow-sm ml-1">
+                                    </label>
+                                </template>
+                            </div>
+                        </div>
+                        
+                        <!-- Fixed Footer Action -->
+                        <div class="absolute bottom-0 w-full px-6 pt-4 pb-10 bg-background border-t border-border select-none z-20">
+                            <div class="grid grid-cols-[1fr_1.5fr] gap-4">
+                                <button @click="closeModal()" class="h-12 rounded-xl border border-border bg-card text-foreground text-[14px] font-semibold hover:bg-secondary active:scale-[0.98] transition-all shadow-sm outline-none">
+                                    Cancel
+                                </button>
+                                <button 
+                                    @click="applySelection()"
+                                    :disabled="!selectedItem"
+                                    :class="!selectedItem ? 'opacity-50 cursor-not-allowed bg-secondary text-muted-foreground border-transparent' : 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-md'"
+                                    class="h-12 rounded-xl text-[14px] font-bold active:scale-[0.98] transition-all outline-none"
+                                    x-text="!selectedItem ? 'Select' : 'Select (1)'"
+                                ></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STATE 3: EMPTY -->
+                    <div x-show="modalState === 'empty'" style="display: none;" class="flex-1 flex flex-col items-center justify-center px-8 pb-12 select-none bg-background">
+                        <div class="relative mb-8">
+                            <div class="w-[84px] h-[100px] bg-card rounded-[18px] border-2 border-border/80 flex flex-col gap-3 p-4 justify-center shadow-sm">
+                                <div class="w-2/3 h-1.5 bg-border rounded-full"></div>
+                                <div class="w-full h-1.5 bg-border rounded-full"></div>
+                                <div class="w-3/4 h-1.5 bg-border rounded-full"></div>
+                            </div>
+                            <div class="absolute -bottom-3 -right-3 w-11 h-11 bg-background border-2 border-border rounded-full flex items-center justify-center shadow-lg">
+                                <i class="ph-fill ph-mountains text-yellow-500 text-[20px]"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-[17px] font-bold text-foreground mb-3 text-center">You don't have any trails or tours yet</h3>
+                        <p class="text-[13px] font-medium text-muted-foreground text-center leading-relaxed max-w-[260px] mb-8">
+                            Looks like you haven't created any trails or tours on Tourmkr.
+                        </p>
+                        
+                        <div class="w-full flex flex-col gap-3">
+                            <button @click="openModal('data')" class="h-12 w-full rounded-xl bg-primary text-primary-foreground text-[14px] font-bold flex items-center justify-center gap-2 hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md outline-none">
+                                <i class="ph ph-arrow-counter-clockwise text-lg"></i> Load Demo Trails
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1081,7 +1145,7 @@
                         <div class="px-5">
                             <div class="text-[13px] font-bold mb-4">Step 1 of 3: Add Image</div>
                             <div class="flex items-center gap-3 mb-6 px-1">
-                                <i class="ph ph-link text-xl text-muted-foreground"></i>
+                                <i class="ph ph-aperture text-xl text-muted-foreground"></i>
                                 <span class="text-[13px] font-bold text-foreground">Virtual Tour / Trail Embed</span>
                             </div>
                             <div class="grid grid-cols-2 gap-3 mb-6">
@@ -1131,9 +1195,13 @@
             mapBottomTab: 'waypoints', // 'waypoints' | 'elevation'
             fullscreenOpen: false,
 
+            // File selection
+            customImageName: null,
+
             // Modal state
             modalOpen: false,
             modalState: 'loading',
+            selectedItem: 1,
             selectedTrail: {
                 id: 1,
                 name: 'Spirit Mountain',
@@ -1170,6 +1238,23 @@
                 { id: 6, name: 'Mount Prau Hike', dist: '6.2 km', loc: 'Central Java', img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=200&auto=format&fit=crop' },
             ],
 
+            handleFileUpload(event) {
+                const file = event.target.files && event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.selectedTrail.img = e.target.result;
+                        this.customImageName = file.name;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            },
+
+            resetImage() {
+                this.customImageName = null;
+                this.selectedTrail.img = 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop';
+            },
+
             openModal(scenario) {
                 this.modalOpen = true;
                 this.modalState = 'loading';
@@ -1179,10 +1264,11 @@
                     } else if (scenario === 'empty') {
                         this.modalState = 'empty';
                     }
-                }, 500);
+                }, 400);
             },
 
             chooseTrail(trail) {
+                this.selectedItem = trail.id;
                 this.selectedTrail = {
                     id: trail.id,
                     name: trail.name,
