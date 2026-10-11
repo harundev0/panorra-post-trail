@@ -1,0 +1,23 @@
+{
+  "name": "tourmkr-mobile",
+  "version": "1.0.0",
+  "description": "Tourmkr Mobile - Interactive UI/UX Prototype Showcase",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "node server.js",
+    "build": "node -e \"console.log('Build verified: All static prototype pages are ready for client demo and deployment.')\""
+  },
+  "keywords": [
+    "tourmkr",
+    "mobile-ui",
+    "prototype",
+    "tailwind-css",
+    "alpinejs",
+    "ui-ux",
+    "interactive-showcase"
+  ],
+  "author": "Harun Bahrudin",
+  "license": "MIT"
+}

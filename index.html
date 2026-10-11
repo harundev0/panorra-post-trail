@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourmkr Mobile - Prototype Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-nav: #090d16;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary: #5B4BFF;
+            --primary-glow: rgba(91, 75, 255, 0.35);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #030712;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text-main);
+        }
+
+        /* Top Navigation Bar */
+        header {
+            height: 60px;
+            width: 100%;
+            background: rgba(9, 13, 22, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: relative;
+            z-index: 50;
+        }
+
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 220px;
+        }
+
+        .brand-logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #5B4BFF, #8B5CF6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .brand-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: #ffffff;
+        }
+
+        .brand-subtitle {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Nav Tabs */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            overflow-x: auto;
+            max-width: calc(100% - 460px);
+        }
+
+        nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 7px 14px;
+            border-radius: 7px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 4px 14px var(--primary-glow);
+        }
+
+        .badge-count {
+            background: rgba(255, 255, 255, 0.2);
+            font-size: 0.65rem;
+            padding: 1px 6px;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        /* Action Buttons Right */
+        .actions-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 180px;
+            justify-content: flex-end;
+        }
+
+        .btn-action {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 7px 13px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        /* Content Iframe Stage */
+        .stage-container {
+            width: 100%;
+            height: calc(100% - 60px);
+            position: relative;
+            background: #030712;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            background: transparent;
+        }
+
+        /* Floating helper tip */
+        .floating-tip {
+            position: fixed;
+            bottom: 16px;
+            right: 20px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            z-index: 40;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="brand-group">
+            <div class="brand-logo">📍</div>
+            <div class="brand-info">
+                <span class="brand-title">Tourmkr Mobile</span>
+                <span class="brand-subtitle">Interactive Design Showcase</span>
+            </div>
+        </div>
+
+        <nav id="nav-container">
+            <button class="nav-btn active" onclick="loadPage('pages/tourmkr_ui.html', this)">
+                <span>📱</span> Main Interactive UI
+            </button>
+            <button class="nav-btn" onclick="loadPage('pages/tourmkr_states_step1.html', this)">
+                <span>1️⃣</span> Step 1: Select Tour
+            </button>
+            <button class="nav-btn" onclick="loadPage('pages/tourmkr_states_step2.html', this)">
+                <span>2️⃣</span> Step 2: Content & Details
+            </button>
+            <button class="nav-btn" onclick="loadPage('pages/tourmkr_states_step3.html', this)">
+                <span>3️⃣</span> Step 3: Confirmation
+            </button>
+            <button class="nav-btn" onclick="loadPage('pages/tourmkr_states_map_focus.html', this)">
+                <span>🗺️</span> Map Focus State
+            </button>
+            <button class="nav-btn" onclick="loadPage('pages/tourmkr_post_detail.html', this)">
+                <span>📄</span> Post Detail 360
+            </button>
+        </nav>
+
+        <div class="actions-group">
+            <a id="btn-open-tab" href="pages/tourmkr_ui.html" target="_blank" class="btn-action" title="Buka halaman saat ini di tab penuh browser">
+                <span>Buka Tab Penuh</span>
+                <span style="font-size: 0.9em;">↗</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Frame -->
+    <main class="stage-container">
+        <iframe id="main-frame" src="pages/tourmkr_ui.html"></iframe>
+    </main>
+
+    <!-- Quick Tip -->
+    <div class="floating-tip">
+        <span>💡</span> Gunakan tab di atas untuk berganti antar halaman prototipe secara instan
+    </div>
+
+    <script>
+        function loadPage(url, btnElement) {
+            const frame = document.getElementById('main-frame');
+            const openTabBtn = document.getElementById('btn-open-tab');
+            
+            frame.src = url;
+            openTabBtn.href = url;
+
+            // Update active state in nav
+            document.querySelectorAll('#nav-container .nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

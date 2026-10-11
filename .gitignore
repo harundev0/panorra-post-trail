@@ -1,0 +1,19 @@
+# Dependency & Environment
+node_modules/
+.env
+.env.local
+
+# Logs & MCP
+*.log
+server.log
+.playwright-mcp/
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary / backups
+backups/
+*.tmp

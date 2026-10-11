@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourmkr - Step 3 Screen States</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        :root {
+            --background: #F7F8FB;
+            --background-rgb: 247, 248, 251;
+            --foreground: #1F2937;
+            --foreground-rgb: 31, 41, 55;
+            --card: #FFFFFF;
+            --card-rgb: 255, 255, 255;
+            --primary: #5B4BFF;
+            --primary-rgb: 91, 75, 255;
+            --primary-foreground: #FFFFFF;
+            --secondary: #F3F4F6;
+            --secondary-rgb: 243, 244, 246;
+            --muted: #F3F4F6;
+            --muted-rgb: 243, 244, 246;
+            --muted-foreground: #6B7280;
+            --muted-foreground-rgb: 107, 114, 128;
+            --border: #E5E7EB;
+            --border-rgb: 229, 231, 235;
+            --input: #E5E7EB;
+            --input-rgb: 229, 231, 235;
+        }
+
+        .dark {
+            --background: #0B1020;
+            --background-rgb: 11, 16, 32;
+            --foreground: #F8FAFC;
+            --foreground-rgb: 248, 250, 252;
+            --card: #12182A;
+            --card-rgb: 18, 24, 42;
+            --primary: #5B4BFF;
+            --primary-rgb: 91, 75, 255;
+            --primary-foreground: #FFFFFF;
+            --secondary: #1D2740;
+            --secondary-rgb: 29, 39, 64;
+            --muted: #1D2740;
+            --muted-rgb: 29, 39, 64;
+            --muted-foreground: #94A3B8;
+            --muted-foreground-rgb: 148, 163, 184;
+            --border: #283149;
+            --border-rgb: 40, 49, 73;
+            --input: #283149;
+            --input-rgb: 40, 49, 73;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* Clean Modern Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.15); }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.35); }
+    </style>
+    <script>
+        function withOpacity(variableName) {
+            return ({ opacityValue }) => {
+                if (opacityValue !== undefined) {
+                    return `rgba(var(${variableName}-rgb), ${opacityValue})`;
+                }
+                return `var(${variableName})`;
+            };
+        }
+
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    borderColor: ({ theme }) => ({
+                        DEFAULT: withOpacity('--border'),
+                        ...theme('colors'),
+                    }),
+                    colors: {
+                        background: withOpacity('--background'),
+                        foreground: 'var(--foreground)',
+                        card: withOpacity('--card'),
+                        primary: withOpacity('--primary'),
+                        'primary-foreground': 'var(--primary-foreground)',
+                        secondary: withOpacity('--secondary'),
+                        muted: 'var(--muted)',
+                        'muted-foreground': withOpacity('--muted-foreground'),
+                        border: withOpacity('--border'),
+                        input: withOpacity('--input'),
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body x-data="{ darkMode: true }" x-init="$watch('darkMode', val => document.documentElement.className = val ? 'dark' : '')" class="bg-gray-100 dark:bg-gray-950 transition-colors duration-300 min-h-screen p-8 text-foreground flex flex-col items-center">
+
+    <!-- Theme Toggle -->
+    <div class="fixed top-6 right-6 z-[100]">
+        <button @click="darkMode = !darkMode" class="h-11 bg-card border border-border text-foreground px-4 rounded-full shadow-md flex items-center gap-2 hover:bg-secondary active:scale-95 transition-all outline-none font-semibold text-sm">
+            <i class="ph text-lg" :class="darkMode ? 'ph-sun' : 'ph-moon'"></i>
+            <span x-text="darkMode ? 'Light Mode' : 'Dark Mode'"></span>
+        </button>
+    </div>
+
+    <div class="text-center mb-10">
+        <h1 class="text-2xl font-bold">Screen States: Step 3 (Description & Review)</h1>
+        <p class="text-muted-foreground mt-2">Mobile Adaptation of the Web Interface (Create New Post - 3 Out of 3)</p>
+    </div>
+
+    <!-- Gallery Container -->
+    <div class="flex flex-wrap justify-center gap-12 pb-20 max-w-[1400px] mx-auto">
+        
+        <!-- ============================================== -->
+        <!-- STATE 1: STEP 3 - FORM & 360 PREVIEW          -->
+        <!-- ============================================== -->
+        <div class="flex flex-col items-center gap-4">
+            <h2 class="text-sm font-semibold text-primary uppercase tracking-widest">State 1: Review & Description</h2>
+            
+            <div 
+                x-data="{
+                    description: 'Spirit Mountain Recreation Area',
+                    category: 'trail',
+                    visibility: 'public',
+                    notify: false
+                }"
+                class="w-[390px] h-[844px] bg-background relative overflow-hidden flex flex-col rounded-[2.5rem] border-[8px] border-gray-300 dark:border-[#1f2937] shadow-2xl shrink-0 transition-colors duration-300">
+                
+                <!-- Status Bar -->
+                <div class="h-12 flex justify-between items-center px-6 text-[15px] font-semibold shrink-0 bg-background select-none z-30">
+                    <span>9:41</span>
+                    <div class="flex gap-2 items-center">
+                        <i class="ph-fill ph-cell-signal-full text-[15px]"></i>
+                        <i class="ph-fill ph-wifi-high text-[15px]"></i>
+                        <i class="ph-fill ph-battery-full text-[20px]"></i>
+                    </div>
+                </div>
+
+                <!-- Scrollable Content Area -->
+                <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-32 bg-background">
+                    
+                    <!-- Title Header -->
+                    <div class="flex items-center gap-4 px-6 mt-3 mb-8 select-none">
+                        <a href="tourmkr_states_step2.html" class="p-2 -ml-2 text-muted-foreground hover:text-foreground transition-colors" title="Kembali ke Step 2">
+                            <i class="ph ph-arrow-left text-2xl"></i>
+                        </a>
+                        <div>
+                            <h1 class="text-[16px] text-foreground font-semibold leading-tight">Create New Post</h1>
+                            <p class="text-[12px] font-medium text-muted-foreground mt-0.5">Share & Explore</p>
+                        </div>
+                    </div>
+
+                    <div class="px-6">
+                        <!-- Step Indicator -->
+                        <div class="flex items-center justify-between mb-5 select-none">
+                            <div class="text-[14px] font-semibold text-foreground">Step 3: <span class="font-bold">Description & Review</span></div>
+                            <div class="text-[12px] font-medium text-primary bg-primary/10 px-2.5 py-0.5 rounded-full">3 Out of 3</div>
+                        </div>
+
+                        <div class="flex flex-col gap-5">
+                        
+                        <!-- 1. HERO 360 PREVIEW CARD -->
+                        <div class="rounded-[1.5rem] bg-card border border-border/80 dark:border-[#202B42] overflow-hidden shadow-md relative group aspect-[16/10] w-full isolate">
+                            <!-- Background 360 Panorama -->
+                            <img src="https://images.unsplash.com/photo-1548777123-e216912df7d8?q=80&w=800&auto=format&fit=crop" alt="Spirit Mountain 360" class="absolute inset-0 w-full h-full object-cover">
+                            
+                            <!-- Overlays & Scrim -->
+                            <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none"></div>
+                            <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 pointer-events-none"></div>
+                            
+                            <!-- Top Left Badge: Tour Branding -->
+                            <div class="absolute top-3 left-3 z-20 flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-slate-700/60 text-white text-[11px] font-semibold">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                <span>360° Scene</span>
+                            </div>
+
+                            <!-- Top Right: Expand Fullscreen Button -->
+                            <button class="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-slate-700/60 text-white flex items-center justify-center hover:bg-black/80 transition-colors active:scale-95">
+                                <i class="ph ph-corners-out text-base"></i>
+                            </button>
+
+                            <!-- Center: Play / Rotate Indicator -->
+                            <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+                                <div class="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md border border-slate-700/60 text-white flex items-center justify-center shadow-lg">
+                                    <i class="ph-fill ph-play text-xl ml-0.5"></i>
+                                </div>
+                            </div>
+
+                            <!-- Bottom Left: Tour Info -->
+                            <div class="absolute bottom-3 left-3 z-20 text-white pr-24 pointer-events-none">
+                                <div class="text-[13px] font-bold leading-tight drop-shadow-md">Spirit Mountain</div>
+                                <div class="text-[10px] text-white/80 flex items-center gap-1 mt-0.5">
+                                    <i class="ph-fill ph-map-pin text-emerald-400"></i> High Above Spirit Mountain
+                                </div>
+                            </div>
+
+                            <!-- Bottom Right: Floating Trail Map Badge -->
+                            <div class="absolute bottom-3 right-3 z-20 bg-[#0B1020]/90 backdrop-blur-md border border-[#263550] px-2.5 py-1 rounded-xl text-white flex items-center gap-1.5 shadow-lg pointer-events-auto cursor-pointer hover:bg-[#121B30] transition-colors">
+                                <i class="ph-fill ph-path text-primary text-[12px]"></i>
+                                <span class="text-[10px] font-bold">Trail 4.2 km</span>
+                            </div>
+                        </div>
+
+                        <!-- 2. DESCRIPTION SECTION -->
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-center justify-between px-1">
+                                <label class="text-[13px] font-semibold text-foreground flex items-center gap-1.5">
+                                    <i class="ph-bold ph-pencil-simple text-primary text-sm"></i> Description
+                                </label>
+                                <span class="text-[11px] text-muted-foreground font-medium" x-text="`${description.length} chars`"></span>
+                            </div>
+
+                            <div class="bg-card border border-border dark:border-[#202B42] rounded-2xl p-3 flex flex-col gap-2 shadow-sm focus-within:border-primary/60 transition-colors">
+                                <textarea 
+                                    x-model="description"
+                                    rows="2" 
+                                    placeholder="Write a caption for this virtual tour..."
+                                    class="w-full bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground resize-none outline-none leading-relaxed"></textarea>
+                                
+                                <div class="flex items-center justify-between pt-1 border-t border-border/60">
+                                    <div class="flex items-center gap-1.5">
+                                        <button 
+                                            @click="description += ' @'"
+                                            class="px-2 py-1 rounded-lg bg-secondary text-muted-foreground hover:text-foreground text-[11px] font-semibold flex items-center gap-1 active:scale-95 transition-all">
+                                            @ Mention
+                                        </button>
+                                        <button 
+                                            @click="description += ' #'"
+                                            class="px-2 py-1 rounded-lg bg-secondary text-muted-foreground hover:text-foreground text-[11px] font-semibold flex items-center gap-1 active:scale-95 transition-all">
+                                            # Hashtag
+                                        </button>
+                                    </div>
+                                    <span class="text-[10px] text-muted-foreground">Markdown supported</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. CATEGORY SELECTION -->
+                        <div class="flex flex-col gap-2">
+                            <h3 class="text-[13px] font-semibold text-foreground px-1">Category</h3>
+                            <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                                <button 
+                                    @click="category = 'trail'"
+                                    :class="category === 'trail' ? 'bg-primary text-white border-primary/40 shadow-sm shadow-primary/20' : 'bg-card border-border dark:border-[#202B42] text-muted-foreground hover:text-foreground'"
+                                    class="px-3.5 py-2 rounded-xl border text-[12px] font-semibold flex items-center gap-1.5 shrink-0 transition-all active:scale-95">
+                                    <i class="ph-fill ph-boot text-sm"></i> Trail
+                                </button>
+                                <button 
+                                    @click="category = 'nature'"
+                                    :class="category === 'nature' ? 'bg-primary text-white border-primary/40 shadow-sm shadow-primary/20' : 'bg-card border-border dark:border-[#202B42] text-muted-foreground hover:text-foreground'"
+                                    class="px-3.5 py-2 rounded-xl border text-[12px] font-semibold flex items-center gap-1.5 shrink-0 transition-all active:scale-95">
+                                    <i class="ph-fill ph-tree text-sm"></i> Nature
+                                </button>
+                                <button 
+                                    @click="category = 'stay'"
+                                    :class="category === 'stay' ? 'bg-primary text-white border-primary/40 shadow-sm shadow-primary/20' : 'bg-card border-border dark:border-[#202B42] text-muted-foreground hover:text-foreground'"
+                                    class="px-3.5 py-2 rounded-xl border text-[12px] font-semibold flex items-center gap-1.5 shrink-0 transition-all active:scale-95">
+                                    <i class="ph-fill ph-bed text-sm"></i> Stay
+                                </button>
+                                <button 
+                                    @click="category = 'food'"
+                                    :class="category === 'food' ? 'bg-primary text-white border-primary/40 shadow-sm shadow-primary/20' : 'bg-card border-border dark:border-[#202B42] text-muted-foreground hover:text-foreground'"
+                                    class="px-3.5 py-2 rounded-xl border text-[12px] font-semibold flex items-center gap-1.5 shrink-0 transition-all active:scale-95">
+                                    <i class="ph-fill ph-fork-knife text-sm"></i> Food
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 4. LOCATION CARD -->
+                        <div class="flex flex-col gap-2">
+                            <h3 class="text-[13px] font-semibold text-foreground px-1">Location</h3>
+                            <div class="bg-card border border-border dark:border-[#202B42] rounded-2xl p-3 flex items-center justify-between shadow-sm">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                                        <i class="ph-fill ph-map-pin text-xl"></i>
+                                    </div>
+                                    <div class="flex flex-col min-w-0">
+                                        <div class="text-[13px] font-bold text-foreground truncate">Spirit Mountain Recreation Area</div>
+                                        <div class="text-[11px] text-muted-foreground font-mono mt-0.5">46.7170°, -92.2151°</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1 shrink-0 ml-2">
+                                    <button class="w-8 h-8 rounded-lg bg-secondary hover:bg-secondary/80 text-muted-foreground hover:text-foreground flex items-center justify-center transition-colors">
+                                        <i class="ph ph-pencil-simple text-sm"></i>
+                                    </button>
+                                    <button class="w-8 h-8 rounded-lg bg-secondary hover:bg-red-500/10 text-muted-foreground hover:text-red-500 flex items-center justify-center transition-colors">
+                                        <i class="ph ph-trash text-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 5. POST VISIBILITY -->
+                        <div class="flex flex-col gap-2">
+                            <h3 class="text-[13px] font-semibold text-foreground px-1">Post Visibility</h3>
+                            <div class="flex p-1 bg-secondary rounded-xl">
+                                <button 
+                                    @click="visibility = 'public'"
+                                    :class="visibility === 'public' ? 'bg-card text-foreground font-bold shadow-sm border border-border/80 dark:border-[#202B42]' : 'text-muted-foreground font-medium'"
+                                    class="flex-1 h-9 rounded-lg text-[12px] flex items-center justify-center gap-1.5 transition-all">
+                                    <i class="ph-bold ph-globe text-sm"></i> Public
+                                </button>
+                                <button 
+                                    @click="visibility = 'unlisted'"
+                                    :class="visibility === 'unlisted' ? 'bg-card text-foreground font-bold shadow-sm border border-border/80 dark:border-[#202B42]' : 'text-muted-foreground font-medium'"
+                                    class="flex-1 h-9 rounded-lg text-[12px] flex items-center justify-center gap-1.5 transition-all">
+                                    <i class="ph-bold ph-link text-sm"></i> Unlisted
+                                </button>
+                                <button 
+                                    @click="visibility = 'private'"
+                                    :class="visibility === 'private' ? 'bg-card text-foreground font-bold shadow-sm border border-border/80 dark:border-[#202B42]' : 'text-muted-foreground font-medium'"
+                                    class="flex-1 h-9 rounded-lg text-[12px] flex items-center justify-center gap-1.5 transition-all">
+                                    <i class="ph-bold ph-lock text-sm"></i> Private
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 6. NOTIFIED FOLLOWERS TOGGLE -->
+                        <div class="bg-card border border-border dark:border-[#202B42] rounded-2xl p-3.5 flex items-center justify-between shadow-sm">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-lg bg-secondary text-foreground flex items-center justify-center">
+                                    <i class="ph-fill ph-bell text-base text-primary"></i>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-[13px] font-semibold text-foreground">Notify Followers</span>
+                                    <span class="text-[11px] text-muted-foreground">Send push notification to audience</span>
+                                </div>
+                            </div>
+                            <button 
+                                @click="notify = !notify"
+                                :class="notify ? 'bg-primary' : 'bg-slate-300 dark:bg-slate-700'"
+                                class="w-11 h-6 rounded-full p-0.5 transition-colors relative flex items-center outline-none">
+                                <div 
+                                    :class="notify ? 'translate-x-5' : 'translate-x-0'"
+                                    class="w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200"></div>
+                            </button>
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fixed Bottom Actions Bar -->
+                <div class="absolute bottom-0 inset-x-0 p-4 pb-6 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex flex-col gap-2.5 select-none">
+                    <button class="w-full h-12 rounded-xl bg-primary text-primary-foreground font-bold text-[14px] shadow-lg shadow-primary/25 flex items-center justify-center gap-2 hover:bg-primary/95 active:scale-[0.98] transition-all outline-none">
+                        <i class="ph-bold ph-paper-plane-tilt text-lg"></i>
+                        <span>Publish Post</span>
+                    </button>
+                    <button class="w-full py-0.5 text-center text-[12px] font-semibold text-muted-foreground hover:text-foreground active:scale-95 transition-all">
+                        Save as Draft
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
