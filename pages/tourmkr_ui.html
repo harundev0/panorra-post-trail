@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tourmkr Prototype - Bottom Sheet Fix</title>
-    <!-- Tailwind CSS -->
+    <title>Tourmkr - Interactive Mobile Prototype</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -18,100 +15,78 @@
             --background: #F7F8FB;
             --foreground: #1F2937;
             --card: #FFFFFF;
+            --card-foreground: #1F2937;
             --popover: #FFFFFF;
+            --popover-foreground: #1F2937;
             --primary: #5B4BFF;
             --primary-foreground: #FFFFFF;
             --secondary: #F3F4F6;
+            --secondary-foreground: #1F2937;
             --muted: #F3F4F6;
             --muted-foreground: #6B7280;
-            --accent: #ECEBFF;
+            --accent: #F3F4F6;
             --accent-foreground: #1F2937;
             --destructive: #EF4444;
+            --destructive-foreground: #FFFFFF;
             --border: #E5E7EB;
-            --border-rgb: 229, 231, 235;
             --input: #E5E7EB;
-            --input-rgb: 229, 231, 235;
+            --ring: #5B4BFF;
+            
+            --border-rgb: 229, 231, 235;
             --card-rgb: 255, 255, 255;
             --background-rgb: 247, 248, 251;
-            --secondary-rgb: 243, 244, 246;
             --primary-rgb: 91, 75, 255;
-            --ring: #5B4BFF;
+            --secondary-rgb: 243, 244, 246;
+            --muted-rgb: 243, 244, 246;
+            --muted-foreground-rgb: 107, 114, 128;
         }
 
         .dark {
             --background: #0B1020;
             --foreground: #F8FAFC;
             --card: #12182A;
-            --popover: #182036;
+            --card-foreground: #F8FAFC;
+            --popover: #12182A;
+            --popover-foreground: #F8FAFC;
             --primary: #5B4BFF;
             --primary-foreground: #FFFFFF;
-            --secondary: #1D2740;
-            --muted: #1D2740;
-            --muted-foreground: #94A3B8;
-            --accent: #282452;
+            --secondary: #162035;
+            --secondary-foreground: #F8FAFC;
+            --muted: #162035;
+            --muted-foreground: #8E9BB5;
+            --accent: #162035;
             --accent-foreground: #F8FAFC;
-            --destructive: #F87171;
+            --destructive: #7F1D1D;
+            --destructive-foreground: #F8FAFC;
             --border: #283149;
-            --border-rgb: 40, 49, 73;
             --input: #283149;
-            --input-rgb: 40, 49, 73;
+            --ring: #5B4BFF;
+
+            --border-rgb: 40, 49, 73;
             --card-rgb: 18, 24, 42;
             --background-rgb: 11, 16, 32;
-            --secondary-rgb: 29, 39, 64;
             --primary-rgb: 91, 75, 255;
-            --ring: #5B4BFF;
+            --secondary-rgb: 22, 32, 53;
+            --muted-rgb: 22, 32, 53;
+            --muted-foreground-rgb: 142, 155, 181;
         }
 
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        .custom-radio {
-            appearance: none;
-            width: 22px;
-            height: 22px;
-            border: 2px solid var(--muted-foreground);
-            border-radius: 50%;
-            background-color: transparent;
-            position: relative;
-            cursor: pointer;
-            outline: none;
-            transition: all 0.2s ease;
-            margin: 0;
-            padding: 0;
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-        .custom-radio:checked {
-            border-color: var(--primary);
-        }
-        .custom-radio:checked::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 12px;
-            height: 12px;
-            background-color: var(--primary);
-            border-radius: 50%;
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        @keyframes custom-spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-            animation: custom-spin 2s linear infinite;
-        }
-
-        /* Custom pulsing animation for the 360 hotspot */
         @keyframes custom-ping {
             0% { transform: scale(0.8); opacity: 0.8; }
-            100% { transform: scale(1.5); opacity: 0; }
+            100% { transform: scale(1.6); opacity: 0; }
         }
         .animate-ring {
             animation: custom-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
         }
-
-        /* Clean Modern Scrollbar */
+        
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -177,7 +152,7 @@
 <body 
     x-data="{ darkMode: true }" 
     x-init="$watch('darkMode', val => document.documentElement.className = val ? 'dark' : '')"
-    class="bg-gray-100 dark:bg-gray-950 flex flex-col items-center min-h-screen text-foreground antialiased p-6 sm:p-12 gap-20 overflow-y-auto"
+    class="bg-gray-100 dark:bg-gray-950 flex flex-col items-center min-h-screen text-foreground antialiased p-4 sm:p-10 gap-16 overflow-y-auto"
 >
 
 <!-- Theme Toggle -->
@@ -188,686 +163,776 @@
     </button>
 </div>
 
-<div class="w-full max-w-[1600px] flex flex-col gap-20 mx-auto">
+<div class="w-full max-w-[1600px] flex flex-col gap-16 mx-auto">
     <!-- ============================================== -->
     <!-- 1. INTERACTIVE PROTOTYPE SECTION -->
     <!-- ============================================== -->
-    <section x-data="prototype()" class="flex flex-col items-center gap-8">
-        <div class="text-center">
+    <section x-data="prototype()" class="flex flex-col items-center gap-6">
+        <div class="text-center flex flex-col items-center">
             <h2 class="text-3xl font-bold mb-2">Interactive Prototype</h2>
-            <p class="text-muted-foreground text-sm">Click <span class="bg-card border border-border text-foreground px-2 py-0.5 rounded shadow-sm mx-1 font-semibold">Select from my Tourmkr</span> buttons to test flow.</p>
+            <p class="text-muted-foreground text-sm max-w-[500px]">
+                Simulasi alur menyeluruh dari pemilihan tour sampai publikasi dan tampilan live 360 detail.
+            </p>
+
+            <!-- Flow Step Jumper Tabs for Client Convenience -->
+            <div class="inline-flex items-center gap-1.5 p-1.5 bg-card/90 backdrop-blur-md rounded-2xl border border-border shadow-sm mt-4 select-none">
+                <button @click="flowStep = 'step1'" :class="flowStep === 'step1' ? 'bg-primary text-white shadow-sm font-bold' : 'text-muted-foreground hover:text-foreground font-semibold'" class="px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all">
+                    <span>1️⃣</span> Step 1: Select
+                </button>
+                <button @click="flowStep = 'step2'" :class="flowStep === 'step2' ? 'bg-primary text-white shadow-sm font-bold' : 'text-muted-foreground hover:text-foreground font-semibold'" class="px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all">
+                    <span>2️⃣</span> Step 2: Details
+                </button>
+                <button @click="flowStep = 'step3'" :class="flowStep === 'step3' ? 'bg-primary text-white shadow-sm font-bold' : 'text-muted-foreground hover:text-foreground font-semibold'" class="px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all">
+                    <span>3️⃣</span> Step 3: Publish
+                </button>
+                <button @click="flowStep = 'detail'" :class="flowStep === 'detail' ? 'bg-primary text-white shadow-sm font-bold' : 'text-muted-foreground hover:text-foreground font-semibold'" class="px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all">
+                    <span>✨</span> Post Detail 360
+                </button>
+            </div>
         </div>
 
-        <div class="w-full max-w-[390px] h-[844px] sm:w-[390px] sm:h-[844px] bg-background relative overflow-hidden flex flex-col rounded-[2.5rem] border-[10px] border-black shadow-2xl shrink-0 transition-colors duration-300">
-            <!-- Create Post Flow -->
-            <div x-show="activePhone === 'create'" class="absolute inset-0 flex flex-col">
-
+        <!-- Phone Shell Container -->
+        <div class="w-full max-w-[390px] h-[844px] sm:w-[390px] sm:h-[844px] bg-background relative overflow-hidden flex flex-col rounded-[2.5rem] border-[10px] border-black shadow-[0_25px_60px_rgba(0,0,0,0.8)] shrink-0 transition-colors duration-300">
             
-            <!-- Status Bar -->
-            <div class="h-12 flex justify-between items-center px-6 text-[15px] font-semibold shrink-0 bg-background select-none">
-                <span>9:41</span>
-                <div class="flex gap-2 items-center">
-                    <i class="ph-fill ph-cell-signal-full text-[15px]"></i>
-                    <i class="ph-fill ph-wifi-high text-[15px]"></i>
-                    <i class="ph-fill ph-battery-full text-[20px]"></i>
+            <!-- Celebration Toast on Publish -->
+            <div 
+                x-show="publishSuccessToast"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 -translate-y-4"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 translate-y-0"
+                x-transition:leave-end="opacity-0 -translate-y-4"
+                style="display: none;"
+                class="absolute top-14 inset-x-4 z-[99] bg-emerald-600/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 select-none"
+            >
+                <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                    <i class="ph-bold ph-check text-lg"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="text-[13px] font-bold">Post Published Successfully!</div>
+                    <div class="text-[11px] text-white/80">Dialihkan ke Live Post Detail 360...</div>
                 </div>
             </div>
 
-            <!-- Base Screen -->
-            <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-28 relative z-10 bg-background">
-                <div class="flex items-center gap-4 px-6 mt-3 mb-8 select-none">
-                    <button class="p-2 -ml-2 text-muted-foreground hover:text-foreground active:scale-95 transition-transform outline-none"><i class="ph ph-arrow-left text-2xl"></i></button>
-                    <div>
-                        <h1 class="text-[16px] text-foreground font-semibold leading-tight">Create New Post</h1>
-                        <p class="text-[12px] font-medium text-muted-foreground mt-0.5">Share & Explore</p>
+            <!-- ============================================== -->
+            <!-- STEP 1: SELECT TOUR                            -->
+            <!-- ============================================== -->
+            <div x-show="flowStep === 'step1'" class="absolute inset-0 flex flex-col">
+                <!-- Status Bar -->
+                <div class="h-12 flex justify-between items-center px-6 text-[15px] font-semibold shrink-0 bg-background select-none">
+                    <span>9:41</span>
+                    <div class="flex gap-2 items-center">
+                        <i class="ph-fill ph-cell-signal-full text-[15px]"></i>
+                        <i class="ph-fill ph-wifi-high text-[15px]"></i>
+                        <i class="ph-fill ph-battery-full text-[20px]"></i>
                     </div>
                 </div>
 
-                <div class="px-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="text-[14px] font-semibold text-foreground">Step 1: <span class="font-bold">Select Tour</span></div>
-                        <div class="text-[12px] font-medium text-muted-foreground">1 Out of 3</div>
+                <!-- Scrollable Content -->
+                <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-28 relative z-10 bg-background">
+                    <div class="flex items-center gap-4 px-6 mt-3 mb-8 select-none">
+                        <button class="p-2 -ml-2 text-muted-foreground hover:text-foreground active:scale-95 transition-transform outline-none"><i class="ph ph-arrow-left text-2xl"></i></button>
+                        <div>
+                            <h1 class="text-[16px] text-foreground font-semibold leading-tight">Create New Post</h1>
+                            <p class="text-[12px] font-medium text-muted-foreground mt-0.5">Share & Explore</p>
+                        </div>
                     </div>
 
-                    <!-- 360 Scene / Post Preview Section -->
-                    <div class="flex flex-col mb-6">
-                        
-                        <!-- Preview Card Frame -->
-                        <div class="rounded-[1.5rem] bg-card border border-border/50 overflow-hidden shadow-sm relative group aspect-[4/3] w-full isolate">
-                            
-                            <!-- MODE 1: 360 PANORAMA SCENE -->
-                            <div x-show="previewMode === '360'" class="absolute inset-0 w-full h-full">
-                                <!-- Preview Image -->
-                                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" alt="360 Panorama Preview" class="absolute inset-0 w-full h-full object-cover">
-                                <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 pointer-events-none"></div>
+                    <div class="px-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-[14px] font-semibold text-foreground">Step 1: <span class="font-bold">Select Tour</span></div>
+                            <div class="text-[12px] font-medium text-muted-foreground">1 Out of 3</div>
+                        </div>
 
-                                <!-- Top Right: Fullscreen Expand Button -->
-                                <div class="absolute top-3.5 right-3.5 z-20">
-                                    <button @click="fullscreenOpen = true" class="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/80 transition-colors shadow-lg outline-none active:scale-95" title="Buka Layar Penuh">
-                                        <i class="ph ph-arrows-out text-sm"></i>
-                                    </button>
+                        <!-- 360 Scene / Post Preview Section -->
+                        <div class="flex flex-col mb-6">
+                            <!-- Preview Card Frame -->
+                            <div class="rounded-[1.5rem] bg-card border border-border/50 overflow-hidden shadow-sm relative group aspect-[4/3] w-full isolate">
+                                
+                                <!-- MODE 1: 360 PANORAMA SCENE -->
+                                <div x-show="previewMode === '360'" class="absolute inset-0 w-full h-full">
+                                    <img :src="selectedTrail.img" alt="360 Panorama Preview" class="absolute inset-0 w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 pointer-events-none"></div>
+
+                                    <!-- Top Right: Fullscreen Expand Button -->
+                                    <div class="absolute top-3.5 right-3.5 z-20">
+                                        <button @click="fullscreenOpen = true" class="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/80 transition-colors shadow-lg outline-none active:scale-95" title="Buka Layar Penuh">
+                                            <i class="ph ph-arrows-out text-sm"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Center Play Button (Interactive Pulse) -->
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <button class="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-[0_0_20px_rgba(91,75,255,0.4)] hover:scale-105 active:scale-95 transition-all outline-none rotate-0 group-hover:rotate-12 z-20">
+                                            <i class="ph-fill ph-play text-2xl ml-1"></i>
+                                        </button>
+                                        <div class="absolute w-14 h-14 rounded-full bg-primary/30 animate-ring z-10"></div>
+                                        <div class="absolute w-14 h-14 rounded-full bg-primary/20 animate-ring z-10" style="animation-delay: 0.5s"></div>
+                                    </div>
+
+                                    <!-- Bottom Details -->
+                                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end z-20">
+                                        <div class="text-white text-shadow-sm pr-3">
+                                            <div class="text-sm font-bold leading-tight drop-shadow-md" x-text="selectedTrail.name">Spirit Mountain</div>
+                                            <div class="text-[11px] font-medium opacity-80 mt-0.5 flex items-center gap-1"><i class="ph-fill ph-map-pin text-primary"></i><span x-text="selectedTrail.loc">Duluth, MN</span></div>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <!-- Center Play Button (Interactive Pulse) -->
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <button class="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-[0_0_20px_rgba(91,75,255,0.4)] hover:scale-105 active:scale-95 transition-all outline-none rotate-0 group-hover:rotate-12 z-20">
-                                        <i class="ph-fill ph-play text-2xl ml-1"></i>
-                                    </button>
-                                    <!-- Pulse rings -->
-                                    <div class="absolute w-14 h-14 rounded-full bg-primary/30 animate-ring z-10"></div>
-                                    <div class="absolute w-14 h-14 rounded-full bg-primary/20 animate-ring z-10" style="animation-delay: 0.5s"></div>
-                                </div>
-
-                                <!-- Bottom Details -->
-                                <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end z-20">
-                                    <div class="text-white text-shadow-sm pr-3">
-                                        <div class="text-sm font-bold leading-tight drop-shadow-md">Spirit Mountain</div>
-                                        <div class="text-[11px] font-medium opacity-80 mt-0.5 flex items-center gap-1"><i class="ph-fill ph-map-pin text-primary"></i>Duluth, MN</div>
+                                <!-- MODE 2: FULL ROUTE MAP VIEW -->
+                                <div x-show="previewMode === 'map'" style="display: none;" class="absolute inset-0 w-full h-full bg-[#1a1c23] flex flex-col select-none overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-85" alt="Map Base">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
+                                    <div class="absolute bottom-4 left-4 right-4 text-white z-20">
+                                        <div class="text-sm font-bold" x-text="`${selectedTrail.name} Map`">Route Map</div>
+                                        <div class="text-[11px] opacity-80 mt-0.5" x-text="`${selectedTrail.dist} • 4 Waypoints`">4.2 km</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- MODE 2: FULL ROUTE MAP VIEW (1:1 ADAPTED) -->
-                            <div x-show="previewMode === 'map'" x-data="{ mapBottomTab: 'waypoints' }" style="display: none;" class="absolute inset-0 w-full h-full bg-[#1a1c23] flex flex-col select-none overflow-hidden">
-                                <!-- Map Base Image -->
-                                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-85" alt="Map Base">
-                                
-                                <!-- Top Navigation (Floating Map Header) -->
-                                <div class="absolute top-3 inset-x-3 z-30">
-                                    <div class="bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] shadow-xl rounded-2xl p-2 flex flex-col gap-1.5">
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center gap-1.5">
-                                                <div class="flex items-center gap-1.5 px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 rounded-lg">
-                                                    <i class="ph-fill ph-check-circle text-xs"></i>
-                                                    <span class="text-[10px] font-bold tracking-wide">Discovery</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex items-center gap-1.5">
-                                                <div class="flex text-[10px] font-bold gap-0.5 text-foreground bg-secondary/80 dark:bg-[#162035] border border-border dark:border-[#2D3C5C] px-1 py-0.5 rounded-lg shadow-sm items-center">
-                                                    <button class="w-5 h-5 rounded hover:bg-card active:scale-95 flex items-center justify-center transition-all"><i class="ph-bold ph-minus text-xs"></i></button>
-                                                    <div class="w-px h-3 bg-slate-400/40 mx-0.5"></div>
-                                                    <span class="px-1 text-[9px] font-bold tracking-wider">FIT</span>
-                                                    <div class="w-px h-3 bg-slate-400/40 mx-0.5"></div>
-                                                    <button class="w-5 h-5 rounded hover:bg-card active:scale-95 flex items-center justify-center transition-all"><i class="ph-bold ph-plus text-xs"></i></button>
-                                                </div>
-                                                <button @click="fullscreenOpen = true" class="w-7 h-7 rounded-lg bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-colors shadow outline-none active:scale-95" title="Buka Layar Penuh">
-                                                    <i class="ph ph-arrows-out text-xs"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Stats Strip -->
-                                        <div class="flex items-center gap-1.5 px-0.5">
-                                            <span class="bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-[10px] font-bold px-2 py-0.5 rounded-md tracking-wide">4.2 km</span>
-                                            <span class="bg-blue-500/15 border border-blue-500/30 text-blue-300 text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
-                                                <i class="ph-bold ph-trend-up text-[9px]"></i> +350m
-                                            </span>
-                                            <span class="bg-orange-500/15 border border-orange-500/30 text-orange-300 text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
-                                                <i class="ph-bold ph-trend-down text-[9px]"></i> -95m
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Map Route Mockup -->
-                                <svg class="absolute inset-0 w-full h-full pointer-events-none drop-shadow-lg z-10" viewBox="0 0 100 100" preserveAspectRatio="none">
-                                    <path d="M 20 80 Q 40 50 60 20 L 80 40 L 70 90" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-
-                                <!-- Waypoint Pins on Map -->
-                                <!-- Pin 1: Start -->
-                                <div class="absolute top-[80%] left-[20%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-                                    <div class="bg-emerald-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded shadow mb-0.5 whitespace-nowrap">Start</div>
-                                    <div class="w-4 h-4 rounded-full bg-emerald-500 border-2 border-card dark:border-[#0B1020] shadow-md flex items-center justify-center">
-                                        <i class="ph-bold ph-flag text-[9px] text-white"></i>
-                                    </div>
-                                </div>
-                                <!-- Pin 2 -->
-                                <div class="absolute top-[40%] left-[80%] -translate-x-1/2 -translate-y-1/2 z-20">
-                                    <div class="w-3.5 h-3.5 rounded-full bg-orange-500 border-2 border-card dark:border-[#0B1020] shadow"></div>
-                                </div>
-                                <!-- Pin 3: Highest -->
-                                <div class="absolute top-[20%] left-[60%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-                                    <div class="bg-blue-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded shadow mb-0.5 whitespace-nowrap">Highest</div>
-                                    <div class="w-4 h-4 rounded-full bg-blue-500 border-2 border-card dark:border-[#0B1020] shadow-md flex items-center justify-center">
-                                        <i class="ph-bold ph-mountains text-[9px] text-white"></i>
-                                    </div>
-                                </div>
-                                <!-- Pin 4: Finish -->
-                                <div class="absolute top-[88%] left-[70%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-                                    <div class="w-3.5 h-3.5 rounded-full bg-red-500 border-2 border-card dark:border-[#0B1020] shadow"></div>
-                                    <div class="bg-red-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded shadow mt-0.5 whitespace-nowrap">Finish</div>
-                                </div>
-
-                                <!-- Bottom Sheet (Floating Waypoints / Elevation Profile) -->
-                                <div class="absolute bottom-3 inset-x-0 z-30 flex flex-col gap-2">
-                                    <!-- Tabs -->
-                                    <div class="px-3 flex gap-1.5">
-                                        <button 
-                                            @click="mapBottomTab = 'waypoints'"
-                                            :class="mapBottomTab === 'waypoints' ? 'bg-primary text-white border-primary/40 shadow-sm' : 'bg-card/90 dark:bg-[#12182A]/90 text-foreground border-border dark:border-[#2D3C5C] hover:bg-card'"
-                                            class="border backdrop-blur-xl px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 transition-all active:scale-[0.97]">
-                                            <i class="ph-fill ph-map-pin text-xs"></i> Key Points (4)
-                                        </button>
-                                        <button 
-                                            @click="mapBottomTab = 'elevation'"
-                                            :class="mapBottomTab === 'elevation' ? 'bg-primary text-white border-primary/40 shadow-sm' : 'bg-card/90 dark:bg-[#12182A]/90 text-foreground border-border dark:border-[#2D3C5C] hover:bg-card'"
-                                            class="border backdrop-blur-xl px-2.5 py-1 rounded-full text-[10px] font-semibold flex items-center gap-1 transition-all active:scale-[0.97]">
-                                            <i class="ph-bold ph-chart-line-up text-xs" :class="mapBottomTab === 'elevation' ? 'text-white' : 'text-primary'"></i> Elevation Graph
-                                        </button>
-                                    </div>
-
-                                    <!-- TAB 1: Horizontal Scroll Waypoint Cards -->
-                                    <div x-show="mapBottomTab === 'waypoints'" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory px-3 gap-2" style="scroll-padding-left: 0.75rem;">
-                                        <!-- Card 1 -->
-                                        <div class="w-[220px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2 shadow-lg flex items-center gap-2 snap-start shrink-0">
-                                            <div class="w-8 h-8 rounded-lg bg-emerald-500/15 flex items-center justify-center shrink-0">
-                                                <i class="ph-fill ph-flag text-emerald-400 text-sm"></i>
-                                            </div>
-                                            <div class="flex-1 min-w-0">
-                                                <div class="text-[11px] font-bold text-foreground truncate">Trailhead / Start Point</div>
-                                                <div class="text-[9px] text-muted-foreground mt-0.5 flex items-center gap-1">
-                                                    <span>725m</span> <span class="opacity-40">|</span> <span class="bg-primary/10 text-primary px-1 rounded font-semibold">Start</span>
-                                                </div>
-                                            </div>
-                                            <button @click="previewMode = '360'" class="h-6 px-2 bg-primary/10 hover:bg-primary/20 text-primary text-[10px] font-bold rounded flex items-center gap-1 shrink-0">
-                                                <i class="ph-fill ph-cube"></i> View 360
-                                            </button>
-                                        </div>
-
-                                        <!-- Card 2 -->
-                                        <div class="w-[220px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2 shadow-lg flex items-center gap-2 snap-start shrink-0">
-                                            <div class="w-8 h-8 rounded-lg bg-blue-500/15 text-blue-400 font-bold text-xs flex items-center justify-center shrink-0">
-                                                2
-                                            </div>
-                                            <div class="flex-1 min-w-0">
-                                                <div class="text-[11px] font-bold text-foreground truncate">Taman Wisata Alam...</div>
-                                                <div class="text-[9px] text-muted-foreground mt-0.5">820m elevation</div>
-                                            </div>
-                                            <button @click="previewMode = '360'" class="h-6 px-2 bg-primary/10 hover:bg-primary/20 text-primary text-[10px] font-bold rounded flex items-center gap-1 shrink-0">
-                                                <i class="ph-fill ph-cube"></i> View 360
-                                            </button>
-                                        </div>
-
-                                        <!-- Card 3 -->
-                                        <div class="w-[220px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-primary/60 rounded-xl p-2 shadow-lg flex items-center gap-2 snap-start shrink-0">
-                                            <div class="w-8 h-8 rounded-lg bg-purple-500/15 text-purple-400 font-bold text-xs flex items-center justify-center shrink-0">
-                                                3
-                                            </div>
-                                            <div class="flex-1 min-w-0">
-                                                <div class="text-[11px] font-bold text-foreground truncate">Pasir Limo Summit</div>
-                                                <div class="text-[9px] text-primary font-medium mt-0.5">1075m elevation</div>
-                                            </div>
-                                            <button @click="previewMode = '360'" class="h-6 px-2 bg-primary text-primary-foreground text-[10px] font-bold rounded flex items-center gap-1 shrink-0">
-                                                <i class="ph-fill ph-cube"></i> View 360
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <!-- TAB 2: Elevation Profile Card -->
-                                    <div x-show="mapBottomTab === 'elevation'" x-cloak x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" class="mx-3 bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2 shadow-xl flex flex-col gap-1">
-                                        <div class="flex items-center justify-between text-[10px]">
-                                            <span class="font-bold text-foreground">Elevation Profile</span>
-                                            <span class="text-emerald-400 font-bold flex items-center gap-0.5"><i class="ph-bold ph-trend-up"></i> +350m</span>
-                                        </div>
-                                        <div class="relative w-full h-[50px]">
-                                            <svg class="w-full h-full overflow-visible" viewBox="0 0 320 75" preserveAspectRatio="none">
-                                                <defs>
-                                                    <linearGradient id="elevationGradPreviewUI" x1="0" y1="0" x2="0" y2="1">
-                                                        <stop offset="0%" stop-color="#5B4BFF" stop-opacity="0.35"/>
-                                                        <stop offset="100%" stop-color="#5B4BFF" stop-opacity="0.0"/>
-                                                    </linearGradient>
-                                                </defs>
-                                                <path d="M 20 52 C 55 50, 75 46, 100 44 C 150 40, 190 18, 230 12 C 265 12, 280 32, 300 42 L 300 65 L 20 65 Z" fill="url(#elevationGradPreviewUI)" />
-                                                <path d="M 20 52 C 55 50, 75 46, 100 44 C 150 40, 190 18, 230 12 C 265 12, 280 32, 300 42" fill="none" stroke="#5B4BFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                <circle cx="20" cy="52" r="4" fill="#22c55e" stroke="white" stroke-width="1.5" />
-                                                <circle cx="100" cy="44" r="4" fill="#3b82f6" stroke="white" stroke-width="1.5" />
-                                                <circle cx="230" cy="12" r="4.5" fill="#8b5cf6" stroke="white" stroke-width="1.5" />
-                                                <circle cx="300" cy="42" r="4" fill="#ef4444" stroke="white" stroke-width="1.5" />
-                                            </svg>
-                                        </div>
-                                        <div class="flex justify-between items-center text-[9px] text-muted-foreground font-semibold px-0.5">
-                                            <span>0 km (725m)</span>
-                                            <span>4.2 km (840m)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- TABS SWITCHER (Tepat di Bawah Card Sesuai Instruksi) -->
-                        <div class="w-full bg-secondary/80 dark:bg-[#151c2e] p-1 rounded-2xl border border-border flex items-center shadow-sm mt-3.5 select-none">
-                            <button 
-                                @click="previewMode = '360'" 
-                                :class="previewMode === '360' ? 'bg-card text-foreground shadow-sm font-bold border border-border/50' : 'text-muted-foreground hover:text-foreground font-semibold'" 
-                                class="flex-1 py-2 px-3 rounded-xl text-[13px] flex items-center justify-center gap-2 transition-all outline-none">
-                                <i class="ph-fill ph-cube text-primary text-base"></i>
-                                <span>360° Scene</span>
-                            </button>
-                            <button 
-                                @click="previewMode = 'map'" 
-                                :class="previewMode === 'map' ? 'bg-card text-foreground shadow-sm font-bold border border-border/50' : 'text-muted-foreground hover:text-foreground font-semibold'" 
-                                class="flex-1 py-2 px-3 rounded-xl text-[13px] flex items-center justify-center gap-2 transition-all outline-none">
-                                <i class="ph-fill ph-map-trifold text-primary text-base"></i>
-                                <span>Route Map</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-3 mb-6 select-none px-1">
-                        <i class="ph ph-link text-xl text-muted-foreground"></i>
-                        <span class="text-[13px] font-bold text-foreground">Virtual Tour / Trail Embed</span>
-                    </div>
-
-                    <div class="mb-10 select-none">
-                        <div class="flex items-center justify-between mb-3 px-1 select-none">
-                            <h2 class="text-[13px] font-semibold text-foreground">Select Platform</h2>
-                            <span class="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">360° Virtual Tour / Trail</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 relative">
-                            <button class="relative flex flex-col gap-2 p-3 rounded-2xl border-2 border-primary bg-primary/[0.04] active:scale-[0.98] transition-all text-left shadow-sm outline-none">
-                                <div class="absolute top-3 right-3 w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(91,75,255,0.6)]"></div>
-                                <div class="w-8 h-8 rounded-lg bg-card border border-border/50 flex items-center justify-center relative overflow-hidden shrink-0 shadow-sm">
+                            <!-- TABS SWITCHER -->
+                            <div class="w-full bg-secondary/80 dark:bg-[#151c2e] p-1 rounded-2xl border border-border flex items-center shadow-sm mt-3.5 select-none">
+                                <button 
+                                    @click="previewMode = '360'" 
+                                    :class="previewMode === '360' ? 'bg-card text-foreground shadow-sm font-bold border border-border/50' : 'text-muted-foreground hover:text-foreground font-semibold'" 
+                                    class="flex-1 py-2 px-3 rounded-xl text-[13px] flex items-center justify-center gap-2 transition-all outline-none">
                                     <i class="ph-fill ph-cube text-primary text-base"></i>
-                                </div>
-                                <div class="flex-1 min-w-0 w-full">
-                                    <div class="text-[13px] text-foreground font-semibold leading-tight truncate">TourMkr</div>
-                                    <div class="text-[10px] text-muted-foreground font-medium mt-0.5 truncate">Tour & Trail GPS</div>
-                                </div>
-                            </button>
-                            <button class="relative flex flex-col gap-2 p-3 rounded-2xl border border-border hover:border-muted-foreground/30 hover:bg-secondary bg-card active:scale-[0.98] transition-all text-left shadow-sm outline-none">
-                                <div class="w-8 h-8 rounded-lg bg-card border border-border/50 flex items-center justify-center shrink-0 shadow-sm">
-                                    <i class="ph-fill ph-map-pin text-[#3B82F6] text-base"></i>
-                                </div>
-                                <div class="flex-1 min-w-0 w-full">
-                                    <div class="text-[13px] text-foreground font-semibold leading-tight truncate">Google Street View</div>
-                                    <div class="text-[10px] text-muted-foreground font-medium mt-0.5 truncate">Street View 360°</div>
-                                </div>
-                            </button>
+                                    <span>360° Scene</span>
+                                </button>
+                                <button 
+                                    @click="previewMode = 'map'" 
+                                    :class="previewMode === 'map' ? 'bg-card text-foreground shadow-sm font-bold border border-border/50' : 'text-muted-foreground hover:text-foreground font-semibold'" 
+                                    class="flex-1 py-2 px-3 rounded-xl text-[13px] flex items-center justify-center gap-2 transition-all outline-none">
+                                    <i class="ph-fill ph-map-trifold text-primary text-base"></i>
+                                    <span>Route Map</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 mb-6 select-none px-1">
+                            <i class="ph ph-link text-xl text-muted-foreground"></i>
+                            <span class="text-[13px] font-bold text-foreground">Virtual Tour / Trail Embed</span>
+                        </div>
+
+                        <div class="mb-10 select-none">
+                            <div class="flex items-center justify-between mb-3 px-1 select-none">
+                                <h2 class="text-[13px] font-semibold text-foreground">Select Platform</h2>
+                                <span class="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">360° VIRTUAL TOUR / TRAIL</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 relative">
+                                <button class="relative flex flex-col gap-2 p-3 rounded-2xl border-2 border-primary bg-primary/[0.04] text-left shadow-sm">
+                                    <div class="absolute top-3 right-3 w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(91,75,255,0.6)]"></div>
+                                    <div class="w-8 h-8 rounded-lg bg-card border border-border/50 flex items-center justify-center shrink-0 shadow-sm">
+                                        <i class="ph-fill ph-cube text-primary text-base"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0 w-full">
+                                        <div class="text-[13px] text-foreground font-semibold leading-tight truncate">TourMkr</div>
+                                        <div class="text-[10px] text-muted-foreground font-medium mt-0.5 truncate">Tour & Trail GPS</div>
+                                    </div>
+                                </button>
+                                <button class="relative flex flex-col gap-2 p-3 rounded-2xl border border-border/70 bg-card text-left opacity-70 hover:opacity-100 transition-opacity">
+                                    <div class="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center shrink-0">
+                                        <i class="ph-fill ph-map-pin text-[#3B82F6] text-base"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0 w-full">
+                                        <div class="text-[13px] text-foreground font-semibold leading-tight truncate">Google Street View</div>
+                                        <div class="text-[10px] text-muted-foreground font-medium mt-0.5 truncate">Street View 360°</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mb-8">
+                            <div class="flex items-center justify-between mb-3 px-1 select-none">
+                                <h2 class="text-[13px] font-semibold text-foreground">TourMkr Source</h2>
+                                <span class="text-[10px] text-primary font-bold cursor-pointer hover:underline" @click="openModal('data')">Open list modal</span>
+                            </div>
+                            <div class="rounded-2xl border border-border overflow-hidden bg-card shadow-sm divide-y divide-border">
+                                <button @click="openModal('data')" class="w-full flex items-center justify-between p-4 bg-secondary/40 hover:bg-secondary/70 transition-colors text-left group">
+                                    <div class="flex items-center gap-3.5">
+                                        <div class="w-10 h-10 rounded-xl bg-card border border-border/60 flex items-center justify-center shrink-0 shadow-sm">
+                                            <i class="ph ph-list-dashes text-xl text-foreground"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-[14px] text-foreground font-semibold">Select from my Tourmkr</div>
+                                            <div class="text-[12px] text-muted-foreground font-medium mt-0.5" x-text="`Selected: ${selectedTrail.name}`">Choose your tour</div>
+                                        </div>
+                                    </div>
+                                    <i class="ph ph-caret-right text-muted-foreground group-hover:text-foreground transition-colors text-lg"></i>
+                                </button>
+                                <button @click="openModal('empty')" class="w-full flex items-center justify-between p-4 hover:bg-secondary/40 transition-colors text-left group">
+                                    <div class="flex items-center gap-3.5">
+                                        <div class="w-10 h-10 rounded-xl bg-secondary group-hover:bg-background flex items-center justify-center transition-colors shrink-0 border border-border/50">
+                                            <i class="ph ph-link text-xl text-foreground"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-[14px] text-foreground font-semibold">Add link from Tourmkr</div>
+                                            <div class="text-[12px] text-muted-foreground font-medium mt-0.5">Paste a Tourmkr URL</div>
+                                        </div>
+                                    </div>
+                                    <i class="ph ph-caret-right text-muted-foreground group-hover:text-foreground transition-colors text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fixed Bottom Actions Bar -->
+                <div class="absolute bottom-0 inset-x-0 p-4 pb-6 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex items-center justify-between gap-3 select-none">
+                    <button @click="openModal('data')" class="flex-1 h-11 px-3 rounded-xl border border-border bg-card text-foreground text-[13px] font-semibold flex items-center justify-center gap-1.5 hover:bg-secondary active:scale-[0.98] transition-all shadow-sm outline-none whitespace-nowrap">
+                        <i class="ph ph-arrow-counter-clockwise text-base text-muted-foreground"></i>
+                        <span>Change tour</span>
+                    </button>
+                    <button @click="flowStep = 'step2'" class="flex-1 h-11 px-3 rounded-xl bg-primary text-primary-foreground text-[13px] font-semibold flex items-center justify-center gap-1.5 hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md outline-none whitespace-nowrap">
+                        <span>Next</span>
+                        <i class="ph ph-arrow-right text-base"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- STEP 2: CONTENT & DETAILS                      -->
+            <!-- ============================================== -->
+            <div x-show="flowStep === 'step2'" style="display: none;" class="absolute inset-0 flex flex-col bg-background">
+                <!-- Status Bar -->
+                <div class="h-12 flex justify-between items-center px-6 text-[15px] font-semibold shrink-0 bg-background select-none">
+                    <span>9:41</span>
+                    <div class="flex gap-2 items-center">
+                        <i class="ph-fill ph-cell-signal-full text-[15px]"></i>
+                        <i class="ph-fill ph-wifi-high text-[15px]"></i>
+                        <i class="ph-fill ph-battery-full text-[20px]"></i>
+                    </div>
+                </div>
+
+                <!-- Scrollable Content -->
+                <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-28 relative bg-background">
+                    <!-- Title Header -->
+                    <div class="flex items-center gap-4 px-6 mt-3 mb-8 select-none">
+                        <button @click="flowStep = 'step1'" class="p-2 -ml-2 text-muted-foreground hover:text-foreground active:scale-95 transition-transform"><i class="ph ph-arrow-left text-2xl"></i></button>
+                        <div>
+                            <h1 class="text-[16px] text-foreground font-semibold leading-tight">Create New Post</h1>
+                            <p class="text-[12px] font-medium text-muted-foreground mt-0.5">Share & Explore</p>
                         </div>
                     </div>
 
-                    <div class="mb-4">
-                        <div class="flex items-center justify-between mb-3 px-1 select-none">
-                            <h2 class="text-[13px] font-semibold text-foreground">TourMkr Tour or Trail URL</h2>
-                            <span class="text-[11px] text-muted-foreground font-medium">tourmkr.com/...</span>
+                    <div class="px-6">
+                        <!-- Step Indicator -->
+                        <div class="flex items-center justify-between mb-5">
+                            <div class="text-[14px] font-semibold text-foreground">Step 2: <span class="font-bold">Trail & Route Details</span></div>
+                            <div class="text-[12px] font-medium text-primary bg-primary/10 px-2.5 py-0.5 rounded-full">2 Out of 3</div>
                         </div>
-                        
-                        <div class="relative flex items-center">
-                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none z-10 text-primary">
-                                <i class="ph-bold ph-link text-lg"></i>
+
+                        <!-- 360 Scene / Post Preview Section -->
+                        <div class="flex flex-col mb-6">
+                            <div class="rounded-[1.5rem] bg-card border border-border/50 overflow-hidden shadow-md relative group aspect-[4/5] w-full isolate">
+                                
+                                <!-- MODE 1: 360 PANORAMA SCENE -->
+                                <div x-show="previewMode === '360'" class="absolute inset-0 w-full h-full">
+                                    <img :src="selectedTrail.img" alt="" class="absolute inset-0 w-full h-full object-cover bg-slate-800">
+                                    <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none"></div>
+                                    <div class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 pointer-events-none"></div>
+                                    
+                                    <!-- Top Right: Fullscreen Expand Button -->
+                                    <div class="absolute top-3.5 right-3.5 z-20">
+                                        <button @click="fullscreenOpen = true" class="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-black/80 transition-colors shadow-lg outline-none active:scale-95" title="Buka Layar Penuh">
+                                            <i class="ph ph-arrows-out text-sm"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Center: Play Button -->
+                                    <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+                                        <div class="relative flex items-center justify-center">
+                                            <button class="w-16 h-16 rounded-full bg-primary/90 backdrop-blur-sm text-white flex items-center justify-center shadow-[0_0_30px_rgba(91,75,255,0.6)] pointer-events-auto hover:scale-105 active:scale-95 transition-transform">
+                                                <i class="ph-fill ph-play text-2xl ml-1"></i>
+                                            </button>
+                                            <div class="absolute w-16 h-16 rounded-full bg-primary/40 animate-ring -z-10"></div>
+                                        </div>
+                                    </div>
+                            
+                                    <!-- Bottom: Details -->
+                                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end z-20">
+                                        <div class="text-white text-shadow-sm pr-3">
+                                            <div class="text-lg font-bold leading-tight drop-shadow-md" x-text="selectedTrail.name">Spirit Mountain</div>
+                                            <div class="text-[12px] font-medium text-white/80 mt-1 flex items-center gap-1.5"><i class="ph-fill ph-map-pin text-primary"></i> <span x-text="selectedTrail.loc">Duluth, MN</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- MODE 2: FULL ROUTE MAP VIEW -->
+                                <div x-show="previewMode === 'map'" style="display: none;" class="absolute inset-0 w-full h-full bg-[#1a1c23] flex flex-col select-none overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-85" alt="Map Base">
+                                    
+                                    <!-- Top Navigation (Floating Map Header) -->
+                                    <div class="absolute top-3 inset-x-3 z-30">
+                                        <div class="bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] shadow-xl rounded-2xl p-2.5 flex flex-col gap-2">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center gap-1.5">
+                                                    <div class="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 rounded-lg">
+                                                        <i class="ph-fill ph-check-circle text-xs"></i>
+                                                        <span class="text-[11px] font-bold tracking-wide">Discovery</span>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center gap-1.5">
+                                                    <span class="bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-[11px] font-bold px-2 py-0.5 rounded-md tracking-wide" x-text="selectedTrail.dist">4.2 km</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Map Route Mockup -->
+                                    <svg class="absolute inset-0 w-full h-full pointer-events-none drop-shadow-lg z-10" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                        <path d="M 20 80 Q 40 50 60 20 L 80 40 L 70 90" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+
+                                    <!-- Bottom Sheet Tabs on Map -->
+                                    <div class="absolute bottom-3 inset-x-0 z-30 flex flex-col gap-2">
+                                        <div class="px-3 flex gap-1.5">
+                                            <button 
+                                                @click="mapBottomTab = 'waypoints'"
+                                                :class="mapBottomTab === 'waypoints' ? 'bg-primary text-white border-primary/40 shadow-sm' : 'bg-card/90 dark:bg-[#12182A]/90 text-foreground border-border dark:border-[#2D3C5C] hover:bg-card'"
+                                                class="border backdrop-blur-xl px-3 py-1 rounded-full text-[11px] font-bold flex items-center gap-1 transition-all active:scale-[0.97]">
+                                                <i class="ph-fill ph-map-pin text-xs"></i> Key Points (4)
+                                            </button>
+                                            <button 
+                                                @click="mapBottomTab = 'elevation'"
+                                                :class="mapBottomTab === 'elevation' ? 'bg-primary text-white border-primary/40 shadow-sm' : 'bg-card/90 dark:bg-[#12182A]/90 text-foreground border-border dark:border-[#2D3C5C] hover:bg-card'"
+                                                class="border backdrop-blur-xl px-3 py-1 rounded-full text-[11px] font-semibold flex items-center gap-1 transition-all active:scale-[0.97]">
+                                                <i class="ph-bold ph-chart-line-up text-xs"></i> Elevation Graph
+                                            </button>
+                                        </div>
+
+                                        <!-- Waypoints Cards -->
+                                        <div x-show="mapBottomTab === 'waypoints'" class="flex overflow-x-auto no-scrollbar snap-x px-3 gap-2">
+                                            <div class="w-[210px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2 shadow-lg flex items-center gap-2 snap-start shrink-0">
+                                                <div class="w-8 h-8 rounded-lg bg-emerald-500/15 flex items-center justify-center shrink-0">
+                                                    <i class="ph-fill ph-flag text-emerald-400 text-sm"></i>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="text-[11px] font-bold text-foreground truncate">Start Point</div>
+                                                    <div class="text-[9px] text-muted-foreground">725m elevation</div>
+                                                </div>
+                                            </div>
+                                            <div class="w-[210px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2 shadow-lg flex items-center gap-2 snap-start shrink-0">
+                                                <div class="w-8 h-8 rounded-lg bg-purple-500/15 flex items-center justify-center shrink-0 text-purple-400 font-bold text-xs">
+                                                    Summit
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <div class="text-[11px] font-bold text-foreground truncate">Ridge Summit</div>
+                                                    <div class="text-[9px] text-muted-foreground">1,075m elevation</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Elevation SVG -->
+                                        <div x-show="mapBottomTab === 'elevation'" style="display: none;" class="mx-3 bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2 shadow-xl flex flex-col gap-1">
+                                            <div class="flex items-center justify-between text-[10px]">
+                                                <span class="font-bold text-foreground">Elevation Profile</span>
+                                                <span class="text-emerald-400 font-bold">+350m gain</span>
+                                            </div>
+                                            <div class="relative w-full h-[45px]">
+                                                <svg class="w-full h-full overflow-visible" viewBox="0 0 320 60" preserveAspectRatio="none">
+                                                    <path d="M 20 45 C 80 40, 160 12, 230 10 C 270 10, 300 35, 300 45 L 300 55 L 20 55 Z" fill="#5B4BFF" fill-opacity="0.25" />
+                                                    <path d="M 20 45 C 80 40, 160 12, 230 10 C 270 10, 300 35, 300 45" fill="none" stroke="#5B4BFF" stroke-width="2" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="w-full h-11 pl-10 pr-10 rounded-xl bg-input/50 backdrop-blur-sm border border-border/50 text-[13px] text-foreground font-medium flex items-center truncate">
-                                https://tourmkr.com/F1PWHsBHrg
+
+                            <!-- TABS SWITCHER -->
+                            <div class="w-full bg-secondary/80 dark:bg-[#151c2e] p-1 rounded-2xl border border-border flex items-center shadow-sm mt-3.5 select-none">
+                                <button 
+                                    @click="previewMode = '360'" 
+                                    :class="previewMode === '360' ? 'bg-card text-foreground shadow-sm font-bold border border-border/50' : 'text-muted-foreground hover:text-foreground font-semibold'" 
+                                    class="flex-1 py-2 px-3 rounded-xl text-[13px] flex items-center justify-center gap-2 transition-all outline-none">
+                                    <i class="ph-fill ph-cube text-primary text-base"></i>
+                                    <span>360° Scene</span>
+                                </button>
+                                <button 
+                                    @click="previewMode = 'map'" 
+                                    :class="previewMode === 'map' ? 'bg-card text-foreground shadow-sm font-bold border border-border/50' : 'text-muted-foreground hover:text-foreground font-semibold'" 
+                                    class="flex-1 py-2 px-3 rounded-xl text-[13px] flex items-center justify-center gap-2 transition-all outline-none">
+                                    <i class="ph-fill ph-map-trifold text-primary text-base"></i>
+                                    <span>Route Map</span>
+                                </button>
                             </div>
-                            <button class="absolute inset-y-0 right-0 pr-3.5 flex items-center z-10 outline-none">
-                                <i class="ph ph-x text-muted-foreground hover:text-foreground transition-colors text-base"></i>
-                            </button>
+                        </div>
+
+                        <!-- Route Overview -->
+                        <div class="rounded-2xl border border-border bg-card p-4 flex items-center gap-4 mb-6 shadow-sm">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                <i class="ph-fill ph-path text-primary text-lg"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-[14px] text-foreground font-bold">Route Overview</div>
+                                <div class="text-[11px] text-muted-foreground font-medium mt-0.5">4 waypoints recorded</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-[15px] font-bold text-foreground" x-text="selectedTrail.dist">4.2 km</div>
+                                <div class="text-[11px] text-muted-foreground font-medium mt-0.5 flex items-center justify-end gap-1"><i class="ph ph-mountains"></i> +350 m</div>
+                            </div>
+                        </div>
+
+                        <!-- Difficulty -->
+                        <div class="mb-6">
+                            <h2 class="text-[13px] font-semibold text-foreground mb-3 px-1">Difficulty</h2>
+                            <div class="flex p-1 bg-secondary rounded-xl">
+                                <button @click="difficulty = 'Easy'" :class="difficulty === 'Easy' ? 'bg-card text-foreground font-semibold shadow-sm' : 'text-muted-foreground'" class="flex-1 h-9 rounded-lg text-[12px] font-medium transition-all">Easy</button>
+                                <button @click="difficulty = 'Moderate'" :class="difficulty === 'Moderate' ? 'bg-card text-foreground font-semibold shadow-sm' : 'text-muted-foreground'" class="flex-1 h-9 rounded-lg text-[12px] font-medium transition-all">Moderate</button>
+                                <button @click="difficulty = 'Hard'" :class="difficulty === 'Hard' ? 'bg-card text-foreground font-semibold shadow-sm' : 'text-muted-foreground'" class="flex-1 h-9 rounded-lg text-[12px] font-medium transition-all">Hard</button>
+                                <button @click="difficulty = 'Expert'" :class="difficulty === 'Expert' ? 'bg-card text-foreground font-semibold shadow-sm' : 'text-muted-foreground'" class="flex-1 h-9 rounded-lg text-[12px] font-medium transition-all">Expert</button>
+                            </div>
+                        </div>
+
+                        <!-- Activity -->
+                        <div class="mb-8">
+                            <h2 class="text-[13px] font-semibold text-foreground mb-3 px-1">Activity</h2>
+                            <div class="flex p-1 bg-secondary rounded-xl overflow-x-auto no-scrollbar snap-x">
+                                <button @click="activity = 'Hiking'" :class="activity === 'Hiking' ? 'bg-card text-foreground font-semibold shadow-sm' : 'text-muted-foreground'" class="flex-none px-4 h-9 rounded-lg text-[12px] font-medium flex items-center gap-1.5 snap-start transition-all">
+                                    <i class="ph-fill ph-boot text-primary"></i> Hiking
+                                </button>
+                                <button @click="activity = 'Trail Run'" :class="activity === 'Trail Run' ? 'bg-card text-foreground font-semibold shadow-sm' : 'text-muted-foreground'" class="flex-none px-4 h-9 rounded-lg text-[12px] font-medium flex items-center gap-1.5 snap-start transition-all">
+                                    <i class="ph-fill ph-person-simple-run"></i> Trail Run
+                                </button>
+                                <button @click="activity = 'MTB'" :class="activity === 'MTB' ? 'bg-card text-foreground font-semibold shadow-sm' : 'text-muted-foreground'" class="flex-none px-4 h-9 rounded-lg text-[12px] font-medium flex items-center gap-1.5 snap-start transition-all">
+                                    <i class="ph-fill ph-bicycle"></i> MTB
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    
-                    <button class="w-full h-11 rounded-xl bg-primary text-primary-foreground text-[14px] font-semibold flex items-center justify-center gap-2 hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md outline-none mb-6">
-                        <i class="ph ph-magic-wand text-lg"></i> Apply & Preview Embed
+                </div>
+
+                <!-- Fixed Bottom Actions Bar -->
+                <div class="absolute bottom-0 inset-x-0 p-4 pb-6 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex items-center justify-between gap-3 select-none">
+                    <button @click="flowStep = 'step1'" class="flex-1 h-11 px-3 rounded-xl border border-border bg-card text-foreground text-[13px] font-semibold flex items-center justify-center gap-1.5 hover:bg-secondary active:scale-[0.98] transition-all shadow-sm outline-none whitespace-nowrap">
+                        <i class="ph ph-arrow-left text-base text-muted-foreground"></i>
+                        <span>Back</span>
+                    </button>
+                    <button @click="flowStep = 'step3'" class="flex-1 h-11 px-3 rounded-xl bg-primary text-primary-foreground text-[13px] font-semibold flex items-center justify-center gap-1.5 hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md outline-none whitespace-nowrap">
+                        <span>Next</span>
+                        <i class="ph ph-arrow-right text-base"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- STEP 3: CONFIRMATION & PUBLISH                 -->
+            <!-- ============================================== -->
+            <div x-show="flowStep === 'step3'" style="display: none;" class="absolute inset-0 flex flex-col bg-background">
+                <!-- Status Bar -->
+                <div class="h-12 flex justify-between items-center px-6 text-[15px] font-semibold shrink-0 bg-background select-none">
+                    <span>9:41</span>
+                    <div class="flex gap-2 items-center">
+                        <i class="ph-fill ph-cell-signal-full text-[15px]"></i>
+                        <i class="ph-fill ph-wifi-high text-[15px]"></i>
+                        <i class="ph-fill ph-battery-full text-[20px]"></i>
+                    </div>
+                </div>
+
+                <!-- Scrollable Content -->
+                <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-32 bg-background">
+                    <!-- Title Header -->
+                    <div class="flex items-center gap-4 px-6 mt-3 mb-8 select-none">
+                        <button @click="flowStep = 'step2'" class="p-2 -ml-2 text-muted-foreground hover:text-foreground active:scale-95 transition-transform"><i class="ph ph-arrow-left text-2xl"></i></button>
+                        <div>
+                            <h1 class="text-[16px] text-foreground font-semibold leading-tight">Create New Post</h1>
+                            <p class="text-[12px] font-medium text-muted-foreground mt-0.5">Share & Explore</p>
+                        </div>
+                    </div>
+
+                    <div class="px-6">
+                        <!-- Step Indicator -->
+                        <div class="flex items-center justify-between mb-5 select-none">
+                            <div class="text-[14px] font-semibold text-foreground">Step 3: <span class="font-bold">Description & Review</span></div>
+                            <div class="text-[12px] font-medium text-primary bg-primary/10 px-2.5 py-0.5 rounded-full">3 Out of 3</div>
+                        </div>
+
+                        <div class="flex flex-col gap-5">
+                            <!-- Hero Preview Card -->
+                            <div class="rounded-[1.5rem] bg-card border border-border/80 dark:border-[#202B42] overflow-hidden shadow-md relative group aspect-[16/10] w-full isolate">
+                                <img :src="selectedTrail.img" alt="Spirit Mountain 360" class="absolute inset-0 w-full h-full object-cover">
+                                <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none"></div>
+                                <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 pointer-events-none"></div>
+                                
+                                <div class="absolute top-3 left-3 z-20 flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-slate-700/60 text-white text-[11px] font-semibold">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    <span>360° Scene</span>
+                                </div>
+
+                                <div class="absolute bottom-3 left-3 z-20 text-white pr-24 pointer-events-none">
+                                    <div class="text-[13px] font-bold leading-tight drop-shadow-md" x-text="selectedTrail.name">Spirit Mountain</div>
+                                    <div class="text-[10px] text-white/80 flex items-center gap-1 mt-0.5">
+                                        <i class="ph-fill ph-map-pin text-emerald-400"></i> <span x-text="selectedTrail.loc">Duluth, MN</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="flex flex-col gap-2">
+                                <div class="flex items-center justify-between px-1">
+                                    <label class="text-[13px] font-semibold text-foreground flex items-center gap-1.5">
+                                        <i class="ph-bold ph-pencil-simple text-primary text-sm"></i> Description
+                                    </label>
+                                    <span class="text-[11px] text-muted-foreground font-medium" x-text="`${description.length} chars`"></span>
+                                </div>
+
+                                <div class="bg-card border border-border dark:border-[#202B42] rounded-2xl p-3 flex flex-col gap-2 shadow-sm focus-within:border-primary/60 transition-colors">
+                                    <textarea 
+                                        x-model="description"
+                                        rows="2" 
+                                        placeholder="Write a caption for this virtual tour..."
+                                        class="w-full bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground resize-none outline-none leading-relaxed"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Category -->
+                            <div class="flex flex-col gap-2">
+                                <h3 class="text-[13px] font-semibold text-foreground px-1">Category</h3>
+                                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                                    <button 
+                                        @click="category = 'trail'"
+                                        :class="category === 'trail' ? 'bg-primary text-white border-primary/40 shadow-sm shadow-primary/20' : 'bg-card border-border dark:border-[#202B42] text-muted-foreground hover:text-foreground'"
+                                        class="px-3.5 py-2 rounded-xl border text-[12px] font-semibold flex items-center gap-1.5 shrink-0 transition-all active:scale-95">
+                                        <i class="ph-fill ph-boot text-sm"></i> Trail
+                                    </button>
+                                    <button 
+                                        @click="category = 'nature'"
+                                        :class="category === 'nature' ? 'bg-primary text-white border-primary/40 shadow-sm shadow-primary/20' : 'bg-card border-border dark:border-[#202B42] text-muted-foreground hover:text-foreground'"
+                                        class="px-3.5 py-2 rounded-xl border text-[12px] font-semibold flex items-center gap-1.5 shrink-0 transition-all active:scale-95">
+                                        <i class="ph-fill ph-tree text-sm"></i> Nature
+                                    </button>
+                                    <button 
+                                        @click="category = 'stay'"
+                                        :class="category === 'stay' ? 'bg-primary text-white border-primary/40 shadow-sm shadow-primary/20' : 'bg-card border-border dark:border-[#202B42] text-muted-foreground hover:text-foreground'"
+                                        class="px-3.5 py-2 rounded-xl border text-[12px] font-semibold flex items-center gap-1.5 shrink-0 transition-all active:scale-95">
+                                        <i class="ph-fill ph-bed text-sm"></i> Stay
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Author Card -->
+                            <div class="bg-card border border-border dark:border-[#202B42] rounded-2xl p-3.5 flex items-center justify-between shadow-sm">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center font-bold text-primary text-sm">
+                                        AR
+                                    </div>
+                                    <div>
+                                        <div class="text-[13px] font-bold text-foreground">Alex Rivera</div>
+                                        <div class="text-[11px] text-muted-foreground">alex.rivera@tourmkr.com</div>
+                                    </div>
+                                </div>
+                                <span class="text-[10px] bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full">Author</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fixed Bottom Actions Bar -->
+                <div class="absolute bottom-0 inset-x-0 p-4 pb-6 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex flex-col items-center gap-2.5 select-none">
+                    <button 
+                        @click="publishPost()"
+                        :disabled="isPublishing"
+                        class="w-full h-12 px-4 rounded-xl bg-primary text-primary-foreground text-[14px] font-bold flex items-center justify-center gap-2 hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md shadow-primary/20 outline-none"
+                    >
+                        <i x-show="!isPublishing" class="ph-bold ph-paper-plane-tilt text-base"></i>
+                        <i x-show="isPublishing" style="display: none;" class="ph-bold ph-spinner animate-spin text-base"></i>
+                        <span x-text="isPublishing ? 'Publishing...' : 'Publish Post'">Publish Post</span>
+                    </button>
+                    <button @click="flowStep = 'step2'" class="text-[12px] font-semibold text-muted-foreground hover:text-foreground transition-colors py-0.5">
+                        Kembali ke Step 2
+                    </button>
+                </div>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- STEP 4: LIVE POST DETAIL 360 (FINAL PUBLISHED) -->
+            <!-- ============================================== -->
+            <div x-show="flowStep === 'detail'" style="display: none;" class="absolute inset-0 flex flex-col bg-black">
+                <!-- 360 Background Image (Ocean Beach Sunset) -->
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0" alt="Beach 360">
+
+                <!-- Dark overlay at top for text legibility -->
+                <div class="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none"></div>
+
+                <!-- Status Bar -->
+                <div class="absolute top-0 inset-x-0 h-12 flex justify-between items-center px-6 text-[14px] font-semibold text-white z-20 select-none">
+                    <span>14:19</span>
+                    <div class="flex gap-2 items-center">
+                        <i class="ph-fill ph-cell-signal-full"></i>
+                        <i class="ph-bold ph-wifi-high"></i>
+                        <div class="flex items-center gap-1">
+                            <span class="text-xs">66</span>
+                            <i class="ph-fill ph-battery-full text-lg"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Navigation area -->
+                <div class="absolute top-12 inset-x-0 px-4 flex justify-between gap-2.5 z-20 select-none">
+                    <button @click="flowStep = 'step3'" class="w-[42px] h-[42px] rounded-[14px] bg-black/60 backdrop-blur-md flex items-center justify-center text-white active:scale-95 transition-transform shrink-0 border border-slate-700/60 outline-none" title="Kembali ke Edit Post">
+                        <i class="ph-bold ph-arrow-left text-lg"></i>
                     </button>
                     
-                    <div class="rounded-2xl border border-primary/20 bg-primary/[0.02] p-4 flex flex-col gap-3 mb-6">
-                        <div class="flex items-center gap-2">
-                            <i class="ph-fill ph-lightning text-primary text-lg"></i>
-                            <span class="text-[13px] font-semibold text-foreground">Automatic Trail Discovery</span>
-                        </div>
-                        <p class="text-[12px] text-muted-foreground leading-relaxed">
-                            TourMkr virtual tours and trails will automatically sync route waypoints, elevation profile, and 360° scenes.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mt-1">
-                            <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background border border-border text-[11px] font-medium text-foreground">
-                                <i class="ph-fill ph-check-circle text-primary text-[10px]"></i> Waypoints
-                            </div>
-                            <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background border border-border text-[11px] font-medium text-foreground">
-                                <i class="ph-fill ph-mountains text-primary text-[10px]"></i> Elevation
-                            </div>
-                            <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background border border-border text-[11px] font-medium text-foreground">
-                                <i class="ph-fill ph-crosshair text-primary text-[10px]"></i> GPS Coords
-                            </div>
+                    <div class="flex-1 min-w-0 h-[46px] rounded-[16px] bg-black/60 backdrop-blur-md flex flex-col justify-center px-4 border border-slate-700/60 overflow-hidden">
+                        <h1 class="text-[13px] font-bold text-white leading-tight truncate">PT. Go Thru Media Indonesia</h1>
+                        <div class="flex items-center gap-1 mt-0.5">
+                            <i class="ph-fill ph-map-pin text-[10px] text-gray-300 shrink-0"></i>
+                            <p class="text-[10px] font-medium text-gray-300 truncate">Wanareja, Subang, Subang Regency...</p>
                         </div>
                     </div>
 
-                    <!-- Hidden old source buttons -->
-                    <div style="display: none;">
-                        <div class="flex items-center justify-between mb-3 px-1 select-none">
-                            <h2 class="text-[13px] font-semibold text-foreground">Tourmkr Source</h2>
-                            <i class="ph-fill ph-info text-primary text-base"></i>
-                        </div>
-                        
-                        <div class="rounded-2xl border border-border bg-card shadow-sm flex flex-col overflow-hidden">
-                            <button @click="openModal('data')" class="flex items-center justify-between p-4 border-b border-border hover:bg-secondary active:bg-secondary/70 transition-colors text-left group outline-none">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-xl bg-secondary group-hover:bg-background flex items-center justify-center transition-colors shrink-0 border border-border/50">
-                                        <i class="ph ph-list-dashes text-xl text-foreground"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-[14px] text-foreground font-semibold">Select from my Tourmkr</div>
-                                        <div class="text-[12px] text-muted-foreground font-medium mt-1">Simulate Data Loaded</div>
-                                    </div>
-                                </div>
-                                <i class="ph ph-caret-right text-muted-foreground group-hover:text-foreground transition-colors text-lg"></i>
-                            </button>
-                            
-                            <button @click="openModal('empty')" class="flex items-center justify-between p-4 flex items-center justify-between border-b border-border hover:bg-secondary active:bg-secondary/70 transition-colors text-left group outline-none">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-xl bg-secondary group-hover:bg-background flex items-center justify-center transition-colors shrink-0 border border-border/50">
-                                        <i class="ph ph-list-dashes text-xl text-foreground"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-[14px] text-foreground font-semibold">Select from my Tourmkr (Empty)</div>
-                                        <div class="text-[12px] text-amber-500 font-medium mt-1">Simulates 0 trails/tours</div>
-                                    </div>
-                                </div>
-                                <i class="ph ph-caret-right text-muted-foreground group-hover:text-foreground transition-colors text-lg"></i>
-                            </button>
-
-                            <button class="flex items-center justify-between p-4 hover:bg-secondary active:bg-secondary/70 transition-colors text-left group outline-none">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-10 h-10 rounded-xl bg-secondary group-hover:bg-background flex items-center justify-center transition-colors shrink-0 border border-border/50">
-                                        <i class="ph ph-link text-xl text-foreground"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-[14px] text-foreground font-semibold">Add link from Tourmkr</div>
-                                        <div class="text-[12px] text-muted-foreground font-medium mt-1">Paste a Tourmkr URL</div>
-                                    </div>
-                                </div>
-                                <i class="ph ph-caret-right text-muted-foreground group-hover:text-foreground transition-colors text-lg"></i>
-                            </button>
-                        </div>
-                        <div class="flex gap-4 px-2 select-none items-start mt-6">
-                            <div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                                <i class="ph-fill ph-check-shield text-primary text-[12px]"></i>
-                            </div>
-                            <div class="text-[12px] text-muted-foreground font-medium leading-relaxed">
-                                Your Tourmkr data will be fetched securely using your connected account.
-                                <br><a href="#" class="text-primary hover:underline font-semibold mt-1 inline-block">New to Tourmkr? Create an account</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fixed Bottom Actions Bar -->
-            <div class="absolute bottom-0 inset-x-0 p-4 pb-6 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex items-center justify-between gap-3 select-none">
-                <button class="flex-1 h-11 px-3 rounded-xl border border-border bg-card text-foreground text-[13px] font-semibold flex items-center justify-center gap-1.5 hover:bg-secondary active:scale-[0.98] transition-all shadow-sm outline-none whitespace-nowrap">
-                    <i class="ph ph-arrow-left text-base text-muted-foreground"></i>
-                    <span>Change method</span>
-                </button>
-                <button @click="activePhone = 'step2'" class="flex-1 h-11 px-3 rounded-xl bg-primary text-primary-foreground text-[13px] font-semibold flex items-center justify-center gap-1.5 hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md outline-none whitespace-nowrap">
-                    <span>Next</span>
-                    <i class="ph ph-arrow-right text-base"></i>
-                </button>
-            </div>
-
-            <!-- FULLSCREEN EXPANDED PREVIEW MODAL -->
-            <div 
-                x-show="fullscreenOpen" 
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100 scale-100"
-                x-transition:leave-end="opacity-0 scale-95"
-                style="display: none;" 
-                class="absolute inset-0 z-50 bg-black flex flex-col select-none overflow-hidden"
-            >
-                <!-- Mode 1: Fullscreen 360 View -->
-                <div x-show="previewMode === '360'" class="absolute inset-0 w-full h-full">
-                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Fullscreen 360">
-                    
-                    <!-- Scrim Gradients -->
-                    <div class="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-black/85 via-black/40 to-transparent pointer-events-none z-10"></div>
-                    <div class="absolute bottom-0 inset-x-0 h-44 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none z-10"></div>
-
-                    <!-- Top Header Navigation -->
-                    <div class="absolute top-12 inset-x-4 flex items-center justify-between z-20">
-                        <button @click="fullscreenOpen = false" class="h-10 px-3.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white font-semibold text-[13px] flex items-center gap-1.5 shadow-lg active:scale-95 transition-all outline-none">
-                            <i class="ph-bold ph-arrows-in text-base text-primary"></i>
-                            <span>Tutup</span>
-                        </button>
-
-                        <!-- Mode Switcher in Fullscreen -->
-                        <div class="bg-black/60 backdrop-blur-md p-1 rounded-full border border-white/20 flex items-center gap-1 shadow-lg">
-                            <button 
-                                @click="previewMode = '360'" 
-                                class="px-3 py-1 rounded-full text-[11px] font-bold bg-primary text-white shadow-sm">
-                                360° Scene
-                            </button>
-                            <button 
-                                @click="previewMode = 'map'" 
-                                class="px-3 py-1 rounded-full text-[11px] font-bold text-white/70 hover:text-white transition-colors">
-                                Route Map
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Center 360 Rotation Hint -->
-                    <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 z-20 pointer-events-none">
-                        <div class="w-20 h-20 rounded-full bg-primary/90 backdrop-blur-md text-white flex items-center justify-center shadow-[0_0_40px_rgba(91,75,255,0.7)] pointer-events-auto hover:scale-105 active:scale-95 transition-transform">
-                            <i class="ph-fill ph-play text-3xl ml-1"></i>
-                        </div>
-                        <div class="bg-black/50 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-full text-[12px] font-medium flex items-center gap-2 shadow-xl animate-pulse">
-                            <i class="ph-bold ph-arrows-horizontal text-primary text-base"></i>
-                            <span>Geser untuk menjelajahi 360°</span>
-                        </div>
-                    </div>
-
-                    <!-- Bottom Info Bar -->
-                    <div class="absolute bottom-6 inset-x-5 z-20 flex items-end justify-between">
-                        <div class="text-white">
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="bg-primary/90 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm">
-                                    Live 360° Panorama
-                                </span>
-                            </div>
-                            <h2 class="text-xl font-bold drop-shadow-md">Spirit Mountain</h2>
-                            <p class="text-[12px] text-white/80 flex items-center gap-1 mt-0.5"><i class="ph-fill ph-map-pin text-primary"></i> Duluth, Minnesota</p>
-                        </div>
-
-                        <!-- Compass Widget -->
-                        <div class="w-11 h-11 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg">
-                            <i class="ph-bold ph-compass text-xl text-primary"></i>
-                        </div>
-                    </div>
+                    <button class="w-[42px] h-[42px] rounded-[14px] bg-black/60 backdrop-blur-md flex items-center justify-center text-white active:scale-95 transition-transform shrink-0 border border-slate-700/60 outline-none">
+                        <i class="ph-bold ph-dots-three text-xl"></i>
+                    </button>
                 </div>
 
-                <!-- Mode 2: Fullscreen Map View (Identik dengan tourmkr_states_map_focus.html) -->
-                <div x-show="previewMode === 'map'" style="display: none;" class="absolute inset-0 w-full h-full bg-[#e5e5e5] dark:bg-[#1a1c23] flex flex-col select-none overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-luminosity dark:mix-blend-normal" alt="Fullscreen Map">
-                    
-                    <!-- Top Navigation (Floating Map Header) -->
-                    <div class="absolute top-12 inset-x-4 z-30">
-                        <div class="bg-[#FFFFFF]/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] shadow-xl rounded-[20px] p-3 flex flex-col gap-2.5">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
-                                    <button @click="fullscreenOpen = false" class="w-9 h-9 rounded-full bg-secondary/80 dark:bg-[#162035] border border-border dark:border-[#2D3C5C] hover:bg-secondary dark:hover:bg-[#25324E] flex items-center justify-center text-foreground outline-none transition-all shadow-sm active:scale-95">
-                                        <i class="ph ph-x text-lg"></i>
-                                    </button>
-                                    <div class="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-100 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-400 rounded-lg">
-                                        <i class="ph-fill ph-check-circle text-[14px]"></i>
-                                        <span class="text-[12px] font-bold tracking-wide">Discovery</span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <div class="bg-secondary/80 dark:bg-[#162035] p-1 rounded-xl border border-border dark:border-[#2D3C5C] flex items-center gap-0.5">
-                                        <button @click="previewMode = '360'" class="px-2.5 py-1 rounded-lg text-[11px] font-bold text-muted-foreground hover:text-foreground transition-colors">360°</button>
-                                        <button @click="previewMode = 'map'" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-primary text-white shadow-sm">Map</button>
-                                    </div>
-                                    <div class="flex text-[11px] font-bold gap-0.5 text-foreground bg-secondary/80 dark:bg-[#162035] border border-border dark:border-[#2D3C5C] px-1 py-1 rounded-xl shadow-sm items-center">
-                                        <button class="w-7 h-7 rounded-lg text-foreground hover:bg-white dark:hover:bg-[#25324E] active:scale-95 flex items-center justify-center transition-all"><i class="ph-bold ph-minus text-sm"></i></button>
-                                        <div class="w-px h-3.5 bg-slate-300 dark:bg-[#2E3F61] mx-0.5"></div>
-                                        <button class="px-2 h-7 rounded-lg text-[10px] font-bold text-foreground hover:bg-white dark:hover:bg-[#25324E] active:scale-95 flex items-center justify-center transition-all tracking-wider">FIT</button>
-                                        <div class="w-px h-3.5 bg-slate-300 dark:bg-[#2E3F61] mx-0.5"></div>
-                                        <button class="w-7 h-7 rounded-lg text-foreground hover:bg-white dark:hover:bg-[#25324E] active:scale-95 flex items-center justify-center transition-all"><i class="ph-bold ph-plus text-sm"></i></button>
-                                    </div>
-                                </div>
+                <!-- Floating Restart Button for Client Experience -->
+                <button 
+                    @click="restartFlow()" 
+                    class="absolute top-28 left-1/2 -translate-x-[40%] z-30 bg-primary/90 hover:bg-primary text-white text-[11px] font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 backdrop-blur-md active:scale-95 transition-all outline-none"
+                    title="Ulangi simulasi alur dari awal"
+                >
+                    <i class="ph-bold ph-arrow-counter-clockwise"></i>
+                    <span>Coba Lagi Dari Awal</span>
+                </button>
+
+                <!-- Stove Hotspot -->
+                <div class="absolute top-[48%] left-1/2 -translate-x-[40%] -translate-y-1/2 flex flex-col items-center gap-2 z-20 select-none">
+                    <div class="bg-[#F8F9FA] px-4 py-[5px] rounded-full text-gray-900 font-semibold text-[13px] shadow-lg">
+                        Stove Info
+                    </div>
+                    <button class="relative w-12 h-12 flex items-center justify-center group outline-none">
+                        <div class="absolute inset-0 bg-[#00A3FF] rounded-full opacity-60 animate-ring"></div>
+                        <div class="w-6 h-6 bg-[#00A3FF] border-2 border-white rounded-full shadow-md z-10 group-active:scale-90 transition-transform"></div>
+                    </button>
+                </div>
+
+                <!-- Right Action Sidebar -->
+                <div class="absolute right-3.5 bottom-48 flex flex-col items-center gap-4 z-20 select-none drop-shadow-md">
+                    <button @click="toggleLike()" class="flex flex-col items-center gap-1 active:scale-90 transition-transform outline-none group text-white">
+                        <div class="w-[42px] h-[42px] rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60 transition-colors" :class="isLiked ? 'text-red-500 border-red-500/50 bg-red-500/20' : 'group-hover:bg-black/60'">
+                            <i class="text-[22px]" :class="isLiked ? 'ph-fill ph-heart text-red-500' : 'ph ph-heart'"></i>
+                        </div>
+                        <span class="text-[11px] font-bold drop-shadow-sm" x-text="likesCount">0</span>
+                    </button>
+                    <button class="flex flex-col items-center gap-1 active:scale-90 transition-transform outline-none group text-white">
+                        <div class="w-[42px] h-[42px] rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60 group-hover:bg-black/60 transition-colors">
+                            <i class="ph ph-chat-circle text-[22px]"></i>
+                        </div>
+                        <span class="text-[11px] font-bold drop-shadow-sm">0</span>
+                    </button>
+                    <button @click="isBookmarked = !isBookmarked" class="flex flex-col items-center gap-1 active:scale-90 transition-transform outline-none group text-white">
+                        <div class="w-[42px] h-[42px] rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60 transition-colors" :class="isBookmarked ? 'text-amber-400 border-amber-400/50 bg-amber-400/20' : 'group-hover:bg-black/60'">
+                            <i class="text-[22px]" :class="isBookmarked ? 'ph-fill ph-bookmark-simple text-amber-400' : 'ph ph-bookmark-simple'"></i>
+                        </div>
+                        <span class="text-[11px] font-bold drop-shadow-sm" x-text="isBookmarked ? 1 : 0">0</span>
+                    </button>
+                    <button class="flex flex-col items-center gap-1 active:scale-90 transition-transform outline-none group text-white">
+                        <div class="w-[42px] h-[42px] rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60 group-hover:bg-black/60 transition-colors">
+                            <i class="ph ph-share-fat text-[22px]"></i>
+                        </div>
+                        <span class="text-[11px] font-bold drop-shadow-sm">0</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Gradient Overlay -->
+                <div class="absolute bottom-0 inset-x-0 h-64 bg-gradient-to-t from-black via-black/60 to-transparent z-10 pointer-events-none"></div>
+
+                <!-- Bottom Content -->
+                <div class="absolute bottom-0 inset-x-0 z-20 flex flex-col px-4 pb-4 select-none">
+                    <!-- TourMkr Badge -->
+                    <div class="flex mb-4">
+                        <div class="flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-2 py-1.5 rounded-[8px] border border-slate-700/60">
+                            <div class="w-4 h-4 bg-primary rounded-[4px] flex items-center justify-center shrink-0">
+                                <i class="ph-fill ph-mountains text-white text-[10px]"></i>
                             </div>
-                            
-                            <!-- Stats Strip -->
-                            <div class="flex items-center gap-2.5 px-1">
-                                <span class="bg-indigo-100/80 text-primary dark:bg-indigo-500/15 border border-indigo-200 dark:border-indigo-500/30 dark:text-indigo-300 text-[13px] font-bold px-2.5 py-1 rounded-lg tracking-wide">4.2 km</span>
-                                <span class="bg-blue-100 text-blue-700 dark:bg-blue-500/15 border border-blue-200 dark:border-blue-500/30 dark:text-blue-300 text-[12px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
-                                    <i class="ph-bold ph-trend-up"></i> +350m
-                                </span>
-                                <span class="bg-orange-100 text-orange-700 dark:bg-orange-500/15 border border-orange-200 dark:border-orange-500/30 dark:text-orange-300 text-[12px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1">
-                                    <i class="ph-bold ph-trend-down"></i> -95m
-                                </span>
-                            </div>
+                            <span class="text-[10px] font-bold text-white tracking-wide">TourMkr</span>
                         </div>
                     </div>
 
-                    <!-- Map Route Mockup -->
-                    <svg class="absolute inset-0 w-full h-full pointer-events-none drop-shadow-lg z-10" viewBox="0 0 100 100" preserveAspectRatio="none">
-                        <path d="M 20 80 Q 40 50 60 20 L 80 40 L 70 90" fill="none" stroke="#22c55e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-
-                    <!-- Waypoint Pins on Map -->
-                    <!-- Pin 1: Start -->
-                    <div class="absolute top-[80%] left-[20%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-                        <div class="bg-emerald-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-md mb-1 whitespace-nowrap">Start</div>
-                        <div class="w-5 h-5 rounded-full bg-emerald-500 border-[2.5px] border-card dark:border-[#0B1020] shadow-lg flex items-center justify-center">
-                            <i class="ph-bold ph-flag text-[10px] text-white"></i>
-                        </div>
-                    </div>
-                    <!-- Pin 2 -->
-                    <div class="absolute top-[40%] left-[80%] -translate-x-1/2 -translate-y-1/2 z-20">
-                        <div class="w-4 h-4 rounded-full bg-orange-500 border-[2.5px] border-card dark:border-[#0B1020] shadow-md"></div>
-                    </div>
-                    <!-- Pin 3: Highest -->
-                    <div class="absolute top-[20%] left-[60%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-                        <div class="bg-blue-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-md mb-1 whitespace-nowrap">Highest</div>
-                        <div class="w-5 h-5 rounded-full bg-blue-500 border-[2.5px] border-card dark:border-[#0B1020] shadow-md flex items-center justify-center">
-                            <i class="ph-bold ph-mountains text-[10px] text-white"></i>
-                        </div>
-                    </div>
-                    <!-- Pin 4: Finish -->
-                    <div class="absolute top-[90%] left-[70%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-                        <div class="w-4 h-4 rounded-full bg-red-500 border-[2.5px] border-card dark:border-[#0B1020] shadow-md"></div>
-                        <div class="bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-md mt-1 whitespace-nowrap">Finish</div>
-                    </div>
-
-                    <!-- Bottom Sheet (Floating Waypoints / Elevation Profile) -->
-                    <div x-data="{ mapBottomTab: 'waypoints' }" class="absolute bottom-6 inset-x-0 z-30 flex flex-col gap-3">
-                        <!-- Tabs -->
-                        <div class="px-4 flex gap-2">
-                            <button 
-                                @click="mapBottomTab = 'waypoints'"
-                                :class="mapBottomTab === 'waypoints' ? 'bg-primary text-white border-primary/40 shadow-md shadow-primary/20' : 'bg-card/90 dark:bg-[#12182A]/90 text-foreground border-border dark:border-[#2D3C5C] shadow-sm hover:bg-card dark:hover:bg-[#1A233A]'"
-                                class="border backdrop-blur-xl px-4 py-2 rounded-full text-[12px] font-bold flex items-center gap-1.5 transition-all active:scale-[0.97]">
-                                <i class="ph-fill ph-map-pin text-[14px]"></i> Key Points (4)
-                            </button>
-                            <button 
-                                @click="mapBottomTab = 'elevation'"
-                                :class="mapBottomTab === 'elevation' ? 'bg-primary text-white border-primary/40 shadow-md shadow-primary/20' : 'bg-card/90 dark:bg-[#12182A]/90 text-foreground border-border dark:border-[#2D3C5C] shadow-sm hover:bg-card dark:hover:bg-[#1A233A]'"
-                                class="border backdrop-blur-xl px-4 py-2 rounded-full text-[12px] font-semibold flex items-center gap-1.5 transition-all active:scale-[0.97]">
-                                <i class="ph-bold ph-chart-line-up text-[14px]" :class="mapBottomTab === 'elevation' ? 'text-white' : 'text-primary dark:text-indigo-400'"></i> Elevation Graph
-                            </button>
-                        </div>
-
-                        <!-- TAB 1: Horizontal Scroll Waypoint Cards -->
-                        <div x-show="mapBottomTab === 'waypoints'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory px-4 pb-2 gap-3" style="scroll-padding-left: 1rem;">
-                            <!-- Card 1 -->
-                            <div class="w-[280px] bg-background border border-border dark:border-[#202B42] rounded-[1.25rem] p-3 shadow-lg flex items-center gap-3 snap-start shrink-0">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0">
-                                    <i class="ph-fill ph-flag text-emerald-600 dark:text-emerald-400 text-lg"></i>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="text-[13px] font-bold text-foreground truncate">Trailhead / Start Point</div>
-                                    <div class="text-[11px] text-muted-foreground mt-0.5 flex flex-wrap gap-1">
-                                        <span>725m</span> <span class="text-border mx-1">|</span> <span class="bg-primary/10 text-primary rounded px-1 font-semibold">Start</span>
-                                    </div>
-                                </div>
-                                <button @click="previewMode = '360'" class="h-8 px-3 bg-primary/10 hover:bg-primary/20 transition-colors text-primary text-[11px] font-bold rounded-lg shrink-0 flex items-center gap-1">
-                                    <i class="ph-fill ph-cube"></i> View 360
-                                </button>
+                    <!-- Profile Row & Navigation Pill -->
+                    <div class="flex items-center justify-between mb-4 w-full">
+                        <div class="flex items-center gap-3">
+                            <div class="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#A69389] shrink-0 overflow-hidden border border-[#A69389]/50">
+                                <span class="text-sm font-bold text-gray-700">FR</span>
                             </div>
-
-                            <!-- Card 2 -->
-                            <div class="w-[280px] bg-background border border-border dark:border-[#202B42] rounded-[1.25rem] p-3 shadow-lg flex items-center gap-3 snap-start shrink-0">
-                                <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold text-sm flex items-center justify-center shrink-0">
-                                    2
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="text-[13px] font-bold text-foreground truncate">Taman Wisata Alam...</div>
-                                    <div class="text-[11px] text-muted-foreground mt-0.5">820m elevation</div>
-                                </div>
-                                <button @click="previewMode = '360'" class="h-8 px-3 bg-primary/10 hover:bg-primary/20 transition-colors text-primary text-[11px] font-bold rounded-lg shrink-0 flex items-center gap-1">
-                                    <i class="ph-fill ph-cube"></i> View 360
-                                </button>
-                            </div>
-
-                            <!-- Card 3 -->
-                            <div class="w-[280px] bg-background border-[1.5px] border-primary rounded-[1.25rem] p-3 shadow-lg flex items-center gap-3 snap-start shrink-0">
-                                <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 font-bold text-sm flex items-center justify-center shrink-0">
-                                    3
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="text-[13px] font-bold text-foreground truncate">Pasir Limo Summit</div>
-                                    <div class="text-[11px] text-primary font-medium mt-0.5">1075m elevation</div>
-                                </div>
-                                <button @click="previewMode = '360'" class="h-8 px-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-[11px] font-bold rounded-lg shrink-0 flex items-center gap-1">
-                                    <i class="ph-fill ph-cube"></i> View 360
-                                </button>
+                            <div class="flex-1 drop-shadow-md">
+                                <h2 class="text-[15px] font-bold text-white leading-tight">Filo Rial</h2>
+                                <p class="text-[12px] font-medium text-gray-300 mt-0.5">@filorial</p>
                             </div>
                         </div>
+                        <div class="flex items-center justify-between w-[72px] h-[38px] px-4 rounded-full bg-black/40 backdrop-blur-md border border-slate-700/60 text-white drop-shadow-sm cursor-pointer hover:bg-black/60 transition-colors shrink-0 outline-none">
+                            <i class="ph-bold ph-caret-left text-[15px]"></i>
+                            <i class="ph-bold ph-caret-right text-[15px]"></i>
+                        </div>
+                    </div>
 
-                        <!-- TAB 2: Elevation Profile Card -->
-                        <div x-show="mapBottomTab === 'elevation'" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="mx-4 bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-2xl p-3.5 shadow-xl flex flex-col gap-2">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-[13px] font-bold text-foreground">Elevation Profile</span>
-                                    <span class="text-[10px] text-muted-foreground font-semibold bg-secondary/80 dark:bg-[#162035] border border-border dark:border-[#2D3C5C] px-2 py-0.5 rounded-full">
-                                        Min 725m · Max 1,075m
-                                    </span>
+                    <!-- Swipe Up Trigger Button -->
+                    <button @click="detailsOpen = true" class="flex flex-col items-center justify-center gap-1.5 w-full pt-2 pb-1 active:scale-95 transition-transform opacity-[0.85] text-white outline-none">
+                        <i class="ph-bold ph-caret-up text-[16px]"></i>
+                        <span class="text-[12px] font-semibold tracking-wide">Swipe up for details</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Details Sheet -->
+                <div 
+                    x-show="detailsOpen"
+                    style="display: none;"
+                    class="absolute inset-0 z-[60] flex flex-col justify-end"
+                >
+                    <div 
+                        x-show="detailsOpen"
+                        x-transition:enter="transition-opacity ease-out duration-200"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition-opacity ease-in duration-150"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0"
+                        @click="detailsOpen = false" 
+                        class="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                    ></div>
+                    <div 
+                        x-show="detailsOpen"
+                        x-transition:enter="transition-transform ease-out duration-300"
+                        x-transition:enter-start="translate-y-full"
+                        x-transition:enter-end="translate-y-0"
+                        x-transition:leave="transition-transform ease-in duration-200"
+                        x-transition:leave-start="translate-y-0"
+                        x-transition:leave-end="translate-y-full"
+                        class="relative w-full bg-white flex flex-col pt-3 pb-12 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[1.75rem] overflow-hidden z-[70]"
+                    >
+                        <div class="w-full flex justify-center pb-4 pt-1 shrink-0">
+                            <div class="w-10 h-1 bg-gray-300 rounded-full"></div>
+                        </div>
+                        <div class="px-6 pb-4 shrink-0 relative select-none text-center">
+                            <h2 class="text-[16px] font-bold text-gray-900">Details</h2>
+                        </div>
+                        <div class="px-6 pt-2 pb-6 max-h-[50vh] overflow-y-auto no-scrollbar">
+                            <div class="flex items-center gap-3.5 mb-5">
+                                <div class="w-[48px] h-[48px] rounded-full flex items-center justify-center bg-[#A69389] shrink-0 border border-[#A69389]/50 overflow-hidden">
+                                    <span class="text-sm font-bold text-gray-700">FR</span>
                                 </div>
-                                <div class="flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-                                    <i class="ph-bold ph-trend-up"></i> +350m
+                                <div>
+                                    <h2 class="text-[15px] font-bold text-gray-900 leading-tight">Filo Rial</h2>
+                                    <p class="text-[12px] font-semibold text-gray-500 mt-0.5">@filorial</p>
                                 </div>
                             </div>
-                            <div class="relative w-full h-[85px] pt-1">
-                                <svg class="w-full h-full overflow-visible" viewBox="0 0 320 75" preserveAspectRatio="none">
-                                    <defs>
-                                        <linearGradient id="elevationAreaGradFullUI" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stop-color="#5B4BFF" stop-opacity="0.35"/>
-                                            <stop offset="100%" stop-color="#5B4BFF" stop-opacity="0.0"/>
-                                        </linearGradient>
-                                    </defs>
-                                    <line x1="20" y1="52" x2="20" y2="65" stroke="#94a3b8" stroke-dasharray="2 2" stroke-width="1" class="opacity-40" />
-                                    <line x1="100" y1="44" x2="100" y2="65" stroke="#94a3b8" stroke-dasharray="2 2" stroke-width="1" class="opacity-40" />
-                                    <line x1="230" y1="12" x2="230" y2="65" stroke="#94a3b8" stroke-dasharray="2 2" stroke-width="1" class="opacity-40" />
-                                    <line x1="300" y1="42" x2="300" y2="65" stroke="#94a3b8" stroke-dasharray="2 2" stroke-width="1" class="opacity-40" />
-                                    <line x1="10" y1="65" x2="310" y2="65" stroke="#94a3b8" stroke-width="1" class="opacity-20" />
-                                    <path d="M 20 52 C 55 50, 75 46, 100 44 C 150 40, 190 18, 230 12 C 265 12, 280 32, 300 42 L 300 65 L 20 65 Z" fill="url(#elevationAreaGradFullUI)" />
-                                    <path d="M 20 52 C 55 50, 75 46, 100 44 C 150 40, 190 18, 230 12 C 265 12, 280 32, 300 42" fill="none" stroke="#5B4BFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                    <circle cx="20" cy="52" r="4.5" fill="#22c55e" stroke="white" stroke-width="2" />
-                                    <circle cx="100" cy="44" r="4.5" fill="#3b82f6" stroke="white" stroke-width="2" />
-                                    <circle cx="230" cy="12" r="5" fill="#8b5cf6" stroke="white" stroke-width="2" />
-                                    <circle cx="300" cy="42" r="4.5" fill="#ef4444" stroke="white" stroke-width="2" />
-                                </svg>
-                            </div>
-                            <div class="flex justify-between items-center text-[10px] text-muted-foreground font-semibold px-1">
-                                <span>0 km (725m)</span>
-                                <span>2.1 km</span>
-                                <span>4.2 km (840m)</span>
-                            </div>
+                            <p class="text-[14px] text-gray-800 font-medium">My 360</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- ============================================= -->
-            <!-- Modal Overlay & Bottom Sheet -->
+            <!-- Modal Overlay & Bottom Sheet (Select Tour)    -->
             <!-- ============================================= -->
             <div 
                 x-show="modalOpen"
                 style="display: none;"
                 class="absolute inset-0 z-[60] flex flex-col justify-end"
             >
-                <!-- Overlay Backdrop -->
                 <div 
                     x-show="modalOpen"
                     x-transition:enter="transition-opacity ease-out duration-300"
@@ -877,10 +942,9 @@
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                     @click="closeModal()"
-                    class="absolute inset-0 bg-black/60 rounded-[inherit] dark:bg-black/80 backdrop-blur-[2px]"
+                    class="absolute inset-0 bg-black/40 backdrop-blur-sm"
                 ></div>
 
-                <!-- Bottom Sheet Content -->
                 <div 
                     x-show="modalOpen"
                     x-transition:enter="transition-transform ease-out duration-300"
@@ -889,319 +953,100 @@
                     x-transition:leave="transition-transform ease-in duration-200"
                     x-transition:leave-start="translate-y-0"
                     x-transition:leave-end="translate-y-full"
-                    class="relative w-full h-[88%] bg-background flex flex-col pt-3 shadow-[0_-20px_50px_rgba(0,0,0,0.4)] rounded-t-[2.25rem] overflow-hidden"
+                    class="relative w-full bg-background flex flex-col h-[75%] max-h-[620px] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[1.75rem] overflow-hidden z-[70] border-t border-border"
                 >
-                    <!-- Drag Handle (Visual only) -->
-                    <div class="w-full flex justify-center pb-5 pt-2 shrink-0 bg-background z-50">
-                        <div class="w-12 h-1.5 bg-border rounded-full"></div>
+                    <div class="w-full flex justify-center pb-2 pt-3 shrink-0">
+                        <div class="w-10 h-1 bg-border rounded-full"></div>
                     </div>
 
-                    <!-- Modal Header -->
-                    <div class="px-6 pb-4 shrink-0 border-b border-border relative select-none bg-background z-40">
-                        <button @click="closeModal()" class="absolute right-4 top-0 p-2 text-muted-foreground hover:text-foreground rounded-full hover:bg-secondary active:scale-95 transition-all outline-none">
-                            <i class="ph ph-x text-xl"></i>
+                    <div class="px-6 pb-4 shrink-0 flex items-center justify-between border-b border-border select-none">
+                        <h2 class="text-[17px] font-bold text-foreground">Select from my Tourmkr</h2>
+                        <button @click="closeModal()" class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground active:scale-95 transition-all outline-none">
+                            <i class="ph ph-x text-base"></i>
                         </button>
-                        <h2 class="text-[18px] font-bold text-foreground">Select from my Tourmkr</h2>
-                        <p class="text-[12px] font-medium text-muted-foreground mt-1">Choose a trail or tour to embed.</p>
                     </div>
 
-                    <!-- STATE: LOADING -->
-                    <div x-show="modalState === 'loading'" x-transition:enter="transition-opacity ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="flex-1 flex flex-col items-center justify-center px-10 relative select-none bg-background">
-                        <div class="relative w-24 h-24 flex items-center justify-center mb-8">
-                            <div class="absolute inset-0 opacity-40">
-                                <div class="w-2 h-2 bg-primary rounded-full absolute top-2 left-4"></div>
-                                <div class="w-1.5 h-1.5 bg-[#3B82F6] rounded-full absolute bottom-4 right-2"></div>
-                                <div class="w-12 h-12 border-2 border-border rounded-xl absolute top-6 left-6 rotate-12 bg-secondary/50"></div>
-                            </div>
-                            <div class="w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg relative z-10">
-                                <i class="ph-bold ph-arrows-clockwise text-primary-foreground text-2xl animate-spin-slow"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-[15px] font-bold text-foreground mb-2 text-center">Loading your Tourmkr data...</h3>
-                        <p class="text-[13px] font-normal text-muted-foreground text-center leading-relaxed">
-                            We're fetching your latest trails and tours.<br>This may take a few seconds.
-                        </p>
-                        
-                        <div class="absolute bottom-10 w-full px-6 left-0">
-                            <div class="text-[12px] font-semibold text-muted-foreground mb-3 px-1">You're signed in as</div>
-                            <div class="bg-card border border-border rounded-2xl p-4 flex items-center gap-4 mb-5 shadow-sm">
-                                <div class="w-11 h-11 bg-secondary rounded-full flex items-center justify-center shrink-0 border border-border/50">
-                                    <i class="ph-fill ph-user text-muted-foreground text-xl"></i>
-                                </div>
-                                <div>
-                                    <div class="text-[14px] font-semibold text-foreground">Alex Rivera</div>
-                                    <div class="text-[12px] font-medium text-muted-foreground mt-0.5">alex.rivera@tourmkr.com</div>
+                    <!-- STATE: LOADING SKELETON -->
+                    <div x-show="modalState === 'loading'" class="flex-1 overflow-y-auto p-6 flex flex-col gap-4">
+                        <template x-for="i in 4" :key="i">
+                            <div class="h-20 w-full rounded-2xl bg-secondary/60 animate-pulse flex items-center p-3 gap-3">
+                                <div class="w-14 h-14 rounded-xl bg-border/50 shrink-0"></div>
+                                <div class="flex-1 flex flex-col gap-2">
+                                    <div class="w-3/4 h-3.5 bg-border/50 rounded-md"></div>
+                                    <div class="w-1/2 h-2.5 bg-border/40 rounded-md"></div>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                <button class="text-[13px] font-semibold text-primary hover:underline active:scale-95 transition-transform outline-none">Use a different Tourmkr account</button>
-                            </div>
-                        </div>
+                        </template>
                     </div>
 
-                    <!-- STATE: DATA LOADED (LIST) -->
-                    <div x-show="modalState === 'list'" style="display: none;" class="flex-1 flex flex-col overflow-hidden bg-background">
-                        <div class="px-6 py-4 shrink-0 select-none">
-                            <div class="relative">
-                                <i class="ph ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground text-lg"></i>
-                                <input type="text" placeholder="Search your trails..." class="w-full bg-card border border-border/80 rounded-[14px] py-2.5 h-11 pl-11 pr-4 text-[13px] font-medium text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors shadow-sm">
+                    <!-- STATE: LIST -->
+                    <div x-show="modalState === 'list'" style="display: none;" class="flex-1 overflow-y-auto no-scrollbar p-6 flex flex-col gap-3">
+                        <template x-for="trail in trails" :key="trail.id">
+                            <div 
+                                @click="chooseTrail(trail)"
+                                :class="selectedTrail.name === trail.name ? 'border-primary ring-2 ring-primary/20 bg-primary/[0.04]' : 'border-border bg-card hover:bg-secondary/40'"
+                                class="flex items-center gap-3.5 p-3 rounded-2xl border transition-all cursor-pointer shadow-sm select-none"
+                            >
+                                <img :src="trail.img" class="w-14 h-14 rounded-xl object-cover shrink-0 border border-border/50">
+                                <div class="flex-1 min-w-0">
+                                    <div class="text-[14px] font-bold text-foreground truncate" x-text="trail.name"></div>
+                                    <div class="text-[11px] text-muted-foreground font-medium mt-0.5" x-text="`${trail.dist} • ${trail.loc}`"></div>
+                                </div>
+                                <div 
+                                    :class="selectedTrail.name === trail.name ? 'border-primary bg-primary text-white' : 'border-border bg-background'"
+                                    class="w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors"
+                                >
+                                    <i x-show="selectedTrail.name === trail.name" class="ph-bold ph-check text-xs"></i>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="flex-1 overflow-y-auto no-scrollbar px-6 pb-[120px]">
-                            <div class="flex flex-col gap-4">
-                                <template x-for="item in trails" :key="item.id">
-                                    <label class="flex items-center justify-between gap-4 cursor-pointer group select-none transition-transform active:scale-[0.99]">
-                                        <!-- Card Info -->
-                                        <div class="flex-1 flex items-center gap-3.5 p-3 rounded-2xl border transition-all" 
-                                             :class="selectedItem == item.id ? 'border-primary bg-primary/[0.03]' : 'border-border bg-card group-hover:border-muted-foreground/40'">
-                                            <img :src="item.img" class="w-[52px] h-[52px] rounded-xl object-cover shrink-0 border border-border/50" alt="">
-                                            <div class="min-w-0 py-1">
-                                                <div class="text-[14px] font-bold text-foreground truncate" x-text="item.name"></div>
-                                                <div class="flex items-center gap-1.5 mt-1.5">
-                                                    <i class="ph-fill ph-map-pin text-[11px] text-muted-foreground"></i>
-                                                    <div class="text-[11px] font-semibold text-muted-foreground truncate">
-                                                        <span x-text="item.dist"></span> • <span x-text="item.loc"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Custom Radio on the Right Edge -->
-                                        <input type="radio" name="selectedTrail" :value="item.id" x-model="selectedItem" class="custom-radio shrink-0 shadow-sm ml-1">
-                                    </label>
-                                </template>
-                            </div>
-                        </div>
-                        
-                        <!-- Fixed Footer Action -->
-                        <div class="absolute bottom-0 w-full px-6 pt-4 pb-10 bg-background border-t border-border select-none z-20">
-                            <div class="grid grid-cols-[1fr_1.5fr] gap-4">
-                                <button @click="closeModal()" class="h-12 rounded-xl border border-border bg-card text-foreground text-[14px] font-semibold hover:bg-secondary active:scale-[0.98] transition-all shadow-sm outline-none">
-                                    Cancel
-                                </button>
-                                <button 
-                                    :disabled="!selectedItem"
-                                    :class="!selectedItem ? 'opacity-50 cursor-not-allowed bg-secondary text-muted-foreground border-transparent' : 'bg-primary hover:bg-primary/90 text-primary-foreground shadow-md'"
-                                    class="h-12 rounded-xl text-[14px] font-bold active:scale-[0.98] transition-all outline-none"
-                                    x-text="!selectedItem ? 'Select' : 'Select (1)'"
-                                ></button>
-                            </div>
-                        </div>
+                        </template>
+                    </div>
+
+                    <!-- Modal Bottom Action -->
+                    <div x-show="modalState === 'list'" style="display: none;" class="p-4 bg-background border-t border-border shrink-0 select-none">
+                        <button 
+                            @click="applySelection()"
+                            class="w-full h-12 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-[14px] shadow-md transition-all active:scale-[0.98] outline-none"
+                        >
+                            Select This Tour
+                        </button>
                     </div>
 
                     <!-- STATE: EMPTY -->
                     <div x-show="modalState === 'empty'" style="display: none;" class="flex-1 flex flex-col items-center justify-center px-8 pb-12 select-none bg-background">
-                        <div class="relative mb-8">
-                            <div class="w-[84px] h-[100px] bg-card rounded-[18px] border-2 border-border/80 flex flex-col gap-3 p-4 justify-center shadow-sm">
-                                <div class="w-2/3 h-1.5 bg-border rounded-full"></div>
-                                <div class="w-full h-1.5 bg-border rounded-full"></div>
-                                <div class="w-3/4 h-1.5 bg-border rounded-full"></div>
-                            </div>
-                            <div class="absolute -bottom-3 -right-3 w-11 h-11 bg-background border-2 border-border rounded-full flex items-center justify-center shadow-lg">
-                                <i class="ph-fill ph-mountains text-yellow-500 text-[20px]"></i>
-                            </div>
+                        <div class="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-4 text-primary text-2xl">
+                            <i class="ph-fill ph-mountains"></i>
                         </div>
-                        <h3 class="text-[17px] font-bold text-foreground mb-3 text-center">You don't have any trails or tours yet</h3>
-                        <p class="text-[13px] font-medium text-muted-foreground text-center leading-relaxed max-w-[260px] mb-10">
-                            Looks like you haven't created any trails or tours on Tourmkr.
-                        </p>
-                        
-                        <div class="w-full flex flex-col gap-3">
-                            <button class="h-12 w-full rounded-xl bg-primary text-primary-foreground text-[14px] font-bold flex items-center justify-center gap-2 hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md outline-none">
-                                <i class="ph ph-arrow-square-out text-lg"></i> Create on Tourmkr
-                            </button>
-                            <div class="text-[12px] font-semibold text-muted-foreground text-center py-1.5">or</div>
-                            <button class="h-12 w-full rounded-xl border border-border bg-card text-foreground text-[14px] font-bold flex items-center justify-center gap-2 hover:bg-secondary active:scale-[0.98] transition-all shadow-sm outline-none">
-                                <i class="ph ph-link text-lg text-muted-foreground"></i> Add link instead
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-            </div> <!-- Close Create Flow -->
-
-            <!-- Post Detail (360) Flow -->
-            <div x-show="activePhone === 'detail'" style="display: none;" class="absolute inset-0 flex flex-col bg-black">
-<!-- 360 Background Image -->
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0" alt="Kitchen 360">
-
-            <!-- Dark overlay at top for text legibility -->
-            <div class="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none"></div>
-
-            <!-- Status Bar -->
-            <div class="absolute top-0 inset-x-0 h-12 flex justify-between items-center px-6 text-[14px] font-semibold text-white z-20 select-none">
-                <span>14:19</span>
-                <div class="flex gap-2 items-center">
-                    <i class="ph-fill ph-cell-signal-full"></i>
-                    <i class="ph-bold ph-wifi-high"></i>
-                    <div class="flex items-center gap-1">
-                        <span class="text-xs">66</span>
-                        <i class="ph-fill ph-battery-full text-lg"></i>
+                        <h3 class="text-[16px] font-bold text-foreground mb-2 text-center">No tours found</h3>
+                        <p class="text-[12px] text-muted-foreground text-center mb-6">You don't have any saved tours on Tourmkr yet.</p>
+                        <button @click="openModal('data')" class="h-11 px-5 rounded-xl bg-primary text-primary-foreground font-semibold text-xs active:scale-95 transition-all">
+                            Load Demo Trails
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Top Navigation area -->
-            <div class="absolute top-12 inset-x-0 px-4 flex justify-between gap-2.5 z-20 select-none">
-                <button class="w-[42px] h-[42px] rounded-[14px] bg-black/60 backdrop-blur-md flex items-center justify-center text-white active:scale-95 transition-transform shrink-0 border border-slate-700/60 outline-none">
-                    <i class="ph-bold ph-arrow-left text-lg"></i>
-                </button>
-                
-                <div class="flex-1 min-w-0 h-[46px] rounded-[16px] bg-black/60 backdrop-blur-md flex flex-col justify-center px-4 border border-slate-700/60 overflow-hidden">
-                    <h1 class="text-[13px] font-bold text-white leading-tight truncate">PT. Go Thru Media Indonesia</h1>
-                    <div class="flex items-center gap-1 mt-0.5">
-                        <i class="ph-fill ph-map-pin text-[10px] text-gray-300 shrink-0"></i>
-                        <p class="text-[10px] font-medium text-gray-300 truncate">Wanareja, Subang, Subang Regency...</p>
-                    </div>
-                </div>
-
-                <button class="w-[42px] h-[42px] rounded-[14px] bg-black/60 backdrop-blur-md flex items-center justify-center text-white active:scale-95 transition-transform shrink-0 border border-slate-700/60 outline-none">
-                    <i class="ph-bold ph-dots-three text-xl"></i>
-                </button>
-            </div>
-
-            <!-- Stove Hotspot -->
-            <div class="absolute top-[48%] left-1/2 -translate-x-[40%] -translate-y-1/2 flex flex-col items-center gap-2 z-20 select-none">
-                <!-- Label -->
-                <div class="bg-[#F8F9FA] px-4 py-[5px] rounded-full text-gray-900 font-semibold text-[14px] shadow-lg">
-                    Stove Info
-                </div>
-                <!-- Interactive Point -->
-                <button class="relative w-12 h-12 flex items-center justify-center group outline-none">
-                    <!-- Ripple effect -->
-                    <div class="absolute inset-0 bg-[#00A3FF] rounded-full opacity-60 animate-ring"></div>
-                    <!-- Core -->
-                    <div class="w-6 h-6 bg-[#00A3FF] border-2 border-card rounded-full shadow-md z-10 group-active:scale-90 transition-transform"></div>
-                </button>
-            </div>
-
-            <!-- Right Action Sidebar -->
-            <div class="absolute right-3.5 bottom-48 flex flex-col items-center gap-4 z-20 select-none drop-shadow-md">
-                <button class="flex flex-col items-center gap-1.5 active:scale-90 transition-transform outline-none group text-white">
-                    <div class="w-[42px] h-[42px] rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60 group-hover:bg-black/60 transition-colors">
-                        <i class="ph ph-heart text-[22px]"></i>
-                    </div>
-                    <span class="text-[11px] font-bold drop-shadow-sm">0</span>
-                </button>
-                <button class="flex flex-col items-center gap-1.5 active:scale-90 transition-transform outline-none group text-white">
-                    <div class="w-[42px] h-[42px] rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60 group-hover:bg-black/60 transition-colors">
-                        <i class="ph ph-chat-circle text-[22px]"></i>
-                    </div>
-                    <span class="text-[11px] font-bold drop-shadow-sm">0</span>
-                </button>
-                <button class="flex flex-col items-center gap-1.5 active:scale-90 transition-transform outline-none group text-white">
-                    <div class="w-[42px] h-[42px] rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60 group-hover:bg-black/60 transition-colors">
-                        <i class="ph ph-bookmark-simple text-[22px]"></i>
-                    </div>
-                    <span class="text-[11px] font-bold drop-shadow-sm">0</span>
-                </button>
-                <button class="flex flex-col items-center gap-1.5 active:scale-90 transition-transform outline-none group text-white">
-                    <div class="w-[42px] h-[42px] rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60 group-hover:bg-black/60 transition-colors">
-                        <i class="ph ph-share-fat text-[22px]"></i>
-                    </div>
-                    <span class="text-[11px] font-bold drop-shadow-sm">0</span>
-                </button>
-            </div>
-
-            <!-- Bottom Gradient Overlay -->
-            <div class="absolute bottom-0 inset-x-0 h-64 bg-gradient-to-t from-black via-black/60 to-transparent z-10 pointer-events-none"></div>
-
-            <!-- Bottom Content -->
-            <div class="absolute bottom-0 inset-x-0 z-20 flex flex-col px-4 pb-4 select-none">
-                
-                <!-- TourMkr Badge -->
-                <div class="flex mb-4">
-                    <div class="flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-2 py-1.5 rounded-[8px] border border-slate-700/60">
-                        <div class="w-4 h-4 bg-primary rounded-[4px] flex items-center justify-center shrink-0">
-                            <i class="ph-fill ph-mountains text-white text-[10px]"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-white tracking-wide">TourMkr</span>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between mb-4 w-full"><!-- User Profile -->
-                <div class="flex items-center gap-3 ">
-                    <div class="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-white shrink-0 overflow-hidden border border-border/80 dark:border-[#2D3C5C]">
-                        <span class="text-sm font-bold text-gray-700">FR</span>
-                    </div>
-                    <div class="flex-1 drop-shadow-md">
-                        <h2 class="text-[15px] font-bold text-white leading-tight">Filo Rial</h2>
-                        <p class="text-[12px] font-medium text-gray-300 mt-0.5">@filorial</p>
-                    </div>
-                </div>
-                    <!-- Navigation Pill -->
-                    <div class="flex items-center justify-between w-[72px] h-[38px] px-4 rounded-full bg-black/40 backdrop-blur-md border border-slate-700/60 text-white drop-shadow-sm cursor-pointer hover:bg-black/60 transition-colors shrink-0 outline-none">
-                        <i class="ph-bold ph-caret-left text-[15px]"></i>
-                        <i class="ph-bold ph-caret-right text-[15px]"></i>
-                    </div>
-                </div>
-
-                <!-- Swipe Up Trigger -->
-                <button @click="detailsOpen = true" class="flex flex-col items-center justify-center gap-1.5 w-full pt-2 pb-1 active:scale-95 transition-transform opacity-[0.85] text-white outline-none">
-                    <i class="ph-bold ph-caret-up text-[16px]"></i>
-                    <span class="text-[12px] font-semibold tracking-wide" style="font-weight: 600;">Swipe up for details</span>
-                </button>
-            </div>
-
-            <!-- ============================================= -->
-            <!-- Details Bottom Sheet -->
-            <!-- ============================================= -->
+            <!-- FULLSCREEN PREVIEW MODAL -->
             <div 
-                x-show="detailsOpen"
-                style="display: none;"
-                class="absolute inset-0 z-[60] flex flex-col justify-end"
+                x-show="fullscreenOpen" 
+                style="display: none;" 
+                class="absolute inset-0 z-50 bg-black flex flex-col select-none overflow-hidden"
             >
-                <!-- Backdrop overlay -->
-                <div 
-                    x-show="detailsOpen"
-                    x-transition:enter="transition-opacity ease-out duration-300"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition-opacity ease-in duration-200"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                    @click="detailsOpen = false"
-                    class="absolute inset-0 bg-black/40 backdrop-blur-sm"
-                ></div>
-
-                <!-- Sheet Content (White theme as requested via images) -->
-                <div 
-                    x-show="detailsOpen"
-                    x-transition:enter="transition-transform ease-out duration-300"
-                    x-transition:enter-start="translate-y-full"
-                    x-transition:enter-end="translate-y-0"
-                    x-transition:leave="transition-transform ease-in duration-200"
-                    x-transition:leave-start="translate-y-0"
-                    x-transition:leave-end="translate-y-full"
-                    class="relative w-full bg-white flex flex-col pt-3 pb-12 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[1.75rem] overflow-hidden z-[70]"
-                >
-                    <!-- Drag Handle -->
-                    <div class="w-full flex justify-center pb-4 pt-1 shrink-0">
-                        <div class="w-10 h-1 bg-gray-300 rounded-full"></div>
+                <div class="absolute inset-0 w-full h-full">
+                    <img :src="selectedTrail.img" class="absolute inset-0 w-full h-full object-cover" alt="Fullscreen 360">
+                    <div class="absolute top-12 inset-x-4 flex items-center justify-between z-20">
+                        <button @click="fullscreenOpen = false" class="h-10 px-3.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white font-semibold text-[13px] flex items-center gap-1.5 shadow-lg active:scale-95 transition-all outline-none">
+                            <i class="ph-bold ph-arrows-in text-base text-primary"></i>
+                            <span>Tutup</span>
+                        </button>
                     </div>
-
-                    <!-- Header -->
-                    <div class="px-6 pb-4 shrink-0 relative select-none text-center">
-                        <h2 class="text-[16px] font-bold text-gray-900">Details</h2>
-                    </div>
-
-                    <!-- Content -->
-                    <div class="px-6 pt-2 pb-6 max-h-[50vh] overflow-y-auto no-scrollbar">
-                        <div class="flex items-center gap-3.5 mb-5">
-                            <div class="w-[48px] h-[48px] rounded-full flex items-center justify-center bg-gray-100 shrink-0 border border-gray-200 overflow-hidden">
-                                <span class="text-sm font-bold text-gray-700">FR</span>
-                            </div>
-                            <div>
-                                <h2 class="text-[15px] font-bold text-gray-900 leading-tight">Filo Rial</h2>
-                                <p class="text-[12px] font-semibold text-gray-500 mt-0.5">@filorial</p>
-                            </div>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 z-20 pointer-events-none">
+                        <div class="w-20 h-20 rounded-full bg-primary/90 backdrop-blur-md text-white flex items-center justify-center shadow-[0_0_40px_rgba(91,75,255,0.7)] pointer-events-auto hover:scale-105 active:scale-95 transition-transform">
+                            <i class="ph-fill ph-play text-3xl ml-1"></i>
                         </div>
-
-                        <p class="text-[14px] text-gray-800 font-medium">My 360</p>
                     </div>
                 </div>
             </div>
-
 
         </div>
     </section>
@@ -1212,7 +1057,7 @@
     <section class="flex flex-col items-center gap-12 border-t border-border/50 pt-16 pb-12 w-full">
         <div class="text-center">
             <h2 class="text-3xl font-bold mb-2">Screen States</h2>
-            <p class="text-muted-foreground font-medium">Includes Create Post flow and Post Detail (360) screens.</p>
+            <p class="text-muted-foreground font-medium">Detailed static visual specifications across all prototype states.</p>
         </div>
         
         <div class="flex flex-wrap justify-center gap-12 w-full items-start">
@@ -1220,7 +1065,6 @@
             <!-- ====== PREVIEW 1 ====== -->
             <div class="flex flex-col gap-5 items-center">
                 <span class="text-[13px] font-bold text-foreground bg-card border border-border px-5 py-2 rounded-full shadow-sm">1. Platform Source</span>
-                
                 <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
                     <div class="h-12 flex justify-between items-center px-5 text-[14px] font-semibold bg-background shrink-0">
                         <span>9:41</span>
@@ -1236,42 +1080,18 @@
                         </div>
                         <div class="px-5">
                             <div class="text-[13px] font-bold mb-4">Step 1 of 3: Add Image</div>
-                            <div class="grid grid-cols-[1.2fr_1fr] gap-3 mb-8">
-                                <div class="h-11 border border-border rounded-xl bg-card shadow-sm text-[12px] font-bold flex items-center justify-center gap-2"><i class="ph ph-plus-circle text-lg text-muted-foreground"></i> Change</div>
-                                <div class="h-11 bg-primary rounded-xl shadow-md text-primary-foreground text-[12px] font-bold flex items-center justify-center">Next &rarr;</div>
-                            </div>
                             <div class="flex items-center gap-3 mb-6 px-1">
-                                <i class="ph ph-aperture text-xl text-muted-foreground"></i>
+                                <i class="ph ph-link text-xl text-muted-foreground"></i>
                                 <span class="text-[13px] font-bold text-foreground">Virtual Tour / Trail Embed</span>
                             </div>
-                            <div class="mb-8">
-                                <h2 class="text-[12px] font-bold text-foreground mb-3 px-1">Select Platform</h2>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div class="flex items-center gap-2.5 p-3 rounded-2xl border-2 border-primary bg-primary/[0.03] shadow-sm">
-                                        <div class="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center"><i class="ph-fill ph-mountains text-foreground"></i></div>
-                                        <div class="flex-1 min-w-0"><div class="text-[12px] font-bold truncate leading-tight">Tourmkr</div><div class="text-[10px] font-semibold text-primary mt-0.5">Trails & Tours</div></div>
-                                    </div>
-                                    <div class="flex items-center gap-2.5 p-3 rounded-2xl border border-border bg-card shadow-sm">
-                                        <div class="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center"><i class="ph-fill ph-map-pin text-[#3B82F6]"></i></div>
-                                        <div class="flex-1 min-w-0"><div class="text-[12px] font-bold truncate leading-tight">Google</div><div class="text-[10px] font-semibold text-muted-foreground mt-0.5">Explore 360°</div></div>
-                                    </div>
+                            <div class="grid grid-cols-2 gap-3 mb-6">
+                                <div class="flex items-center gap-2.5 p-3 rounded-2xl border-2 border-primary bg-primary/[0.03] shadow-sm">
+                                    <div class="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center"><i class="ph-fill ph-mountains text-foreground"></i></div>
+                                    <div class="flex-1 min-w-0"><div class="text-[12px] font-bold truncate leading-tight">Tourmkr</div><div class="text-[10px] font-semibold text-primary mt-0.5">Trails & Tours</div></div>
                                 </div>
-                            </div>
-                            <div class="mb-8">
-                                <div class="flex items-center justify-between mb-3 px-1">
-                                    <h2 class="text-[12px] font-bold">Tourmkr Source</h2><i class="ph-fill ph-info text-primary text-[15px]"></i>
-                                </div>
-                                <div class="rounded-2xl border border-border overflow-hidden bg-card shadow-sm">
-                                    <div class="flex items-center p-4 border-b border-border gap-4 bg-secondary">
-                                        <div class="w-9 h-9 rounded-xl bg-background flex items-center justify-center border border-border/50"><i class="ph ph-list-dashes text-lg text-foreground"></i></div>
-                                        <div class="flex-1"><div class="text-[13px] font-bold">Select from Tourmkr</div><div class="text-[11px] font-medium text-muted-foreground mt-0.5">Use existing trails</div></div>
-                                        <i class="ph ph-caret-right text-foreground"></i>
-                                    </div>
-                                    <div class="flex items-center p-4 gap-4">
-                                        <div class="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center"><i class="ph ph-link text-lg text-foreground"></i></div>
-                                        <div class="flex-1"><div class="text-[13px] font-bold">Add link instead</div><div class="text-[11px] font-medium text-muted-foreground mt-0.5">Paste a Tourmkr URL</div></div>
-                                        <i class="ph ph-caret-right text-muted-foreground"></i>
-                                    </div>
+                                <div class="flex items-center gap-2.5 p-3 rounded-2xl border border-border bg-card shadow-sm">
+                                    <div class="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center"><i class="ph-fill ph-map-pin text-[#3B82F6]"></i></div>
+                                    <div class="flex-1 min-w-0"><div class="text-[12px] font-bold truncate leading-tight">Google</div><div class="text-[10px] font-semibold text-muted-foreground mt-0.5">Explore 360°</div></div>
                                 </div>
                             </div>
                         </div>
@@ -1281,306 +1101,23 @@
 
             <!-- ====== PREVIEW 2 ====== -->
             <div class="flex flex-col gap-5 items-center">
-                <span class="text-[13px] font-bold text-foreground bg-card border border-border px-5 py-2 rounded-full shadow-sm">2. Loading Context</span>
-                
-                <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
-                    <div class="h-12 flex justify-between items-center px-5 text-[14px] font-semibold bg-background shrink-0">
-                        <span>9:41</span>
-                        <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-lg"></i></div>
-                    </div>
-                    
-                    <!-- Background behind overlay to simulate app interface beneath -->
-                    <div class="absolute inset-0 pt-14 opacity-20 pointer-events-none">
-                        <div class="w-full h-full bg-background mt-4 p-5"><div class="w-1/2 h-4 bg-muted mb-4"></div><div class="w-full h-20 bg-muted rounded-xl"></div></div>
-                    </div>
-
-                    <!-- Overlay & Sheet -->
-                    <div class="absolute inset-0 z-[60] bg-black/60 rounded-[inherit] dark:bg-black/80 backdrop-blur-[2px]"></div>
-                    <div class="absolute bottom-0 left-0 right-0 h-[88%] bg-background flex flex-col pt-3 z-[70] shadow-[0_-20px_50px_rgba(0,0,0,0.3)] rounded-t-[2rem]">
-                        <div class="w-full flex justify-center pb-4 pt-1 shrink-0 bg-background z-50">
-                            <div class="w-10 h-1 bg-border rounded-full"></div>
-                        </div>
-                        <div class="px-5 pb-4 border-b border-border relative shrink-0">
-                            <span class="absolute right-4 top-0 text-muted-foreground"><i class="ph ph-x text-lg"></i></span>
-                            <h2 class="text-[16px] font-bold">Select from my Tourmkr</h2>
-                            <p class="text-[11px] font-medium text-muted-foreground mt-1.5">Choose a trail or tour to embed.</p>
-                        </div>
-                        <div class="flex-1 flex flex-col items-center justify-center px-8 relative">
-                            <div class="relative w-20 h-20 flex items-center justify-center mb-8">
-                                <div class="absolute inset-0 opacity-40">
-                                    <div class="w-1.5 h-1.5 bg-primary rounded-full absolute top-2 left-4"></div>
-                                    <div class="w-1.5 h-1.5 bg-[#3B82F6] rounded-full absolute bottom-4 right-2"></div>
-                                    <div class="w-10 h-10 border-2 border-border rounded-lg absolute top-4 left-4 rotate-12 bg-secondary/50"></div>
-                                </div>
-                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center shadow-lg relative z-10">
-                                    <i class="ph-bold ph-arrows-clockwise text-primary-foreground text-xl"></i>
-                                </div>
-                            </div>
-                            <h3 class="text-[14px] font-bold mb-2">Loading your Tourmkr data...</h3>
-                            <p class="text-[12px] font-normal text-muted-foreground text-center leading-relaxed">We're fetching your latest trails and tours.<br>This may take a few seconds.</p>
-                            
-                            <div class="absolute bottom-8 w-full px-5 left-0">
-                                <div class="text-[11px] font-bold text-muted-foreground mb-3 px-1">You're signed in as</div>
-                                <div class="bg-card border border-border rounded-2xl p-4 flex items-center gap-3 mb-4 shadow-sm">
-                                    <div class="w-9 h-9 bg-secondary rounded-full flex items-center justify-center border border-border/50 shrink-0"><i class="ph-fill ph-user text-muted-foreground text-lg"></i></div>
-                                    <div>
-                                        <div class="text-[13px] font-bold">Alex Rivera</div>
-                                        <div class="text-[11px] font-medium text-muted-foreground mt-0.5">alex.rivera@tourmkr.com</div>
-                                    </div>
-                                </div>
-                                <div class="text-center text-[11px] font-bold text-primary">Use a different account</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ====== PREVIEW 3 ====== -->
-            <div class="flex flex-col gap-5 items-center">
-                <span class="text-[13px] font-bold text-foreground bg-card border border-border px-5 py-2 rounded-full shadow-sm">3. Data Loaded (List)</span>
-                
-                <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
-                    <div class="h-12 flex justify-between items-center px-5 text-[14px] font-semibold bg-background shrink-0">
-                        <span>9:41</span>
-                        <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-lg"></i></div>
-                    </div>
-                    
-                    <div class="absolute inset-0 pt-14 opacity-20 pointer-events-none">
-                        <div class="w-full h-full bg-background mt-4 p-5"><div class="w-1/2 h-4 bg-muted mb-4"></div><div class="w-full h-20 bg-muted rounded-xl"></div></div>
-                    </div>
-
-                    <div class="absolute inset-0 z-[60] bg-black/60 rounded-[inherit] dark:bg-black/80 backdrop-blur-[2px]"></div>
-                    <div class="absolute bottom-0 left-0 right-0 h-[88%] bg-background flex flex-col pt-3 z-[70] shadow-[0_-20px_50px_rgba(0,0,0,0.3)] rounded-t-[2rem] overflow-hidden">
-                        <div class="w-full flex justify-center pb-4 pt-1 shrink-0 bg-background z-50">
-                            <div class="w-10 h-1 bg-border rounded-full"></div>
-                        </div>
-                        <div class="px-5 pb-4 border-b border-border relative shrink-0">
-                            <span class="absolute right-4 top-0 text-muted-foreground"><i class="ph ph-x text-lg"></i></span>
-                            <h2 class="text-[16px] font-bold">Select from my Tourmkr</h2>
-                            <p class="text-[11px] font-medium text-muted-foreground mt-1">Choose a trail or tour to embed.</p>
-                        </div>
-                        
-                        <div class="px-5 py-4 shrink-0">
-                            <div class="relative">
-                                <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground text-[16px]"></i>
-                                <div class="w-full bg-card border border-border/80 rounded-[14px] py-2.5 pl-10 pr-3 text-[12px] text-muted-foreground font-medium shadow-sm">Search your trails...</div>
-                            </div>
-                        </div>
-
-                        <div class="flex-1 overflow-hidden px-5 pt-1">
-                            <div class="flex flex-col gap-4">
-                                <!-- Item 1 -->
-                                <div class="flex items-center justify-between gap-3">
-                                    <div class="flex-1 flex items-center gap-3 p-2.5 rounded-2xl border border-primary bg-primary/[0.03] shadow-sm">
-                                        <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=200&auto=format&fit=crop" class="w-[48px] h-[48px] rounded-xl object-cover shrink-0 border border-border/50" alt="">
-                                        <div class="min-w-0">
-                                            <div class="text-[13px] font-bold truncate leading-tight">Batur Caldera Rim Trail</div>
-                                            <div class="text-[10px] font-semibold text-muted-foreground mt-1.5 truncate"><i class="ph-fill ph-map-pin"></i> 28.4 km • Bali, Indonesia</div>
-                                        </div>
-                                    </div>
-                                    <div class="w-[20px] h-[20px] border-[5px] border-primary rounded-full shrink-0 shadow-sm ml-1"></div>
-                                </div>
-                                <!-- Item 2 -->
-                                <div class="flex items-center justify-between gap-3">
-                                    <div class="flex-1 flex items-center gap-3 p-2.5 rounded-2xl border border-border bg-card shadow-sm">
-                                        <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=200&auto=format&fit=crop" class="w-[48px] h-[48px] rounded-xl object-cover shrink-0 border border-border/50" alt="">
-                                        <div class="min-w-0">
-                                            <div class="text-[13px] font-bold truncate leading-tight">Rinjani Summit Route</div>
-                                            <div class="text-[10px] font-semibold text-muted-foreground mt-1.5 truncate"><i class="ph-fill ph-map-pin"></i> 41.2 km • Lombok</div>
-                                        </div>
-                                    </div>
-                                    <div class="w-[20px] h-[20px] border-2 border-muted-foreground rounded-full flex items-center justify-center shrink-0 shadow-sm ml-1"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="shrink-0 p-5 bg-background border-t border-border">
-                            <div class="grid grid-cols-[1fr_1.5fr] gap-3">
-                                <div class="h-11 bg-card text-center rounded-xl border border-border text-[13px] font-bold shadow-sm flex items-center justify-center">Cancel</div>
-                                <div class="h-11 bg-primary text-center rounded-xl text-[13px] font-bold text-primary-foreground shadow-md flex items-center justify-center">Select (1)</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ====== PREVIEW 4 ====== -->
-            <div class="flex flex-col gap-5 items-center">
-                <span class="text-[13px] font-bold text-foreground bg-card border border-border px-5 py-2 rounded-full shadow-sm">4. Empty State</span>
-                
-                <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
-                    <div class="h-12 flex justify-between items-center px-5 text-[14px] font-semibold bg-background shrink-0">
-                        <span>9:41</span>
-                        <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-lg"></i></div>
-                    </div>
-                    
-                    <div class="absolute inset-0 pt-14 opacity-20 pointer-events-none">
-                        <div class="w-full h-full bg-background mt-4 p-5"><div class="w-1/2 h-4 bg-muted mb-4"></div><div class="w-full h-20 bg-muted rounded-xl"></div></div>
-                    </div>
-
-                    <div class="absolute inset-0 z-[60] bg-black/60 rounded-[inherit] dark:bg-black/80 backdrop-blur-[2px]"></div>
-                    <div class="absolute bottom-0 left-0 right-0 h-[88%] bg-background flex flex-col pt-3 z-[70] shadow-[0_-20px_50px_rgba(0,0,0,0.3)] rounded-t-[2rem] overflow-hidden">
-                        <div class="w-full flex justify-center pb-4 pt-1 shrink-0 bg-background z-50">
-                            <div class="w-10 h-1 bg-border rounded-full"></div>
-                        </div>
-                        <div class="px-5 pb-4 border-b border-border relative shrink-0">
-                            <span class="absolute right-4 top-0 text-muted-foreground"><i class="ph ph-x text-lg"></i></span>
-                            <h2 class="text-[16px] font-bold">Select from my Tourmkr</h2>
-                            <p class="text-[11px] font-medium text-muted-foreground mt-1.5">Choose a trail or tour to embed.</p>
-                        </div>
-                        
-                        <div class="flex-1 flex flex-col items-center justify-center px-6 pb-12">
-                            <div class="relative mb-8">
-                                <div class="w-[80px] h-[96px] bg-card rounded-[16px] border-2 border-border/80 flex flex-col gap-3 p-4 justify-center shadow-sm">
-                                    <div class="w-3/4 h-1.5 bg-border rounded-full"></div>
-                                    <div class="w-full h-1.5 bg-border rounded-full"></div>
-                                    <div class="w-4/5 h-1.5 bg-border rounded-full"></div>
-                                </div>
-                                <div class="absolute -bottom-3 -right-3 w-10 h-10 bg-background border-2 border-border rounded-full flex items-center justify-center shadow-lg">
-                                    <i class="ph-fill ph-mountains text-yellow-500 text-lg"></i>
-                                </div>
-                            </div>
-                            <h3 class="text-[16px] font-bold mb-3 text-center">You don't have any trails or tours yet</h3>
-                            <p class="text-[12px] font-medium text-muted-foreground text-center leading-relaxed max-w-[240px] mb-10">
-                                Looks like you haven't created any trails or tours on Tourmkr.
-                            </p>
-                            
-                            <div class="w-full flex flex-col gap-3">
-                                <div class="h-11 w-full rounded-xl bg-primary text-primary-foreground text-[13px] font-bold flex items-center justify-center gap-2 shadow-sm">
-                                    <i class="ph ph-arrow-square-out text-lg"></i> Create on Tourmkr
-                                </div>
-                                <div class="text-[11px] font-semibold text-muted-foreground text-center py-1.5">or</div>
-                                <div class="h-11 w-full rounded-xl border border-border bg-card text-foreground text-[13px] font-bold flex items-center justify-center gap-2 shadow-sm">
-                                    <i class="ph ph-link text-lg text-muted-foreground"></i> Add link instead
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ====== PREVIEW 5: Base 360 ====== -->
-            <div class="flex flex-col gap-5 items-center">
-                <span class="text-[13px] font-bold text-gray-900 bg-white px-5 py-2 rounded-full shadow-sm">5. Post 360 View</span>
-                
+                <span class="text-[13px] font-bold text-foreground bg-card border border-border px-5 py-2 rounded-full shadow-sm">2. 360 Post Detail</span>
                 <div class="w-[340px] h-[736px] bg-black relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-white/10">
                     <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0" alt="">
-                    <div class="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none"></div>
-
-                    <!-- Status Bar -->
-                    <div class="absolute top-0 inset-x-0 h-10 flex justify-between items-center px-5 text-[13px] font-semibold text-white z-20">
-                        <span>14:19</span>
-                        <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-bold ph-wifi-high"></i><div class="flex gap-1 items-center"><span class="text-[10px]">66</span><i class="ph-fill ph-battery-full text-base"></i></div></div>
-                    </div>
-
-                    <!-- Top Bar -->
-                    <div class="absolute top-10 inset-x-0 px-3 flex justify-between gap-2.5 z-20">
-                        <div class="w-9 h-9 rounded-xl bg-black/60 backdrop-blur-md flex items-center justify-center text-white border border-slate-700/60 shrink-0">
-                            <i class="ph-bold ph-arrow-left text-base"></i>
-                        </div>
-                        <div class="flex-1 min-w-0 h-10 rounded-2xl bg-black/60 backdrop-blur-md flex flex-col justify-center px-4 border border-slate-700/60 overflow-hidden">
-                            <h1 class="text-[12px] font-bold text-white leading-tight truncate">PT. Go Thru Media Indonesia</h1>
-                            <div class="flex items-center gap-1 mt-0.5"><i class="ph-fill ph-map-pin text-[9px] text-gray-300"></i><p class="text-[9px] font-medium text-gray-300 truncate">Wanareja, Subang, Subang Regency...</p></div>
-                        </div>
-                        <div class="w-9 h-9 rounded-xl bg-black/60 backdrop-blur-md flex items-center justify-center text-white border border-slate-700/60 shrink-0">
-                            <i class="ph-bold ph-dots-three text-lg"></i>
-                        </div>
-                    </div>
-
-                    <!-- Hotspot -->
-                    <div class="absolute top-[48%] left-1/2 -translate-x-[40%] -translate-y-1/2 flex flex-col items-center gap-2 z-20">
-                        <div class="bg-[#F8F9FA] px-3.5 py-1 rounded-full text-gray-900 font-semibold text-[13px] shadow-lg">Stove Info</div>
-                        <div class="relative w-10 h-10 flex items-center justify-center">
-                            <div class="absolute inset-0 bg-[#00A3FF] rounded-full opacity-50 scale-125"></div>
-                            <div class="w-5 h-5 bg-[#00A3FF] border-2 border-card rounded-full z-10"></div>
-                        </div>
-                    </div>
-
-                    <!-- Right sidebar -->
-                    <div class="absolute right-3.5 bottom-40 flex flex-col items-center gap-3.5 z-20 text-white drop-shadow-md">
-                        <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60"><i class="ph ph-heart text-[20px]"></i></div><span class="text-[10px] font-bold">0</span></div>
-                        <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60"><i class="ph ph-chat-circle text-[20px]"></i></div><span class="text-[10px] font-bold">0</span></div>
-                        <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60"><i class="ph ph-bookmark-simple text-[20px]"></i></div><span class="text-[10px] font-bold">0</span></div>
-                        <div class="flex flex-col items-center gap-1"><div class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60"><i class="ph ph-share-fat text-[20px]"></i></div><span class="text-[10px] font-bold">0</span></div>
-                    </div>
-
-                    <!-- Bottom Area -->
-                    <div class="absolute bottom-0 inset-x-0 h-56 bg-gradient-to-t from-black via-black/60 to-transparent z-10 pointer-events-none"></div>
-                    <div class="absolute bottom-0 inset-x-0 z-20 flex flex-col px-3 pb-3">
-                        <div class="flex mb-3">
-                            <div class="flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-2 py-1.5 rounded-[8px] border border-slate-700/60">
-                                <div class="w-3.5 h-3.5 bg-primary rounded-[3px] flex items-center justify-center shrink-0">
-                                    <i class="ph-fill ph-mountains text-white text-[8px]"></i>
-                                </div>
-                                <span class="text-[9px] font-bold text-white tracking-wide">TourMkr</span>
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80"></div>
+                    <div class="absolute bottom-6 left-5 right-5 text-white z-20">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-9 h-9 rounded-full bg-[#A69389] flex items-center justify-center font-bold text-xs text-gray-800">FR</div>
+                            <div>
+                                <h3 class="text-sm font-bold">Filo Rial</h3>
+                                <p class="text-[11px] text-gray-300">@filorial</p>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between w-full mb-3"><div class="flex items-center gap-2.5">
-                            <div class="w-9 h-9 rounded-full bg-[#A69389] shrink-0 border border-border/80 dark:border-[#2D3C5C] overflow-hidden text-gray-900"><span class="text-sm font-bold text-gray-700">FR</span></div>
-                            <div class="flex-1 drop-shadow-md">
-                                <h2 class="text-[14px] font-bold text-white shadow-sm">Filo Rial</h2>
-                                <p class="text-[11px] font-medium text-gray-300">@filorial</p>
-                            </div>
-                        </div>
-                            <!-- Navigation Pill -->
-                            <div class="flex items-center justify-between w-[64px] h-[32px] px-3.5 rounded-full bg-black/40 backdrop-blur-md border border-slate-700/60 text-white drop-shadow-sm shrink-0">
-                                <i class="ph-bold ph-caret-left text-[14px]"></i>
-                                <i class="ph-bold ph-caret-right text-[14px]"></i>
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center justify-center gap-1 w-full pt-1 pb-1 text-white/90">
-                            <i class="ph-bold ph-caret-up text-[15px]"></i>
-                            <span class="text-[11px] font-semibold tracking-wide">Swipe up for details</span>
-                        </div>
+                        <p class="text-xs text-gray-200">PT. Go Thru Media Indonesia</p>
                     </div>
                 </div>
             </div>
 
-            <!-- ====== PREVIEW 6: Details Sheet ====== -->
-            <div class="flex flex-col gap-5 items-center">
-                <span class="text-[13px] font-bold text-gray-900 bg-white px-5 py-2 rounded-full shadow-sm">6. Details (Expanded)</span>
-                
-                <div class="w-[340px] h-[736px] bg-black relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-white/10">
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0" alt="">
-                    
-                    <!-- App UI slightly visible beneath -->
-                    <div class="absolute top-10 inset-x-0 px-3 flex justify-between gap-2.5 z-20">
-                        <div class="w-9 h-9 rounded-xl bg-black/60 text-white flex items-center justify-center"><i class="ph-bold ph-arrow-left text-base"></i></div>
-                        <div class="flex-1 h-10 rounded-2xl bg-black/60 flex flex-col justify-center px-4">
-                            <h1 class="text-[12px] font-bold text-white">PT. Go Thru ...</h1>
-                        </div>
-                        <div class="w-9 h-9 rounded-xl bg-black/60 text-white flex items-center justify-center"><i class="ph-bold ph-dots-three text-base"></i></div>
-                    </div>
-
-                    <!-- Backdrop mask -->
-                    <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px] z-30"></div>
-
-                    <!-- Bottom Sheet -->
-                    <div class="absolute bottom-0 inset-x-0 bg-white flex flex-col pt-3 pb-10 z-[70] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[1.75rem] overflow-hidden">
-                        <div class="w-full flex justify-center pb-4 pt-1 shrink-0">
-                            <div class="w-10 h-1 bg-gray-300 rounded-full"></div>
-                        </div>
-                        <div class="px-6 pb-4 shrink-0 relative text-center">
-                            <h2 class="text-[15px] font-bold text-gray-900">Details</h2>
-                        </div>
-                        <div class="px-6 pt-2 pb-6">
-                            <div class="flex items-center gap-3 mb-5">
-                                <div class="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#A69389] hover:bg-[#97847A] transition shrink-0 border border-[#A69389]/50 overflow-hidden">
-                                     <span class="text-sm font-bold text-gray-700">FR</span>
-                                </div>
-                                <div>
-                                    <h2 class="text-[14px] font-bold text-gray-900 leading-tight">Filo Rial</h2>
-                                    <p class="text-[11px] font-semibold text-gray-500 mt-0.5">@filorial</p>
-                                </div>
-                            </div>
-                            <p class="text-[13px] text-gray-800 font-medium">My 360</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    
         </div>
     </section>
 
@@ -1589,38 +1126,103 @@
 <script>
     function prototype() {
         return {
-            activePhone: 'create', // 'create' or 'detail'
+            flowStep: 'step1', // 'step1' | 'step2' | 'step3' | 'detail'
+            previewMode: '360', // '360' | 'map'
+            mapBottomTab: 'waypoints', // 'waypoints' | 'elevation'
+            fullscreenOpen: false,
+
+            // Modal state
             modalOpen: false,
             modalState: 'loading',
-            selectedItem: null,
+            selectedTrail: {
+                id: 1,
+                name: 'Spirit Mountain',
+                dist: '4.2 km',
+                loc: 'Duluth, MN',
+                elevation: '+350 m',
+                img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop'
+            },
+
+            // Step 2 details
+            difficulty: 'Moderate',
+            activity: 'Hiking',
+
+            // Step 3 details
+            description: 'Spectacular 360-degree panoramic vista along the Spirit Mountain ridge trail. Recorded with high-resolution waypoints and elevation profiles.',
+            category: 'trail',
+            visibility: 'public',
+            notify: true,
+            isPublishing: false,
+            publishSuccessToast: false,
+
+            // Post Detail 360
             detailsOpen: false,
-            previewMode: '360',
-            fullscreenOpen: false,
-            
+            isLiked: false,
+            likesCount: 0,
+            isBookmarked: false,
+
             trails: [
-                { id: 1, name: 'Batur Caldera Rim Trail', dist: '28.4 km', loc: 'Bali, Indonesia', img: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=200&auto=format&fit=crop' },
-                { id: 2, name: 'Rinjani Summit Route', dist: '41.2 km', loc: 'Lombok, Indonesia', img: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=200&auto=format&fit=crop' },
-                { id: 3, name: 'Komodo Island Explorer', dist: '18.6 km', loc: 'NTT, Indonesia', img: 'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=200&auto=format&fit=crop' },
-                { id: 4, name: 'Taman Nasional Baluran', dist: '12.4 km', loc: 'East Java', img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=200&auto=format&fit=crop' },
-                { id: 5, name: 'Ijen Crater Trail', dist: '14.1 km', loc: 'East Java', img: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=200&auto=format&fit=crop' },
+                { id: 1, name: 'Spirit Mountain', dist: '4.2 km', loc: 'Duluth, MN', img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=200&auto=format&fit=crop' },
+                { id: 2, name: 'Batur Caldera Rim Trail', dist: '28.4 km', loc: 'Bali, Indonesia', img: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=200&auto=format&fit=crop' },
+                { id: 3, name: 'Rinjani Summit Route', dist: '41.2 km', loc: 'Lombok, Indonesia', img: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=200&auto=format&fit=crop' },
+                { id: 4, name: 'Komodo Island Explorer', dist: '18.6 km', loc: 'NTT, Indonesia', img: 'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=200&auto=format&fit=crop' },
+                { id: 5, name: 'Taman Nasional Baluran', dist: '12.4 km', loc: 'East Java', img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=200&auto=format&fit=crop' },
                 { id: 6, name: 'Mount Prau Hike', dist: '6.2 km', loc: 'Central Java', img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=200&auto=format&fit=crop' },
             ],
 
             openModal(scenario) {
                 this.modalOpen = true;
-                this.selectedItem = null;
                 this.modalState = 'loading';
                 setTimeout(() => {
-                    if (scenario === 'data') {
+                    if (scenario === 'data' || !scenario) {
                         this.modalState = 'list';
                     } else if (scenario === 'empty') {
                         this.modalState = 'empty';
                     }
-                }, 1500);
+                }, 500);
+            },
+
+            chooseTrail(trail) {
+                this.selectedTrail = {
+                    id: trail.id,
+                    name: trail.name,
+                    dist: trail.dist,
+                    loc: trail.loc,
+                    elevation: '+350 m',
+                    img: trail.img.replace('w=200', 'w=800')
+                };
+            },
+
+            applySelection() {
+                this.modalOpen = false;
             },
 
             closeModal() {
                 this.modalOpen = false;
+            },
+
+            publishPost() {
+                this.isPublishing = true;
+                setTimeout(() => {
+                    this.isPublishing = false;
+                    this.publishSuccessToast = true;
+                    this.flowStep = 'detail';
+                    setTimeout(() => {
+                        this.publishSuccessToast = false;
+                    }, 4000);
+                }, 800);
+            },
+
+            toggleLike() {
+                this.isLiked = !this.isLiked;
+                this.likesCount += this.isLiked ? 1 : -1;
+            },
+
+            restartFlow() {
+                this.flowStep = 'step1';
+                this.detailsOpen = false;
+                this.isLiked = false;
+                this.likesCount = 0;
             }
         }
     }
