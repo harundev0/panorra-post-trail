@@ -1702,39 +1702,120 @@
             <div class="flex flex-col gap-4 items-center">
                 <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">📄 Post Detail 360 View</span>
                 <div class="w-[340px] h-[736px] bg-black relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-white/10">
+                    <!-- 360 Background Image (Beach Sunset) -->
                     <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0" alt="Beach 360">
-                    <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80 pointer-events-none"></div>
-                    <!-- Top Navigation Bar -->
-                    <div class="absolute top-10 inset-x-4 flex justify-between items-center text-white z-20">
-                        <span class="w-8 h-8 rounded-lg bg-black/60 flex items-center justify-center text-xs border border-white/20"><i class="ph-bold ph-arrow-left"></i></span>
-                        <div class="bg-black/60 px-3 py-1 rounded-xl border border-white/20 text-center truncate max-w-[200px]">
-                            <div class="text-xs font-bold truncate">PT. Go Thru Media Indonesia</div>
-                            <div class="text-[9px] text-gray-300 truncate">Wanareja, Subang...</div>
-                        </div>
-                        <span class="w-8 h-8 rounded-lg bg-black/60 flex items-center justify-center text-xs border border-white/20"><i class="ph-bold ph-dots-three"></i></span>
-                    </div>
-                    <!-- Hotspot -->
-                    <div class="absolute top-[48%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 z-20">
-                        <div class="bg-white px-2.5 py-0.5 rounded-full text-gray-900 font-bold text-[11px] shadow">Stove Info</div>
-                        <div class="w-4 h-4 rounded-full bg-[#00A3FF] border border-white shadow"></div>
-                    </div>
-                    <!-- Right Sidebar -->
-                    <div class="absolute right-3.5 bottom-44 flex flex-col items-center gap-3 z-20 text-white">
-                        <div class="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 text-sm"><i class="ph ph-heart"></i></div>
-                        <div class="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 text-sm"><i class="ph ph-chat-circle"></i></div>
-                        <div class="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 text-sm"><i class="ph ph-bookmark-simple"></i></div>
-                        <div class="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 text-sm"><i class="ph ph-share-fat"></i></div>
-                    </div>
-                    <!-- Bottom Info -->
-                    <div class="absolute bottom-5 left-4 right-4 text-white z-20">
-                        <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-[#A69389] flex items-center justify-center font-bold text-[11px] text-gray-800">FR</div>
-                            <div>
-                                <h3 class="text-xs font-bold leading-tight">Filo Rial</h3>
-                                <p class="text-[10px] text-gray-300">@filorial</p>
+
+                    <!-- Dark overlay at top for text legibility -->
+                    <div class="absolute top-0 inset-x-0 h-36 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none"></div>
+
+                    <!-- Status Bar -->
+                    <div class="absolute top-0 inset-x-0 h-10 flex justify-between items-center px-5 text-[13px] font-semibold text-white z-20 select-none">
+                        <span>14:19</span>
+                        <div class="flex gap-2 items-center">
+                            <i class="ph-fill ph-cell-signal-full"></i>
+                            <i class="ph-bold ph-wifi-high"></i>
+                            <div class="flex items-center gap-1">
+                                <span class="text-xs">66</span>
+                                <i class="ph-fill ph-battery-full text-base"></i>
                             </div>
                         </div>
-                        <div class="text-center text-[11px] text-white/80 font-semibold pt-1">^ Swipe up for details</div>
+                    </div>
+
+                    <!-- Top Navigation Area -->
+                    <div class="absolute top-10 inset-x-3.5 px-1 flex justify-between gap-2 z-20 select-none">
+                        <div class="w-9 h-9 rounded-xl bg-black/60 backdrop-blur-md flex items-center justify-center text-white shrink-0 border border-slate-700/60">
+                            <i class="ph-bold ph-arrow-left text-base"></i>
+                        </div>
+                        
+                        <div class="flex-1 min-w-0 h-9 rounded-xl bg-black/60 backdrop-blur-md flex flex-col justify-center px-3 border border-slate-700/60 overflow-hidden">
+                            <h1 class="text-[11px] font-bold text-white leading-tight truncate">PT. Go Thru Media Indonesia</h1>
+                            <div class="flex items-center gap-1 mt-0.5">
+                                <i class="ph-fill ph-map-pin text-[9px] text-gray-300 shrink-0"></i>
+                                <p class="text-[9px] font-medium text-gray-300 truncate">Wanareja, Subang, Subang Regency...</p>
+                            </div>
+                        </div>
+
+                        <div class="w-9 h-9 rounded-xl bg-black/60 backdrop-blur-md flex items-center justify-center text-white shrink-0 border border-slate-700/60">
+                            <i class="ph-bold ph-dots-three text-lg"></i>
+                        </div>
+                    </div>
+
+                    <!-- Stove Hotspot -->
+                    <div class="absolute top-[48%] left-1/2 -translate-x-[40%] -translate-y-1/2 flex flex-col items-center gap-1.5 z-20 select-none">
+                        <div class="bg-[#F8F9FA] px-3 py-1 rounded-full text-gray-900 font-semibold text-[12px] shadow-lg">
+                            Stove Info
+                        </div>
+                        <div class="relative w-10 h-10 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-[#00A3FF] rounded-full opacity-60 animate-ring"></div>
+                            <div class="w-5 h-5 bg-[#00A3FF] border-2 border-white rounded-full shadow-md z-10"></div>
+                        </div>
+                    </div>
+
+                    <!-- Right Action Sidebar (with accurate counts) -->
+                    <div class="absolute right-3 bottom-44 flex flex-col items-center gap-3.5 z-20 select-none drop-shadow-md text-white">
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60">
+                                <i class="ph ph-heart text-[20px]"></i>
+                            </div>
+                            <span class="text-[10px] font-bold drop-shadow-sm">0</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60">
+                                <i class="ph ph-chat-circle text-[20px]"></i>
+                            </div>
+                            <span class="text-[10px] font-bold drop-shadow-sm">0</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60">
+                                <i class="ph ph-bookmark-simple text-[20px]"></i>
+                            </div>
+                            <span class="text-[10px] font-bold drop-shadow-sm">0</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <div class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60">
+                                <i class="ph ph-share-fat text-[20px]"></i>
+                            </div>
+                            <span class="text-[10px] font-bold drop-shadow-sm">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Gradient Overlay -->
+                    <div class="absolute bottom-0 inset-x-0 h-60 bg-gradient-to-t from-black via-black/60 to-transparent z-10 pointer-events-none"></div>
+
+                    <!-- Bottom Content -->
+                    <div class="absolute bottom-0 inset-x-0 z-20 flex flex-col px-4 pb-4 select-none">
+                        <!-- TourMkr Badge -->
+                        <div class="flex mb-3.5">
+                            <div class="flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-2 py-1 rounded-[8px] border border-slate-700/60">
+                                <div class="w-4 h-4 bg-primary rounded-[4px] flex items-center justify-center shrink-0">
+                                    <i class="ph-fill ph-mountains text-white text-[10px]"></i>
+                                </div>
+                                <span class="text-[10px] font-bold text-white tracking-wide">TourMkr</span>
+                            </div>
+                        </div>
+
+                        <!-- Profile Row & Navigation Pill -->
+                        <div class="flex items-center justify-between mb-3 w-full">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center bg-[#A69389] shrink-0 overflow-hidden border border-[#A69389]/50">
+                                    <span class="text-xs font-bold text-gray-700">FR</span>
+                                </div>
+                                <div class="flex-1 drop-shadow-md">
+                                    <h2 class="text-[13px] font-bold text-white leading-tight">Filo Rial</h2>
+                                    <p class="text-[11px] font-medium text-gray-300 mt-0.5">@filorial</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between w-[64px] h-[34px] px-3 rounded-full bg-black/40 backdrop-blur-md border border-slate-700/60 text-white drop-shadow-sm shrink-0">
+                                <i class="ph-bold ph-caret-left text-xs"></i>
+                                <i class="ph-bold ph-caret-right text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- Swipe Up Trigger Button -->
+                        <div class="flex flex-col items-center justify-center gap-1 w-full pt-1 opacity-[0.85] text-white">
+                            <i class="ph-bold ph-caret-up text-sm"></i>
+                            <span class="text-[11px] font-semibold tracking-wide">Swipe up for details</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1743,19 +1824,47 @@
             <div class="flex flex-col gap-4 items-center">
                 <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">📄 Post Detail: Details Expanded</span>
                 <div class="w-[340px] h-[736px] bg-black relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-white/10">
-                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0 filter blur-[1px]" alt="">
-                    <div class="absolute inset-0 bg-black/50 z-10"></div>
-                    <div class="absolute bottom-0 inset-x-0 bg-white flex flex-col pt-3 pb-8 z-20 rounded-t-[1.75rem] px-5 shadow-2xl text-gray-900">
-                        <div class="w-full flex justify-center pb-3 pt-1"><div class="w-10 h-1 bg-gray-300 rounded-full"></div></div>
-                        <div class="text-center font-bold text-sm mb-3">Details</div>
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-9 h-9 rounded-full bg-[#A69389] flex items-center justify-center font-bold text-xs text-gray-800">FR</div>
-                            <div>
-                                <h4 class="text-xs font-bold">Filo Rial</h4>
-                                <p class="text-[10px] text-gray-500">@filorial</p>
-                            </div>
+                    <!-- 360 Background Image (Beach Sunset) -->
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0" alt="Beach 360">
+                    
+                    <!-- App UI slightly visible beneath in blur -->
+                    <div class="absolute top-10 inset-x-3.5 px-1 flex justify-between gap-2 z-20 opacity-70">
+                        <div class="w-9 h-9 rounded-xl bg-black/60 text-white flex items-center justify-center"><i class="ph-bold ph-arrow-left text-base"></i></div>
+                        <div class="flex-1 h-9 rounded-xl bg-black/60 flex flex-col justify-center px-3">
+                            <h1 class="text-[11px] font-bold text-white">PT. Go Thru ...</h1>
                         </div>
-                        <p class="text-xs font-medium text-gray-700">My 360</p>
+                        <div class="w-9 h-9 rounded-xl bg-black/60 text-white flex items-center justify-center"><i class="ph-bold ph-dots-three text-base"></i></div>
+                    </div>
+
+                    <!-- Backdrop mask -->
+                    <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px] z-30"></div>
+
+                    <!-- Bottom Sheet (Always Expanded as per Design Spec) -->
+                    <div class="absolute bottom-0 inset-x-0 bg-white flex flex-col pt-3 pb-8 z-[70] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[1.75rem] overflow-hidden text-gray-900">
+                        <!-- Drag Handle -->
+                        <div class="w-full flex justify-center pb-3 pt-1 shrink-0">
+                            <div class="w-10 h-1 bg-gray-300 rounded-full"></div>
+                        </div>
+
+                        <!-- Header -->
+                        <div class="px-6 pb-3 shrink-0 relative text-center">
+                            <h2 class="text-[15px] font-bold text-gray-900">Details</h2>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="px-6 pt-1 pb-4">
+                            <div class="flex items-center gap-3.5 mb-4">
+                                <div class="w-[44px] h-[44px] rounded-full flex items-center justify-center bg-[#A69389] shrink-0 border border-[#A69389]/50 overflow-hidden">
+                                    <span class="text-sm font-bold text-gray-700">FR</span>
+                                </div>
+                                <div>
+                                    <h2 class="text-[14px] font-bold text-gray-900 leading-tight">Filo Rial</h2>
+                                    <p class="text-[11px] font-semibold text-gray-500 mt-0.5">@filorial</p>
+                                </div>
+                            </div>
+
+                            <p class="text-[13px] text-gray-800 font-medium">My 360</p>
+                        </div>
                     </div>
                 </div>
             </div>
