@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         :root {
             --bg-nav: #090d16;
@@ -15,6 +16,7 @@
             --primary-glow: rgba(91, 75, 255, 0.35);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
+            --stage-bg: #030712;
         }
 
         * {
@@ -27,9 +29,10 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #030712;
+            background-color: var(--stage-bg);
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             color: var(--text-main);
+            transition: background-color 0.25s ease, color 0.25s ease;
         }
 
         /* Top Navigation Bar */
@@ -45,6 +48,7 @@
             padding: 0 20px;
             position: relative;
             z-index: 50;
+            transition: all 0.25s ease;
         }
 
         .brand-group {
@@ -76,6 +80,7 @@
             font-weight: 700;
             letter-spacing: -0.01em;
             color: #ffffff;
+            transition: color 0.25s;
         }
 
         .brand-subtitle {
@@ -94,7 +99,8 @@
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.06);
             overflow-x: auto;
-            max-width: calc(100% - 460px);
+            max-width: calc(100% - 480px);
+            transition: all 0.25s;
         }
 
         nav::-webkit-scrollbar {
@@ -129,20 +135,12 @@
             box-shadow: 0 4px 14px var(--primary-glow);
         }
 
-        .badge-count {
-            background: rgba(255, 255, 255, 0.2);
-            font-size: 0.65rem;
-            padding: 1px 6px;
-            border-radius: 999px;
-            font-weight: 700;
-        }
-
         /* Action Buttons Right */
         .actions-group {
             display: flex;
             align-items: center;
-            gap: 10px;
-            min-width: 180px;
+            gap: 8px;
+            min-width: 250px;
             justify-content: flex-end;
         }
 
@@ -150,7 +148,7 @@
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-main);
-            padding: 7px 13px;
+            padding: 7px 12px;
             border-radius: 8px;
             font-size: 0.78rem;
             font-weight: 600;
@@ -160,6 +158,7 @@
             align-items: center;
             gap: 6px;
             transition: all 0.2s;
+            outline: none;
         }
 
         .btn-action:hover {
@@ -169,12 +168,17 @@
             transform: translateY(-1px);
         }
 
+        .btn-action:active {
+            transform: translateY(0);
+        }
+
         /* Content Iframe Stage */
         .stage-container {
             width: 100%;
             height: calc(100% - 60px);
             position: relative;
-            background: #030712;
+            background: var(--stage-bg);
+            transition: background-color 0.25s ease;
         }
 
         iframe {
@@ -203,6 +207,69 @@
             gap: 6px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             z-index: 40;
+            transition: all 0.25s ease;
+        }
+
+        /* ============================================= */
+        /* LIGHT MODE OVERRIDES FOR SHELL                */
+        /* ============================================= */
+        body.light {
+            --stage-bg: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            color: #0f172a;
+        }
+
+        body.light header {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        body.light .brand-title {
+            color: #0f172a;
+        }
+
+        body.light .brand-subtitle {
+            color: #64748b;
+        }
+
+        body.light nav {
+            background: rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        body.light .nav-btn {
+            color: #64748b;
+        }
+
+        body.light .nav-btn:hover {
+            color: #0f172a;
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        body.light .nav-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 4px 14px var(--primary-glow);
+        }
+
+        body.light .btn-action {
+            background: rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #0f172a;
+        }
+
+        body.light .btn-action:hover {
+            background: rgba(0, 0, 0, 0.08);
+            border-color: rgba(0, 0, 0, 0.15);
+            color: #0f172a;
+        }
+
+        body.light .floating-tip {
+            background: rgba(255, 255, 255, 0.9);
+            color: #475569;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         }
     </style>
 </head>
@@ -240,6 +307,13 @@
         </nav>
 
         <div class="actions-group">
+            <!-- Theme Mode Switcher Icon Button -->
+            <button id="btn-theme-toggle" class="btn-action" onclick="toggleTheme()" title="Ganti Mode Gelap / Terang">
+                <i id="theme-icon" class="ph-bold ph-sun text-base"></i>
+                <span id="theme-text">Light Mode</span>
+            </button>
+
+            <!-- Open Full Tab Button -->
             <a id="btn-open-tab" href="pages/tourmkr_ui.html" target="_blank" class="btn-action" title="Buka halaman saat ini di tab penuh browser">
                 <span>Buka Tab Penuh</span>
                 <span style="font-size: 0.9em;">↗</span>
@@ -258,6 +332,50 @@
     </div>
 
     <script>
+        let isDarkMode = localStorage.getItem('tourmkr_theme') !== 'light';
+
+        function applyTheme(isDark) {
+            isDarkMode = isDark;
+            localStorage.setItem('tourmkr_theme', isDark ? 'dark' : 'light');
+            
+            // 1. Update index.html body & buttons
+            document.body.classList.toggle('light', !isDark);
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (icon && text) {
+                if (isDark) {
+                    icon.className = 'ph-bold ph-sun text-base';
+                    text.textContent = 'Light Mode';
+                } else {
+                    icon.className = 'ph-bold ph-moon text-base';
+                    text.textContent = 'Dark Mode';
+                }
+            }
+
+            // 2. Synchronize theme with current active iframe
+            const frame = document.getElementById('main-frame');
+            try {
+                if (frame && frame.contentDocument) {
+                    frame.contentDocument.documentElement.className = isDark ? 'dark' : '';
+                    if (frame.contentWindow && frame.contentWindow.Alpine) {
+                        const alpineRoot = frame.contentDocument.querySelector('[x-data]');
+                        if (alpineRoot) {
+                            const data = frame.contentWindow.Alpine.$data(alpineRoot);
+                            if (data && 'darkMode' in data) {
+                                data.darkMode = isDark;
+                            }
+                        }
+                    }
+                }
+            } catch (e) {
+                // Ignore any cross-origin restrictions
+            }
+        }
+
+        function toggleTheme() {
+            applyTheme(!isDarkMode);
+        }
+
         function loadPage(url, btnElement) {
             const frame = document.getElementById('main-frame');
             const openTabBtn = document.getElementById('btn-open-tab');
@@ -273,6 +391,14 @@
                 btnElement.classList.add('active');
             }
         }
+
+        // Apply theme whenever iframe finishes loading
+        document.getElementById('main-frame').addEventListener('load', () => {
+            applyTheme(isDarkMode);
+        });
+
+        // Initialize theme on start
+        applyTheme(isDarkMode);
     </script>
 </body>
 </html>
