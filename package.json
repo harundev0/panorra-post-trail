@@ -1,7 +1,7 @@
 {
   "name": "tourmkr-mobile",
   "version": "1.0.0",
-  "description": "Tourmkr Mobile - Interactive UI/UX Prototype Showcase",
+  "description": "Panorra post trail - Interactive UI/UX Prototype Showcase",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

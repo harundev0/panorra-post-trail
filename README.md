@@ -1,6 +1,6 @@
-# 📱 Tourmkr Mobile — Interactive Design Showcase
+# 📱 Panorra post trail — Interactive Design Showcase
 
-Interactive UI/UX prototype and design showcase for **Tourmkr Mobile**. Built with lightweight, responsive HTML5, Tailwind CSS, Alpine.js, and Phosphor Icons for seamless client demonstration and developer handoff.
+Interactive UI/UX prototype and design showcase for **Panorra post trail**. Built with lightweight, responsive HTML5, Tailwind CSS, Alpine.js, and Phosphor Icons for seamless client demonstration and developer handoff.
 
 ---
 
