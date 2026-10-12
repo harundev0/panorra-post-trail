@@ -6,8 +6,8 @@ Interactive UI/UX prototype and design showcase for **Panorra post trail**. Buil
 
 ## 🚀 Live Demo for Client
 
-- **Live URL**: [https://harundev0.github.io/tourmkr-mobile/](https://harundev0.github.io/tourmkr-mobile/)
-- **Repository**: [https://github.com/harundev0/tourmkr-mobile](https://github.com/harundev0/tourmkr-mobile)
+- **Live URL**: [https://harundev0.github.io/panorra-post-trail/](https://harundev0.github.io/panorra-post-trail/)
+- **Repository**: [https://github.com/harundev0/panorra-post-trail](https://github.com/harundev0/panorra-post-trail)
 
 ---
 
