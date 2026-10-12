@@ -1636,7 +1636,7 @@
                 </div>
             </div>
 
-            <!-- ====== 2. STEP 1: APPLIED & PREVIEW ====== -->
+            <!-- ====== 2. STEP 1: APPLIED & PREVIEW (Exact Image 9 & 10) ====== -->
             <div class="flex flex-col gap-4 items-center">
                 <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">1️⃣ Step 1: Applied & Preview</span>
                 <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
@@ -1645,7 +1645,7 @@
                         <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-base"></i></div>
                     </div>
                     <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-24 relative bg-background px-5">
-                        <div class="flex items-center gap-3 mt-2 mb-6">
+                        <div class="flex items-center gap-3 mt-2 mb-5">
                             <span class="text-muted-foreground"><i class="ph ph-arrow-left text-xl"></i></span>
                             <div>
                                 <h1 class="text-[15px] font-bold text-foreground leading-tight">Create New Post</h1>
@@ -1654,32 +1654,86 @@
                         </div>
                         <div class="flex items-center justify-between mb-4">
                             <div class="text-[13px] font-semibold text-foreground">Step 1: <span class="font-bold">Select Tour</span></div>
-                            <div class="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">1 Out of 3</div>
+                            <div class="text-[11px] font-medium text-primary bg-primary/10 px-2.5 py-0.5 rounded-full">1 Out of 3</div>
                         </div>
-                        <!-- Preview Card -->
-                        <div class="rounded-2xl bg-card border border-border/60 overflow-hidden relative w-full h-[210px] shrink-0 mb-3 shadow-sm">
-                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover">
+
+                        <!-- 360 Preview Card with Chevrons and Expand (Exact Image 9) -->
+                        <div class="rounded-2xl bg-card border border-border/60 overflow-hidden relative w-full h-[210px] shrink-0 mb-3 shadow-sm isolate">
+                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
-                            <div class="absolute inset-0 flex items-center justify-center">
+                            
+                            <div class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center z-20">
+                                <i class="ph ph-corners-out text-xs"></i>
+                            </div>
+
+                            <div class="absolute inset-0 flex items-center justify-center z-10">
                                 <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg"><i class="ph-fill ph-play text-xl ml-0.5"></i></div>
                             </div>
-                            <div class="absolute bottom-3 left-3 text-white">
+
+                            <div class="absolute top-1/2 left-2.5 -translate-y-1/2 z-10 text-white/50">
+                                <i class="ph ph-caret-left text-xl"></i>
+                            </div>
+                            <div class="absolute top-1/2 right-2.5 -translate-y-1/2 z-10 text-white/50">
+                                <i class="ph ph-caret-right text-xl"></i>
+                            </div>
+
+                            <div class="absolute bottom-3 left-3 text-white z-10">
                                 <div class="text-xs font-bold leading-tight">Spirit Mountain</div>
-                                <div class="text-[10px] text-white/80">Duluth, MN</div>
+                                <div class="text-[10px] text-white/80 flex items-center gap-1 mt-0.5"><i class="ph-fill ph-map-pin text-primary text-[10px]"></i> High Above Spirit Mountain</div>
                             </div>
                         </div>
-                        <div class="w-full bg-secondary p-1 rounded-xl flex items-center mb-5 text-xs font-bold">
-                            <div class="flex-1 py-1.5 text-center bg-card rounded-lg shadow-sm text-foreground">360° Scene</div>
-                            <div class="flex-1 py-1.5 text-center text-muted-foreground">Route Map</div>
-                        </div>
-                        <div class="p-3.5 rounded-2xl border border-emerald-500/30 bg-emerald-500/[0.04] flex items-center justify-between mb-4">
-                            <div class="flex items-center gap-2.5">
-                                <i class="ph-fill ph-check-circle text-emerald-500 text-lg"></i>
-                                <div><div class="text-[12px] font-bold text-foreground">URL Applied & Synced</div><div class="text-[10px] text-muted-foreground">4 waypoints, 4.2 km</div></div>
+
+                        <!-- Segmented Switcher (Exact Image 9) -->
+                        <div class="w-full bg-secondary p-1 rounded-xl flex items-center mb-4 text-xs font-bold">
+                            <div class="flex-1 py-1.5 text-center bg-card rounded-lg shadow-sm text-foreground flex items-center justify-center gap-1.5">
+                                <i class="ph-fill ph-cube text-primary"></i> 360° Scene
                             </div>
-                            <span class="text-[11px] font-bold text-primary">Change</span>
+                            <div class="flex-1 py-1.5 text-center text-muted-foreground flex items-center justify-center gap-1.5">
+                                <i class="ph-fill ph-map-trifold"></i> Route Map
+                            </div>
                         </div>
+
+                        <!-- TourMkr Platform Card (Exact Image 9 & 10) -->
+                        <div class="mb-4 select-none flex items-center justify-between p-3 rounded-2xl border border-border/60 bg-secondary/50">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-card border border-border/50 flex items-center justify-center shrink-0 shadow-sm">
+                                    <i class="ph-fill ph-cube text-primary text-base"></i>
+                                </div>
+                                <div>
+                                    <div class="text-[12px] text-foreground font-semibold">TourMkr Platform</div>
+                                    <div class="text-[10px] text-primary font-medium">Platform Selected</div>
+                                </div>
+                            </div>
+                            <button class="text-[11px] font-semibold text-muted-foreground hover:text-foreground">Edit</button>
+                        </div>
+
+                        <!-- URL Input Section (Exact Image 10) -->
+                        <div class="mb-3">
+                            <div class="flex items-center justify-between mb-2 px-1 select-none">
+                                <h2 class="text-[12px] font-semibold text-foreground">TourMkr Tour or Trail URL</h2>
+                                <span class="text-[11px] text-emerald-500 font-medium flex items-center gap-1"><i class="ph-fill ph-check-circle"></i> Valid</span>
+                            </div>
+                            
+                            <div class="relative flex items-center">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10 text-primary">
+                                    <i class="ph-bold ph-link text-base"></i>
+                                </div>
+                                <div class="w-full h-10 pl-9 pr-8 rounded-xl bg-input/30 border border-primary/50 text-[12px] text-foreground font-medium flex items-center truncate">
+                                    https://tourmkr.com/F1PWHsBHrg
+                                </div>
+                                <button class="absolute inset-y-0 right-0 pr-3 flex items-center z-10 outline-none text-muted-foreground hover:text-foreground">
+                                    <i class="ph ph-x text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Refresh Preview Button (Exact Image 10) -->
+                        <button class="w-full h-10 rounded-xl bg-secondary text-foreground text-[12px] font-semibold flex items-center justify-center gap-2 mb-4 border border-border shadow-sm">
+                            <i class="ph ph-arrows-clockwise text-base"></i> Refresh Preview
+                        </button>
                     </div>
+
+                    <!-- Fixed Bottom Bar -->
                     <div class="absolute bottom-0 inset-x-0 p-3.5 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex items-center gap-2.5">
                         <div class="flex-1 h-10 px-3 rounded-xl border border-border bg-card text-foreground text-[12px] font-semibold flex items-center justify-center gap-1">Change method</div>
                         <div class="flex-1 h-10 px-3 rounded-xl bg-primary text-primary-foreground text-[12px] font-semibold flex items-center justify-center gap-1 shadow-md">Next &rarr;</div>
