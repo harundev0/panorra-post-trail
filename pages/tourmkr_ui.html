@@ -1591,60 +1591,177 @@
                 </div>
             </div>
 
-            <!-- ====== 5. MAP FOCUS STATE (Fullscreen Map) ====== -->
-            <div class="flex flex-col gap-4 items-center">
-                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">🗺️ Map Focus (Fullscreen)</span>
+            <!-- ====== 8. MAP FOCUS (FULLSCREEN MAP - EXACT IMAGE 2 & 3) ====== -->
+            <div x-data="{ mapFocusTab: 'waypoints' }" class="flex flex-col gap-4 items-center">
+                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">8. Map Focus (Fullscreen)</span>
                 <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border text-foreground">
+                    <!-- Status Bar -->
                     <div class="h-10 flex justify-between items-center px-5 text-[13px] font-semibold bg-background shrink-0 select-none z-30">
                         <span>9:41</span>
                         <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-base"></i></div>
                     </div>
+
                     <!-- Fullscreen Map Canvas -->
                     <div class="absolute inset-0 bg-[#1a1c23] flex flex-col pt-10">
                         <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover opacity-80" alt="Map">
                         <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/80 pointer-events-none"></div>
-                        <!-- Floating Header -->
+
+                        <!-- Top Floating Header (Exact Image 2 & 3) -->
                         <div class="absolute top-12 inset-x-3.5 z-30">
                             <div class="bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-2xl p-2.5 flex flex-col gap-2 shadow-xl">
                                 <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-1.5">
-                                        <div class="w-7 h-7 rounded-full bg-secondary flex items-center justify-center text-xs text-foreground"><i class="ph ph-x"></i></div>
-                                        <div class="px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 rounded-lg text-[10px] font-bold">Discovery</div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-7 h-7 rounded-full bg-secondary flex items-center justify-center text-foreground outline-none shadow-sm cursor-pointer">
+                                            <i class="ph ph-x text-sm"></i>
+                                        </div>
+                                        <div class="flex items-center gap-1 px-2 py-0.5 bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 rounded-lg text-[10px] font-bold">
+                                            <i class="ph-fill ph-check-circle text-xs"></i>
+                                            <span>Discovery</span>
+                                        </div>
                                     </div>
-                                    <div class="flex items-center gap-1 bg-secondary px-1.5 py-0.5 rounded-lg text-[10px] font-bold">
-                                        <span>-</span><span class="px-1 border-x border-border/50">FIT</span><span>+</span>
+                                    <div class="flex items-center gap-1 bg-secondary border border-border/60 px-1 py-0.5 rounded-lg text-[10px] font-bold">
+                                        <span class="w-5 h-5 rounded flex items-center justify-center cursor-pointer hover:bg-card">-</span>
+                                        <div class="w-px h-3 bg-border mx-0.5"></div>
+                                        <span class="px-1 text-[10px] font-bold tracking-wider">FIT</span>
+                                        <div class="w-px h-3 bg-border mx-0.5"></div>
+                                        <span class="w-5 h-5 rounded flex items-center justify-center cursor-pointer hover:bg-card">+</span>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-1.5 text-[11px] font-bold">
-                                    <span class="bg-indigo-500/15 text-indigo-300 px-2 py-0.5 rounded">4.2 km</span>
-                                    <span class="bg-blue-500/15 text-blue-300 px-2 py-0.5 rounded">+350m</span>
-                                    <span class="bg-orange-500/15 text-orange-300 px-2 py-0.5 rounded">-95m</span>
+                                <div class="flex items-center gap-1.5 text-[10px] font-bold">
+                                    <span class="bg-indigo-500/15 border border-indigo-500/30 text-primary dark:text-indigo-300 px-2 py-0.5 rounded tracking-wide">4.2 km</span>
+                                    <span class="bg-blue-500/15 border border-blue-500/30 text-blue-500 dark:text-blue-300 px-2 py-0.5 rounded flex items-center gap-0.5">
+                                        <i class="ph-bold ph-trend-up"></i> +350m
+                                    </span>
+                                    <span class="bg-orange-500/15 border border-orange-500/30 text-orange-500 dark:text-orange-300 px-2 py-0.5 rounded flex items-center gap-0.5">
+                                        <i class="ph-bold ph-trend-down"></i> -95m
+                                    </span>
                                 </div>
                             </div>
                         </div>
+
                         <!-- SVG Route Line -->
-                        <svg class="absolute inset-0 w-full h-full pointer-events-none drop-shadow-md" viewBox="0 0 100 100" preserveAspectRatio="none">
-                            <path d="M 20 80 Q 40 50 60 20 L 80 40 L 70 90" fill="none" stroke="#22c55e" stroke-width="2" />
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none drop-shadow-md z-10" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <path d="M 20 80 Q 40 50 60 20 L 80 40 L 70 90" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        <!-- Waypoints & Elevation Sheet -->
-                        <div class="absolute bottom-16 inset-x-3.5 z-30 flex flex-col gap-2">
-                            <div class="flex gap-1.5 text-[11px] font-bold">
-                                <span class="bg-primary text-white px-3 py-1 rounded-full shadow-sm"><i class="ph-fill ph-map-pin"></i> Key Points (4)</span>
-                                <span class="bg-card/90 border border-border text-foreground px-3 py-1 rounded-full"><i class="ph-bold ph-chart-line-up"></i> Elevation Graph</span>
+
+                        <!-- Waypoints Pins on Map (Exact Image 2 & 3) -->
+                        <!-- Pin 1: Start -->
+                        <div class="absolute top-[80%] left-[20%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+                            <div class="bg-emerald-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded shadow mb-0.5 whitespace-nowrap">Start</div>
+                            <div class="w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow-md flex items-center justify-center">
+                                <i class="ph-bold ph-flag text-[8px] text-white"></i>
                             </div>
-                            <div class="bg-card/95 border border-border rounded-xl p-2.5 shadow-xl text-foreground">
-                                <div class="flex justify-between text-[10px] font-bold mb-1"><span>Elevation Profile</span><span class="text-emerald-500">+350m gain</span></div>
-                                <div class="h-10 w-full bg-secondary/50 rounded-lg overflow-hidden flex items-end p-1">
-                                    <svg class="w-full h-full" viewBox="0 0 100 30" preserveAspectRatio="none">
-                                        <path d="M 0 25 Q 30 20 50 5 T 100 20 L 100 30 L 0 30 Z" fill="#5B4BFF" fill-opacity="0.3" />
-                                        <path d="M 0 25 Q 30 20 50 5 T 100 20" fill="none" stroke="#5B4BFF" stroke-width="2" />
+                        </div>
+                        <!-- Pin 2: Orange dot -->
+                        <div class="absolute top-[40%] left-[80%] -translate-x-1/2 -translate-y-1/2 z-20">
+                            <div class="w-3.5 h-3.5 rounded-full bg-orange-500 border-2 border-card dark:border-[#0B1020] shadow"></div>
+                        </div>
+                        <!-- Pin 3: Highest Summit Peak -->
+                        <div class="absolute top-[20%] left-[60%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+                            <div class="bg-blue-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded shadow mb-0.5 whitespace-nowrap">Highest</div>
+                            <div class="w-4 h-4 rounded-full bg-blue-500 border-2 border-white shadow-md flex items-center justify-center">
+                                <i class="ph-bold ph-mountains text-[9px] text-white"></i>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Sheet Tabs & Panels (Exact Image 2 & 3) -->
+                        <div class="absolute bottom-6 inset-x-3.5 z-30 flex flex-col gap-2.5">
+                            <!-- Toggle Tabs: Key Points vs Elevation Graph -->
+                            <div class="flex gap-2">
+                                <button 
+                                    @click="mapFocusTab = 'waypoints'"
+                                    :class="mapFocusTab === 'waypoints' ? 'bg-primary text-white border-primary/40 shadow-sm' : 'bg-card/90 dark:bg-[#12182A]/90 text-foreground border-border hover:bg-card'"
+                                    class="border backdrop-blur-xl px-3 py-1.5 rounded-full text-[11px] font-bold flex items-center gap-1.5 transition-all outline-none"
+                                >
+                                    <i class="ph-fill ph-map-pin text-xs"></i> Key Points (4)
+                                </button>
+                                <button 
+                                    @click="mapFocusTab = 'elevation'"
+                                    :class="mapFocusTab === 'elevation' ? 'bg-primary text-white border-primary/40 shadow-sm' : 'bg-card/90 dark:bg-[#12182A]/90 text-foreground border-border hover:bg-card'"
+                                    class="border backdrop-blur-xl px-3 py-1.5 rounded-full text-[11px] font-bold flex items-center gap-1.5 transition-all outline-none"
+                                >
+                                    <i class="ph-bold ph-chart-line-up text-xs"></i> Elevation Graph
+                                </button>
+                            </div>
+
+                            <!-- TAB 1: Key Points Horizontal Cards (IMAGE 2) -->
+                            <div x-show="mapFocusTab === 'waypoints'" class="flex overflow-x-auto no-scrollbar snap-x gap-2.5">
+                                <!-- Card 1 -->
+                                <div class="w-[230px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-2xl p-2.5 shadow-xl flex items-center gap-2.5 snap-start shrink-0">
+                                    <div class="w-9 h-9 rounded-xl bg-emerald-500/15 flex items-center justify-center shrink-0">
+                                        <i class="ph-fill ph-flag text-emerald-400 text-base"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-[11px] font-bold text-foreground truncate">Trailhead / St...</div>
+                                        <div class="text-[9px] text-muted-foreground mt-0.5 flex items-center gap-1">
+                                            <span>725m</span> <span class="opacity-40">|</span> <span class="bg-primary/10 text-primary px-1 rounded font-semibold">Start</span>
+                                        </div>
+                                    </div>
+                                    <div class="h-7 px-2.5 bg-primary/10 hover:bg-primary/20 text-primary text-[10px] font-bold rounded-lg flex items-center gap-1 shrink-0">
+                                        <i class="ph-fill ph-cube"></i> View 360
+                                    </div>
+                                </div>
+                                <!-- Card 2 -->
+                                <div class="w-[230px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-2xl p-2.5 shadow-xl flex items-center gap-2.5 snap-start shrink-0">
+                                    <div class="w-9 h-9 rounded-xl bg-blue-500/15 text-blue-400 font-bold text-xs flex items-center justify-center shrink-0">
+                                        2
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-[11px] font-bold text-foreground truncate">Taman Wisata...</div>
+                                        <div class="text-[9px] text-muted-foreground mt-0.5">820m elevation</div>
+                                    </div>
+                                    <div class="h-7 px-2.5 bg-primary/10 text-primary text-[10px] font-bold rounded-lg flex items-center gap-1 shrink-0">
+                                        <i class="ph-fill ph-cube"></i> View 360
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TAB 2: Elevation Profile SVG Curve (IMAGE 3) -->
+                            <div x-show="mapFocusTab === 'elevation'" style="display: none;" class="bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-2xl p-3 shadow-xl flex flex-col gap-2 text-foreground">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="text-[11px] font-bold text-foreground">Elevation Profile</span>
+                                        <span class="text-[9px] text-muted-foreground bg-secondary px-1.5 py-0.5 rounded-full font-semibold">
+                                            Min 725m · Max 1,075m
+                                        </span>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-emerald-500 flex items-center gap-0.5">
+                                        <i class="ph-bold ph-trend-up"></i> +350m
+                                    </span>
+                                </div>
+
+                                <!-- Accurate SVG Curve Chart with Nodes & Dashed Lines -->
+                                <div class="relative w-full h-[65px] pt-1">
+                                    <svg class="w-full h-full overflow-visible" viewBox="0 0 320 70" preserveAspectRatio="none">
+                                        <defs>
+                                            <linearGradient id="elevationFocusCardGrad" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" stop-color="#5B4BFF" stop-opacity="0.35"/>
+                                                <stop offset="100%" stop-color="#5B4BFF" stop-opacity="0.0"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <!-- Vertical Guide Lines -->
+                                        <line x1="20" y1="52" x2="20" y2="65" stroke="#94a3b8" stroke-dasharray="2 2" stroke-width="1" class="opacity-40" />
+                                        <line x1="100" y1="44" x2="100" y2="65" stroke="#94a3b8" stroke-dasharray="2 2" stroke-width="1" class="opacity-40" />
+                                        <line x1="230" y1="12" x2="230" y2="65" stroke="#94a3b8" stroke-dasharray="2 2" stroke-width="1" class="opacity-40" />
+                                        <line x1="300" y1="42" x2="300" y2="65" stroke="#94a3b8" stroke-dasharray="2 2" stroke-width="1" class="opacity-40" />
+                                        <!-- Fill Area -->
+                                        <path d="M 20 52 C 55 50, 75 46, 100 44 C 150 40, 190 18, 230 12 C 265 12, 280 32, 300 42 L 300 65 L 20 65 Z" fill="url(#elevationFocusCardGrad)" />
+                                        <!-- Main Curve -->
+                                        <path d="M 20 52 C 55 50, 75 46, 100 44 C 150 40, 190 18, 230 12 C 265 12, 280 32, 300 42" fill="none" stroke="#5B4BFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        <!-- Waypoint Marker Dots -->
+                                        <circle cx="20" cy="52" r="4" fill="#22c55e" stroke="white" stroke-width="2" />
+                                        <circle cx="100" cy="44" r="4" fill="#3b82f6" stroke="white" stroke-width="2" />
+                                        <circle cx="230" cy="12" r="4.5" fill="#8b5cf6" stroke="white" stroke-width="2" />
+                                        <circle cx="300" cy="42" r="4" fill="#ef4444" stroke="white" stroke-width="2" />
                                     </svg>
                                 </div>
+
+                                <div class="flex justify-between items-center text-[9px] text-muted-foreground font-semibold px-0.5">
+                                    <span>0 km (725m)</span>
+                                    <span>2.1 km</span>
+                                    <span>4.2 km (840m)</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="absolute bottom-0 inset-x-0 p-3 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex items-center gap-2">
-                            <div class="flex-1 h-9 px-3 rounded-xl border border-border bg-card text-foreground text-[11px] font-semibold flex items-center justify-center">Back</div>
-                            <div class="flex-1 h-9 px-3 rounded-xl bg-primary text-primary-foreground text-[11px] font-semibold flex items-center justify-center">Next &rarr;</div>
                         </div>
                     </div>
                 </div>
