@@ -674,28 +674,48 @@
                             <div class="text-[12px] font-medium text-primary bg-primary/10 px-2.5 py-0.5 rounded-full">3 Out of 3</div>
                         </div>
 
-                        <div class="flex flex-col gap-5">
-                            <!-- Hero Preview Card -->
+                        <div class="flex flex-col gap-4">
+                            <!-- Hero Preview Card (Exact Image 2 & 3) -->
                             <div class="rounded-[1.5rem] bg-card border border-border/80 dark:border-[#202B42] overflow-hidden shadow-md relative group aspect-[16/10] w-full isolate">
                                 <img :src="selectedTrail.img" alt="Spirit Mountain 360" class="absolute inset-0 w-full h-full object-cover">
                                 <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none"></div>
                                 <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 pointer-events-none"></div>
                                 
-                                <div class="absolute top-3 left-3 z-20 flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-slate-700/60 text-white text-[11px] font-semibold">
-                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                <!-- Top Left Badge -->
+                                <div class="absolute top-3 left-3 z-20 flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20 text-white text-[10px] font-semibold">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                                     <span>360° Scene</span>
                                 </div>
 
-                                <div class="absolute bottom-3 left-3 z-20 text-white pr-24 pointer-events-none">
+                                <!-- Top Right Fullscreen Button -->
+                                <button class="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-black/80 transition-colors active:scale-95">
+                                    <i class="ph ph-corners-out text-sm"></i>
+                                </button>
+
+                                <!-- Center Play Button -->
+                                <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+                                    <div class="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white flex items-center justify-center shadow-lg">
+                                        <i class="ph-fill ph-play text-xl ml-0.5"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Bottom Left Info -->
+                                <div class="absolute bottom-3 left-3 z-20 text-white pr-20 pointer-events-none">
                                     <div class="text-[13px] font-bold leading-tight drop-shadow-md" x-text="selectedTrail.name">Spirit Mountain</div>
                                     <div class="text-[10px] text-white/80 flex items-center gap-1 mt-0.5">
-                                        <i class="ph-fill ph-map-pin text-emerald-400"></i> <span x-text="selectedTrail.loc">Duluth, MN</span>
+                                        <i class="ph-fill ph-map-pin text-emerald-400"></i> High Above Spirit Mountain
                                     </div>
+                                </div>
+
+                                <!-- Bottom Right Trail Badge -->
+                                <div class="absolute bottom-3 right-3 z-20 bg-[#0B1020]/90 backdrop-blur-md border border-[#263550] px-2.5 py-1 rounded-xl text-white flex items-center gap-1 shadow-lg">
+                                    <i class="ph-fill ph-path text-primary text-[11px]"></i>
+                                    <span class="text-[10px] font-bold">Trail 4.2 km</span>
                                 </div>
                             </div>
 
-                            <!-- Description -->
-                            <div class="flex flex-col gap-2">
+                            <!-- Description Section (Exact Image 2 & 3) -->
+                            <div class="flex flex-col gap-1.5">
                                 <div class="flex items-center justify-between px-1">
                                     <label class="text-[13px] font-semibold text-foreground flex items-center gap-1.5">
                                         <i class="ph-bold ph-pencil-simple text-primary text-sm"></i> Description
@@ -709,52 +729,124 @@
                                         rows="2" 
                                         placeholder="Write a caption for this virtual tour..."
                                         class="w-full bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground resize-none outline-none leading-relaxed"></textarea>
+                                    
+                                    <div class="flex items-center justify-between pt-2 border-t border-border/60">
+                                        <div class="flex items-center gap-1.5">
+                                            <button 
+                                                @click="description += ' @'"
+                                                class="px-2 py-1 rounded-lg bg-secondary text-muted-foreground hover:text-foreground text-[11px] font-semibold flex items-center gap-1 active:scale-95 transition-all">
+                                                @ Mention
+                                            </button>
+                                            <button 
+                                                @click="description += ' #'"
+                                                class="px-2 py-1 rounded-lg bg-secondary text-muted-foreground hover:text-foreground text-[11px] font-semibold flex items-center gap-1 active:scale-95 transition-all">
+                                                # Hashtag
+                                            </button>
+                                        </div>
+                                        <span class="text-[10px] text-muted-foreground">Markdown supported</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Category (Segmented bar style matching Image 3) -->
-                            <div class="mb-2">
-                                <h3 class="text-[13px] font-semibold text-foreground mb-2 px-1">Category</h3>
+                            <!-- Category Section (Exact Image 2 & 3) -->
+                            <div class="flex flex-col gap-1.5">
+                                <h3 class="text-[13px] font-semibold text-foreground px-1">Category</h3>
                                 <div class="flex p-1 bg-secondary rounded-xl overflow-x-auto no-scrollbar snap-x">
                                     <button 
                                         @click="category = 'trail'"
                                         :class="category === 'trail' ? 'bg-card border border-border/50 text-foreground font-semibold shadow-sm' : 'text-muted-foreground hover:text-foreground font-medium'"
-                                        class="flex-none px-4 h-9 rounded-lg text-[12px] flex items-center gap-1.5 snap-start transition-all">
+                                        class="flex-none px-3.5 h-9 rounded-lg text-[12px] flex items-center gap-1.5 snap-start transition-all">
                                         <i class="ph-fill ph-boot p-0.5 rounded" :class="category === 'trail' ? 'bg-primary/10 text-primary' : ''"></i> Trail
                                     </button>
                                     <button 
                                         @click="category = 'nature'"
                                         :class="category === 'nature' ? 'bg-card border border-border/50 text-foreground font-semibold shadow-sm' : 'text-muted-foreground hover:text-foreground font-medium'"
-                                        class="flex-none px-4 h-9 rounded-lg text-[12px] flex items-center gap-1.5 snap-start transition-all">
+                                        class="flex-none px-3.5 h-9 rounded-lg text-[12px] flex items-center gap-1.5 snap-start transition-all">
                                         <i class="ph-fill ph-tree p-0.5 rounded" :class="category === 'nature' ? 'bg-primary/10 text-primary' : ''"></i> Nature
                                     </button>
                                     <button 
                                         @click="category = 'stay'"
                                         :class="category === 'stay' ? 'bg-card border border-border/50 text-foreground font-semibold shadow-sm' : 'text-muted-foreground hover:text-foreground font-medium'"
-                                        class="flex-none px-4 h-9 rounded-lg text-[12px] flex items-center gap-1.5 snap-start transition-all">
+                                        class="flex-none px-3.5 h-9 rounded-lg text-[12px] flex items-center gap-1.5 snap-start transition-all">
                                         <i class="ph-fill ph-bed p-0.5 rounded" :class="category === 'stay' ? 'bg-primary/10 text-primary' : ''"></i> Stay
                                     </button>
                                     <button 
                                         @click="category = 'food'"
                                         :class="category === 'food' ? 'bg-card border border-border/50 text-foreground font-semibold shadow-sm' : 'text-muted-foreground hover:text-foreground font-medium'"
-                                        class="flex-none px-4 h-9 rounded-lg text-[12px] flex items-center gap-1.5 snap-start transition-all">
+                                        class="flex-none px-3.5 h-9 rounded-lg text-[12px] flex items-center gap-1.5 snap-start transition-all">
                                         <i class="ph-fill ph-fork-knife p-0.5 rounded" :class="category === 'food' ? 'bg-primary/10 text-primary' : ''"></i> Food
                                     </button>
                                 </div>
                             </div>
 
-                            <!-- Author Card -->
-                            <div class="bg-card border border-border dark:border-[#202B42] rounded-2xl p-3.5 flex items-center justify-between shadow-sm">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center font-bold text-primary text-sm">
-                                        AR
+                            <!-- Location Section (Exact Image 2 & 3) -->
+                            <div class="flex flex-col gap-1.5">
+                                <h3 class="text-[13px] font-semibold text-foreground px-1">Location</h3>
+                                <div class="bg-card border border-border dark:border-[#202B42] rounded-2xl p-3 flex items-center justify-between shadow-sm">
+                                    <div class="flex items-center gap-3 min-w-0">
+                                        <div class="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                                            <i class="ph-fill ph-map-pin text-lg"></i>
+                                        </div>
+                                        <div class="flex flex-col min-w-0">
+                                            <div class="text-[12px] font-bold text-foreground truncate">Spirit Mountain Recreation Area</div>
+                                            <div class="text-[10px] text-muted-foreground font-mono mt-0.5">46.7170°, -92.2151°</div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <div class="text-[13px] font-bold text-foreground">Alex Rivera</div>
-                                        <div class="text-[11px] text-muted-foreground">alex.rivera@tourmkr.com</div>
+                                    <div class="flex items-center gap-1 shrink-0 ml-2">
+                                        <button class="w-7 h-7 rounded-lg bg-secondary hover:bg-secondary/80 text-muted-foreground hover:text-foreground flex items-center justify-center transition-colors">
+                                            <i class="ph ph-pencil-simple text-xs"></i>
+                                        </button>
+                                        <button class="w-7 h-7 rounded-lg bg-secondary hover:bg-red-500/10 text-muted-foreground hover:text-red-500 flex items-center justify-center transition-colors">
+                                            <i class="ph ph-trash text-xs"></i>
+                                        </button>
                                     </div>
                                 </div>
-                                <span class="text-[10px] bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full">Author</span>
+                            </div>
+
+                            <!-- Post Visibility Section (Exact Image 2 & 3) -->
+                            <div class="flex flex-col gap-1.5">
+                                <h3 class="text-[13px] font-semibold text-foreground px-1">Post Visibility</h3>
+                                <div class="flex p-1 bg-secondary rounded-xl">
+                                    <button 
+                                        @click="visibility = 'public'"
+                                        :class="visibility === 'public' ? 'bg-card text-foreground font-bold shadow-sm border border-border/80 dark:border-[#202B42]' : 'text-muted-foreground font-medium'"
+                                        class="flex-1 h-8 rounded-lg text-[11px] flex items-center justify-center gap-1.5 transition-all">
+                                        <i class="ph-bold ph-globe text-xs"></i> Public
+                                    </button>
+                                    <button 
+                                        @click="visibility = 'unlisted'"
+                                        :class="visibility === 'unlisted' ? 'bg-card text-foreground font-bold shadow-sm border border-border/80 dark:border-[#202B42]' : 'text-muted-foreground font-medium'"
+                                        class="flex-1 h-8 rounded-lg text-[11px] flex items-center justify-center gap-1.5 transition-all">
+                                        <i class="ph-bold ph-link text-xs"></i> Unlisted
+                                    </button>
+                                    <button 
+                                        @click="visibility = 'private'"
+                                        :class="visibility === 'private' ? 'bg-card text-foreground font-bold shadow-sm border border-border/80 dark:border-[#202B42]' : 'text-muted-foreground font-medium'"
+                                        class="flex-1 h-8 rounded-lg text-[11px] flex items-center justify-center gap-1.5 transition-all">
+                                        <i class="ph-bold ph-lock text-xs"></i> Private
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Notify Followers Section (Exact Image 2 & 3) -->
+                            <div class="bg-card border border-border dark:border-[#202B42] rounded-2xl p-3 flex items-center justify-between shadow-sm">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-8 h-8 rounded-lg bg-secondary text-foreground flex items-center justify-center">
+                                        <i class="ph-fill ph-bell text-base text-primary"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-[12px] font-semibold text-foreground">Notify Followers</span>
+                                        <span class="text-[10px] text-muted-foreground">Send push notification to audience</span>
+                                    </div>
+                                </div>
+                                <button 
+                                    @click="notify = !notify"
+                                    :class="notify ? 'bg-primary' : 'bg-slate-300 dark:bg-slate-700'"
+                                    class="w-10 h-5 rounded-full p-0.5 transition-colors relative flex items-center outline-none">
+                                    <div 
+                                        :class="notify ? 'translate-x-5' : 'translate-x-0'"
+                                        class="w-4 h-4 rounded-full bg-white shadow-sm transition-transform duration-200"></div>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1767,15 +1859,18 @@
                 </div>
             </div>
 
-            <!-- ====== 6. STEP 3: CONFIRMATION & REVIEW ====== -->
+            <!-- ====== 9. STEP 3: CONFIRMATION & REVIEW (EXACT IMAGE 2 & 3) ====== -->
             <div class="flex flex-col gap-4 items-center">
-                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">3️⃣ Step 3: Confirmation</span>
+                <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">9. Step 3: Confirmation</span>
                 <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
+                    <!-- Status Bar -->
                     <div class="h-10 flex justify-between items-center px-5 text-[13px] font-semibold bg-background shrink-0 select-none">
                         <span>9:41</span>
                         <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-base"></i></div>
                     </div>
-                    <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-24 relative bg-background px-5">
+
+                    <!-- Scrollable Area -->
+                    <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-28 relative bg-background px-5">
                         <div class="flex items-center gap-3 mt-2 mb-4">
                             <span class="text-muted-foreground"><i class="ph ph-arrow-left text-xl"></i></span>
                             <div>
@@ -1783,55 +1878,140 @@
                                 <p class="text-[11px] font-medium text-muted-foreground mt-0.5">Share & Explore</p>
                             </div>
                         </div>
+
                         <div class="flex items-center justify-between mb-4">
                             <div class="text-[13px] font-semibold text-foreground">Step 3: <span class="font-bold">Description & Review</span></div>
                             <div class="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">3 Out of 3</div>
                         </div>
-                        <!-- Hero Preview Card with Spirit Mountain 360 -->
-                        <div class="rounded-2xl bg-card border border-border/80 overflow-hidden relative aspect-[16/10] w-full mb-3 shadow-sm">
-                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
-                            <div class="absolute top-2.5 left-2.5 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/20 text-white text-[10px] font-semibold flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 360° Scene
+
+                        <div class="flex flex-col gap-4">
+                            <!-- Hero Preview Card (Exact Image 2 & 3) -->
+                            <div class="rounded-[1.5rem] bg-card border border-border/80 dark:border-[#202B42] overflow-hidden shadow-md relative group aspect-[16/10] w-full isolate">
+                                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover">
+                                <div class="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none"></div>
+                                <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 pointer-events-none"></div>
+                                
+                                <div class="absolute top-2.5 left-2.5 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/20 text-white text-[10px] font-semibold flex items-center gap-1 z-20">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 360° Scene
+                                </div>
+                                <div class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center z-20">
+                                    <i class="ph ph-corners-out text-xs"></i>
+                                </div>
+                                <div class="absolute inset-0 flex items-center justify-center z-20">
+                                    <div class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white flex items-center justify-center shadow-lg">
+                                        <i class="ph-fill ph-play text-lg ml-0.5"></i>
+                                    </div>
+                                </div>
+                                <div class="absolute bottom-2.5 left-2.5 text-white z-20">
+                                    <div class="text-xs font-bold leading-tight">Spirit Mountain</div>
+                                    <div class="text-[9px] text-white/80 flex items-center gap-1 mt-0.5">
+                                        <i class="ph-fill ph-map-pin text-emerald-400"></i> High Above Spirit Mountain
+                                    </div>
+                                </div>
+                                <div class="absolute bottom-2.5 right-2.5 bg-black/60 px-2 py-0.5 rounded-lg border border-white/20 text-white text-[10px] font-bold z-20 flex items-center gap-1">
+                                    <i class="ph-fill ph-path text-primary"></i> Trail 4.2 km
+                                </div>
                             </div>
-                            <div class="absolute bottom-2.5 left-2.5 text-white">
-                                <div class="text-xs font-bold leading-tight">Spirit Mountain</div>
-                                <div class="text-[10px] text-white/80">Duluth, MN</div>
+
+                            <!-- Description (Exact Image 2 & 3) -->
+                            <div class="flex flex-col gap-1.5">
+                                <div class="flex items-center justify-between px-1">
+                                    <label class="text-[12px] font-semibold text-foreground flex items-center gap-1.5">
+                                        <i class="ph-bold ph-pencil-simple text-primary text-xs"></i> Description
+                                    </label>
+                                    <span class="text-[10px] text-muted-foreground font-medium">31 chars</span>
+                                </div>
+                                <div class="bg-card border border-border dark:border-[#202B42] rounded-2xl p-2.5 flex flex-col gap-2 shadow-sm">
+                                    <div class="text-[12px] text-foreground font-medium">Spirit Mountain Recreation Area</div>
+                                    <div class="flex items-center justify-between pt-1.5 border-t border-border/60">
+                                        <div class="flex items-center gap-1">
+                                            <span class="px-2 py-0.5 rounded-lg bg-secondary text-muted-foreground text-[10px] font-semibold">@ Mention</span>
+                                            <span class="px-2 py-0.5 rounded-lg bg-secondary text-muted-foreground text-[10px] font-semibold"># Hashtag</span>
+                                        </div>
+                                        <span class="text-[9px] text-muted-foreground">Markdown supported</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="absolute bottom-2.5 right-2.5 bg-black/60 px-2 py-0.5 rounded-lg border border-white/20 text-white text-[10px] font-bold">
-                                Trail 4.2 km
+
+                            <!-- Category (Exact Image 2 & 3) -->
+                            <div class="flex flex-col gap-1.5">
+                                <h3 class="text-[12px] font-semibold text-foreground px-1">Category</h3>
+                                <div class="flex p-1 bg-secondary rounded-xl overflow-x-auto no-scrollbar snap-x">
+                                    <span class="flex-none px-3.5 h-8 rounded-lg bg-card border border-border/50 text-foreground font-semibold shadow-sm text-[11px] flex items-center gap-1.5 snap-start">
+                                        <i class="ph-fill ph-boot bg-primary/10 text-primary p-0.5 rounded text-xs"></i> Trail
+                                    </span>
+                                    <span class="flex-none px-3.5 h-8 rounded-lg text-[11px] font-medium text-muted-foreground flex items-center gap-1.5 snap-start">
+                                        <i class="ph-fill ph-tree text-xs"></i> Nature
+                                    </span>
+                                    <span class="flex-none px-3.5 h-8 rounded-lg text-[11px] font-medium text-muted-foreground flex items-center gap-1.5 snap-start">
+                                        <i class="ph-fill ph-bed text-xs"></i> Stay
+                                    </span>
+                                    <span class="flex-none px-3.5 h-8 rounded-lg text-[11px] font-medium text-muted-foreground flex items-center gap-1.5 snap-start">
+                                        <i class="ph-fill ph-fork-knife text-xs"></i> Food
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="p-3 rounded-xl bg-card border border-border mb-3 text-xs text-muted-foreground leading-relaxed shadow-sm">
-                            Spectacular 360-degree panoramic vista along the Spirit Mountain ridge trail. Recorded with high-resolution waypoints and elevation profiles.
-                        </div>
-                        <div class="mb-3">
-                            <div class="text-[12px] font-semibold text-foreground mb-1.5">Category</div>
-                            <div class="flex p-1 bg-secondary rounded-xl overflow-x-auto no-scrollbar snap-x">
-                                <span class="flex-none px-3.5 h-8 rounded-lg bg-card border border-border/50 text-foreground font-semibold shadow-sm text-[11px] flex items-center gap-1.5 snap-start">
-                                    <i class="ph-fill ph-boot bg-primary/10 text-primary p-0.5 rounded text-xs"></i> Trail
-                                </span>
-                                <span class="flex-none px-3.5 h-8 rounded-lg text-[11px] font-medium text-muted-foreground flex items-center gap-1.5 snap-start">
-                                    <i class="ph-fill ph-tree text-xs"></i> Nature
-                                </span>
-                                <span class="flex-none px-3.5 h-8 rounded-lg text-[11px] font-medium text-muted-foreground flex items-center gap-1.5 snap-start">
-                                    <i class="ph-fill ph-bed text-xs"></i> Stay
-                                </span>
+
+                            <!-- Location (Exact Image 2 & 3) -->
+                            <div class="flex flex-col gap-1.5">
+                                <h3 class="text-[12px] font-semibold text-foreground px-1">Location</h3>
+                                <div class="bg-card border border-border dark:border-[#202B42] rounded-2xl p-2.5 flex items-center justify-between shadow-sm">
+                                    <div class="flex items-center gap-2.5 min-w-0">
+                                        <div class="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                                            <i class="ph-fill ph-map-pin text-base"></i>
+                                        </div>
+                                        <div class="flex flex-col min-w-0">
+                                            <div class="text-[11px] font-bold text-foreground truncate">Spirit Mountain Recreation Area</div>
+                                            <div class="text-[9px] text-muted-foreground font-mono mt-0.5">46.7170°, -92.2151°</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-1 shrink-0 ml-2">
+                                        <span class="w-6 h-6 rounded-lg bg-secondary text-muted-foreground flex items-center justify-center"><i class="ph ph-pencil-simple text-xs"></i></span>
+                                        <span class="w-6 h-6 rounded-lg bg-secondary text-muted-foreground flex items-center justify-center"><i class="ph ph-trash text-xs"></i></span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="p-3 rounded-2xl bg-card border border-border flex items-center justify-between mb-4 shadow-sm">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-8 h-8 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center font-bold text-primary text-xs">AR</div>
-                                <div><div class="text-[12px] font-bold text-foreground">Alex Rivera</div><div class="text-[10px] text-muted-foreground">alex.rivera@tourmkr.com</div></div>
+
+                            <!-- Post Visibility (Exact Image 2 & 3) -->
+                            <div class="flex flex-col gap-1.5">
+                                <h3 class="text-[12px] font-semibold text-foreground px-1">Post Visibility</h3>
+                                <div class="flex p-1 bg-secondary rounded-xl">
+                                    <span class="flex-1 h-7 rounded-lg bg-card text-foreground font-bold shadow-sm border border-border/80 text-[10px] flex items-center justify-center gap-1">
+                                        <i class="ph-bold ph-globe text-xs"></i> Public
+                                    </span>
+                                    <span class="flex-1 h-7 rounded-lg text-muted-foreground font-medium text-[10px] flex items-center justify-center gap-1">
+                                        <i class="ph-bold ph-link text-xs"></i> Unlisted
+                                    </span>
+                                    <span class="flex-1 h-7 rounded-lg text-muted-foreground font-medium text-[10px] flex items-center justify-center gap-1">
+                                        <i class="ph-bold ph-lock text-xs"></i> Private
+                                    </span>
+                                </div>
                             </div>
-                            <span class="text-[10px] bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full">Author</span>
+
+                            <!-- Notify Followers (Exact Image 2 & 3) -->
+                            <div class="bg-card border border-border dark:border-[#202B42] rounded-2xl p-2.5 flex items-center justify-between shadow-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-7 h-7 rounded-lg bg-secondary text-primary flex items-center justify-center">
+                                        <i class="ph-fill ph-bell text-sm"></i>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-[11px] font-semibold text-foreground">Notify Followers</span>
+                                        <span class="text-[9px] text-muted-foreground">Send push notification to audience</span>
+                                    </div>
+                                </div>
+                                <div class="w-9 h-5 rounded-full p-0.5 bg-primary relative flex items-center">
+                                    <div class="w-4 h-4 rounded-full bg-white shadow-sm translate-x-4"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="absolute bottom-0 inset-x-0 p-3.5 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex flex-col gap-1.5">
-                        <div class="w-full h-11 rounded-xl bg-primary text-primary-foreground font-bold text-xs flex items-center justify-center gap-1.5 shadow-md">
+
+                    <!-- Fixed Bottom Bar -->
+                    <div class="absolute bottom-0 inset-x-0 p-3 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex flex-col gap-1">
+                        <div class="w-full h-10 rounded-xl bg-primary text-primary-foreground font-bold text-xs flex items-center justify-center gap-1.5 shadow-md">
                             <i class="ph-bold ph-paper-plane-tilt"></i> Publish Post
                         </div>
-                        <div class="text-center text-[11px] text-muted-foreground">Save as Draft</div>
+                        <div class="text-center text-[10px] text-muted-foreground">Save as Draft</div>
                     </div>
                 </div>
             </div>
