@@ -425,7 +425,7 @@
 
                         <!-- 360 Scene / Post Preview Section -->
                         <div class="flex flex-col mb-6">
-                            <div class="rounded-[1.5rem] bg-card border border-border/50 overflow-hidden shadow-md relative group aspect-[4/5] w-full isolate">
+                            <div class="rounded-[1.5rem] bg-card border border-border/50 overflow-hidden shadow-md relative group aspect-[4/5] w-full h-[320px] shrink-0 isolate">
                                 
                                 <!-- MODE 1: 360 PANORAMA SCENE -->
                                 <div x-show="previewMode === '360'" class="absolute inset-0 w-full h-full">
@@ -449,12 +449,20 @@
                                             <div class="absolute w-16 h-16 rounded-full bg-primary/40 animate-ring -z-10"></div>
                                         </div>
                                     </div>
+
+                                    <!-- Interactive Overlay Caret Hints (Exact Image 2) -->
+                                    <div class="absolute top-1/2 left-3 -translate-y-1/2 z-20 text-white/50 pointer-events-none">
+                                        <i class="ph ph-caret-left text-2xl"></i>
+                                    </div>
+                                    <div class="absolute top-1/2 right-3 -translate-y-1/2 z-20 text-white/50 pointer-events-none">
+                                        <i class="ph ph-caret-right text-2xl"></i>
+                                    </div>
                             
                                     <!-- Bottom: Details -->
                                     <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end z-20">
                                         <div class="text-white text-shadow-sm pr-3">
                                             <div class="text-lg font-bold leading-tight drop-shadow-md" x-text="selectedTrail.name">Spirit Mountain</div>
-                                            <div class="text-[12px] font-medium text-white/80 mt-1 flex items-center gap-1.5"><i class="ph-fill ph-map-pin text-primary"></i> <span x-text="selectedTrail.loc">Duluth, MN</span></div>
+                                            <div class="text-[12px] font-medium text-white/80 mt-1 flex items-center gap-1.5"><i class="ph-fill ph-map-pin text-primary"></i> <span x-text="selectedTrail.loc">High Above Spirit Mountain</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -463,7 +471,7 @@
                                 <div x-show="previewMode === 'map'" style="display: none;" class="absolute inset-0 w-full h-full bg-[#1a1c23] flex flex-col select-none overflow-hidden">
                                     <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-85" alt="Map Base">
                                     
-                                    <!-- Top Navigation (Floating Map Header) -->
+                                    <!-- Top Navigation (Floating Map Header with Fullscreen Expand - Image 5) -->
                                     <div class="absolute top-3 inset-x-3 z-30">
                                         <div class="bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] shadow-xl rounded-2xl p-2.5 flex flex-col gap-2">
                                             <div class="flex items-center justify-between">
@@ -474,8 +482,28 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex items-center gap-1.5">
-                                                    <span class="bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-[11px] font-bold px-2 py-0.5 rounded-md tracking-wide" x-text="selectedTrail.dist">4.2 km</span>
+                                                    <div class="flex text-[10px] font-bold gap-0.5 text-foreground bg-secondary/80 dark:bg-[#162035] border border-border dark:border-[#2D3C5C] px-1 py-0.5 rounded-lg shadow-sm items-center">
+                                                        <button class="w-5 h-5 rounded hover:bg-card active:scale-95 flex items-center justify-center transition-all"><i class="ph-bold ph-minus text-xs"></i></button>
+                                                        <div class="w-px h-3 bg-slate-400/40 mx-0.5"></div>
+                                                        <span class="px-1 text-[10px] font-bold tracking-wider">FIT</span>
+                                                        <div class="w-px h-3 bg-slate-400/40 mx-0.5"></div>
+                                                        <button class="w-5 h-5 rounded hover:bg-card active:scale-95 flex items-center justify-center transition-all"><i class="ph-bold ph-plus text-xs"></i></button>
+                                                    </div>
+                                                    <button @click="fullscreenOpen = true" class="w-7 h-7 rounded-lg bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-colors shadow outline-none active:scale-95" title="Buka Layar Penuh (Fullscreen)">
+                                                        <i class="ph ph-arrows-out text-xs"></i>
+                                                    </button>
                                                 </div>
+                                            </div>
+                                            
+                                            <!-- Stats Strip -->
+                                            <div class="flex items-center gap-1.5 px-0.5">
+                                                <span class="bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-[11px] font-bold px-2 py-0.5 rounded-md tracking-wide">4.2 km</span>
+                                                <span class="bg-blue-500/15 border border-blue-500/30 text-blue-300 text-[11px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+                                                    <i class="ph-bold ph-trend-up text-[10px]"></i> +350m
+                                                </span>
+                                                <span class="bg-orange-500/15 border border-orange-500/30 text-orange-300 text-[11px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+                                                    <i class="ph-bold ph-trend-down text-[10px]"></i> -95m
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -484,6 +512,23 @@
                                     <svg class="absolute inset-0 w-full h-full pointer-events-none drop-shadow-lg z-10" viewBox="0 0 100 100" preserveAspectRatio="none">
                                         <path d="M 20 80 Q 40 50 60 20 L 80 40 L 70 90" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
+
+                                    <!-- Waypoint Pins on Map (Exact Image 5) -->
+                                    <div class="absolute top-[80%] left-[20%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+                                        <div class="bg-emerald-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded shadow mb-0.5 whitespace-nowrap">Start</div>
+                                        <div class="w-4 h-4 rounded-full bg-emerald-500 border-2 border-white shadow-md flex items-center justify-center">
+                                            <i class="ph-bold ph-flag text-[8px] text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div class="absolute top-[40%] left-[80%] -translate-x-1/2 -translate-y-1/2 z-20">
+                                        <div class="w-3.5 h-3.5 rounded-full bg-orange-500 border-2 border-card dark:border-[#0B1020] shadow"></div>
+                                    </div>
+                                    <div class="absolute top-[20%] left-[60%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
+                                        <div class="bg-blue-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded shadow mb-0.5 whitespace-nowrap">Highest</div>
+                                        <div class="w-4 h-4 rounded-full bg-blue-500 border-2 border-white shadow-md flex items-center justify-center">
+                                            <i class="ph-bold ph-mountains text-[9px] text-white"></i>
+                                        </div>
+                                    </div>
 
                                     <!-- Bottom Sheet Tabs on Map -->
                                     <div class="absolute bottom-3 inset-x-0 z-30 flex flex-col gap-2">
@@ -502,46 +547,32 @@
                                             </button>
                                         </div>
 
-                                        <!-- Waypoints Cards (CLEAN & BUG-FREE WITHOUT CLIPPING) -->
+                                        <!-- Waypoints Cards (Exact Image 5) -->
                                         <div x-show="mapBottomTab === 'waypoints'" class="flex overflow-x-auto no-scrollbar snap-x px-3 gap-2">
-                                            <!-- Point 1: Start -->
-                                            <div class="w-[180px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2.5 shadow-lg flex items-center gap-2.5 snap-start shrink-0">
-                                                <div class="w-8 h-8 rounded-lg bg-emerald-500/15 flex items-center justify-center shrink-0 text-emerald-400">
-                                                    <i class="ph-fill ph-flag text-base"></i>
+                                            <div class="w-[210px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2 shadow-lg flex items-center gap-2 snap-start shrink-0">
+                                                <div class="w-8 h-8 rounded-lg bg-emerald-500/15 flex items-center justify-center shrink-0">
+                                                    <i class="ph-fill ph-flag text-emerald-400 text-sm"></i>
                                                 </div>
                                                 <div class="flex-1 min-w-0">
-                                                    <div class="text-[11px] font-bold text-foreground truncate">Start Point</div>
-                                                    <div class="text-[9px] text-muted-foreground mt-0.5">725m elevation</div>
+                                                    <div class="text-[11px] font-bold text-foreground truncate">Trailhead / St...</div>
+                                                    <div class="text-[9px] text-muted-foreground mt-0.5 flex items-center gap-1">
+                                                        <span>725m</span> <span class="opacity-40">|</span> <span class="bg-primary/10 text-primary px-1 rounded font-semibold">Start</span>
+                                                    </div>
+                                                </div>
+                                                <div class="h-6 px-2 bg-primary/10 text-primary text-[10px] font-bold rounded flex items-center gap-1 shrink-0">
+                                                    <i class="ph-fill ph-cube"></i> View 360
                                                 </div>
                                             </div>
-                                            <!-- Point 2: Scenic View -->
-                                            <div class="w-[180px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2.5 shadow-lg flex items-center gap-2.5 snap-start shrink-0">
-                                                <div class="w-8 h-8 rounded-lg bg-blue-500/15 flex items-center justify-center shrink-0 text-blue-400">
-                                                    <i class="ph-fill ph-eye text-base"></i>
+                                            <div class="w-[210px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2 shadow-lg flex items-center gap-2 snap-start shrink-0">
+                                                <div class="w-8 h-8 rounded-lg bg-blue-500/15 text-blue-400 font-bold text-xs flex items-center justify-center shrink-0">
+                                                    2
                                                 </div>
                                                 <div class="flex-1 min-w-0">
-                                                    <div class="text-[11px] font-bold text-foreground truncate">Scenic Vista</div>
+                                                    <div class="text-[11px] font-bold text-foreground truncate">Taman Wisata...</div>
                                                     <div class="text-[9px] text-muted-foreground mt-0.5">820m elevation</div>
                                                 </div>
-                                            </div>
-                                            <!-- Point 3: Summit Peak (CLEAN ICON - NO OVERFLOW CLIPPING) -->
-                                            <div class="w-[180px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2.5 shadow-lg flex items-center gap-2.5 snap-start shrink-0">
-                                                <div class="w-8 h-8 rounded-lg bg-purple-500/15 flex items-center justify-center shrink-0 text-purple-400">
-                                                    <i class="ph-fill ph-mountains text-base"></i>
-                                                </div>
-                                                <div class="flex-1 min-w-0">
-                                                    <div class="text-[11px] font-bold text-foreground truncate">Ridge Summit</div>
-                                                    <div class="text-[9px] text-muted-foreground mt-0.5">1,075m elevation</div>
-                                                </div>
-                                            </div>
-                                            <!-- Point 4: Finish -->
-                                            <div class="w-[180px] bg-card/95 dark:bg-[#0B1020]/95 backdrop-blur-xl border border-border dark:border-[#202B42] rounded-xl p-2.5 shadow-lg flex items-center gap-2.5 snap-start shrink-0">
-                                                <div class="w-8 h-8 rounded-lg bg-amber-500/15 flex items-center justify-center shrink-0 text-amber-400">
-                                                    <i class="ph-fill ph-check-circle text-base"></i>
-                                                </div>
-                                                <div class="flex-1 min-w-0">
-                                                    <div class="text-[11px] font-bold text-foreground truncate">Finish Point</div>
-                                                    <div class="text-[9px] text-muted-foreground mt-0.5">840m elevation</div>
+                                                <div class="h-6 px-2 bg-primary/10 text-primary text-[10px] font-bold rounded flex items-center gap-1 shrink-0">
+                                                    <i class="ph-fill ph-cube"></i> View 360
                                                 </div>
                                             </div>
                                         </div>
@@ -626,6 +657,112 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Key Waypoints & Highlights (Exact Image 3, 4, 6, 7) -->
+                        <div class="mb-8">
+                            <div class="flex items-center justify-between mb-4 px-1">
+                                <h2 class="text-[14px] font-bold text-foreground">Key Waypoints & Highlights</h2>
+                                <span class="text-[12px] text-muted-foreground font-medium">4 waypoints</span>
+                            </div>
+                            
+                            <div class="flex flex-col gap-3.5">
+                                <!-- Card 1 -->
+                                <div class="bg-card border border-border/80 rounded-2xl p-4 shadow-sm flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[13px] font-bold shrink-0 mt-1 shadow-sm">
+                                        1
+                                    </div>
+                                    <div class="flex-1 flex flex-col gap-2.5 min-w-0">
+                                        <div class="bg-secondary/70 rounded-xl px-3.5 py-2.5 text-[13px] font-semibold text-foreground truncate border border-border/30">
+                                            Trailhead / Start Point
+                                        </div>
+                                        <div class="flex flex-col gap-1">
+                                            <span class="text-[10px] uppercase font-bold tracking-wider text-muted-foreground">HEIGHT (M)</span>
+                                            <div class="flex items-center justify-between bg-secondary/70 rounded-xl border border-border/40 overflow-hidden">
+                                                <span class="px-3.5 py-2 text-[13px] font-semibold text-foreground">725</span>
+                                                <button class="border-l border-border/80 px-4 py-2 text-[13px] font-semibold text-primary hover:text-primary/80 transition-colors">
+                                                    Get
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="text-muted-foreground/60 hover:text-foreground shrink-0 mt-2.5 px-0.5">
+                                        <i class="ph-bold ph-dots-six-vertical text-lg"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Card 2 -->
+                                <div class="bg-card border border-border/80 rounded-2xl p-4 shadow-sm flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-[13px] font-bold shrink-0 mt-1 shadow-sm">
+                                        2
+                                    </div>
+                                    <div class="flex-1 flex flex-col gap-2.5 min-w-0">
+                                        <div class="bg-secondary/70 rounded-xl px-3.5 py-2.5 text-[13px] font-semibold text-foreground truncate border border-border/30">
+                                            Taman Wisata Alam Gunung Pancar
+                                        </div>
+                                        <div class="flex flex-col gap-1">
+                                            <span class="text-[10px] uppercase font-bold tracking-wider text-muted-foreground">HEIGHT (M)</span>
+                                            <div class="flex items-center justify-between bg-secondary/70 rounded-xl border border-border/40 overflow-hidden">
+                                                <span class="px-3.5 py-2 text-[13px] font-semibold text-foreground">820</span>
+                                                <button class="border-l border-border/80 px-4 py-2 text-[13px] font-semibold text-primary hover:text-primary/80 transition-colors">
+                                                    Get
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="text-muted-foreground/60 hover:text-foreground shrink-0 mt-2.5 px-0.5">
+                                        <i class="ph-bold ph-dots-six-vertical text-lg"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Card 3 -->
+                                <div class="bg-card border border-border/80 rounded-2xl p-4 shadow-sm flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center text-[13px] font-bold shrink-0 mt-1 shadow-sm">
+                                        3
+                                    </div>
+                                    <div class="flex-1 flex flex-col gap-2.5 min-w-0">
+                                        <div class="bg-secondary/70 rounded-xl px-3.5 py-2.5 text-[13px] font-semibold text-foreground truncate border border-border/30">
+                                            Pasir Limo Summit (1,075m)
+                                        </div>
+                                        <div class="flex flex-col gap-1">
+                                            <span class="text-[10px] uppercase font-bold tracking-wider text-muted-foreground">HEIGHT (M)</span>
+                                            <div class="flex items-center justify-between bg-secondary/70 rounded-xl border border-border/40 overflow-hidden">
+                                                <span class="px-3.5 py-2 text-[13px] font-semibold text-foreground">1075</span>
+                                                <button class="border-l border-border/80 px-4 py-2 text-[13px] font-semibold text-primary hover:text-primary/80 transition-colors">
+                                                    Get
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="text-muted-foreground/60 hover:text-foreground shrink-0 mt-2.5 px-0.5">
+                                        <i class="ph-bold ph-dots-six-vertical text-lg"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Card 4 -->
+                                <div class="bg-card border border-border/80 rounded-2xl p-4 shadow-sm flex items-start gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center text-[13px] font-bold shrink-0 mt-1 shadow-sm">
+                                        4
+                                    </div>
+                                    <div class="flex-1 flex flex-col gap-2.5 min-w-0">
+                                        <div class="bg-secondary/70 rounded-xl px-3.5 py-2.5 text-[13px] font-semibold text-foreground truncate border border-border/30">
+                                            Pondok Pemburu Campsite
+                                        </div>
+                                        <div class="flex flex-col gap-1">
+                                            <span class="text-[10px] uppercase font-bold tracking-wider text-muted-foreground">HEIGHT (M)</span>
+                                            <div class="flex items-center justify-between bg-secondary/70 rounded-xl border border-border/40 overflow-hidden">
+                                                <span class="px-3.5 py-2 text-[13px] font-semibold text-foreground">840</span>
+                                                <button class="border-l border-border/80 px-4 py-2 text-[13px] font-semibold text-primary hover:text-primary/80 transition-colors">
+                                                    Get
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="text-muted-foreground/60 hover:text-foreground shrink-0 mt-2.5 px-0.5">
+                                        <i class="ph-bold ph-dots-six-vertical text-lg"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -676,7 +813,7 @@
 
                         <div class="flex flex-col gap-4">
                             <!-- Hero Preview Card (Exact Image 2 & 3) -->
-                            <div class="rounded-[1.5rem] bg-card border border-border/80 dark:border-[#202B42] overflow-hidden shadow-md relative group aspect-[16/10] w-full isolate">
+                            <div class="rounded-[1.5rem] bg-card border border-border/80 dark:border-[#202B42] overflow-hidden shadow-md relative group aspect-[16/10] w-full h-[180px] shrink-0 isolate">
                                 <img :src="selectedTrail.img" alt="Spirit Mountain 360" class="absolute inset-0 w-full h-full object-cover">
                                 <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none"></div>
                                 <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 pointer-events-none"></div>
@@ -1520,7 +1657,7 @@
                             <div class="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">1 Out of 3</div>
                         </div>
                         <!-- Preview Card -->
-                        <div class="rounded-2xl bg-card border border-border/60 overflow-hidden relative aspect-[4/3] w-full mb-3 shadow-sm">
+                        <div class="rounded-2xl bg-card border border-border/60 overflow-hidden relative w-full h-[210px] shrink-0 mb-3 shadow-sm">
                             <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
                             <div class="absolute inset-0 flex items-center justify-center">
@@ -1550,7 +1687,7 @@
                 </div>
             </div>
 
-            <!-- ====== 3. STEP 2: TRAIL DETAILS (360 Scene) ====== -->
+            <!-- ====== 3. STEP 2: TRAIL DETAILS (360 Scene - Exact Image 2, 3, 4) ====== -->
             <div class="flex flex-col gap-4 items-center">
                 <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">2️⃣ Step 2: 360 Scene View</span>
                 <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
@@ -1570,23 +1707,36 @@
                             <div class="text-[13px] font-semibold text-foreground">Step 2: <span class="font-bold">Trail & Route Details</span></div>
                             <div class="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">2 Out of 3</div>
                         </div>
-                        <!-- Preview Card -->
-                        <div class="rounded-2xl bg-card border border-border/60 overflow-hidden relative aspect-[4/3] w-full mb-3 shadow-sm">
+                        <!-- Preview Card with Expand and Chevrons (Exact Image 2) -->
+                        <div class="rounded-2xl bg-card border border-border/60 overflow-hidden relative w-full h-[210px] shrink-0 mb-3 shadow-sm">
                             <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40"></div>
-                            <div class="absolute inset-0 flex items-center justify-center">
+                            
+                            <div class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center z-20">
+                                <i class="ph ph-corners-out text-xs"></i>
+                            </div>
+
+                            <div class="absolute inset-0 flex items-center justify-center z-10">
                                 <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg"><i class="ph-fill ph-play text-xl ml-0.5"></i></div>
                             </div>
-                            <div class="absolute bottom-3 left-3 text-white">
+
+                            <div class="absolute top-1/2 left-2.5 -translate-y-1/2 z-10 text-white/50">
+                                <i class="ph ph-caret-left text-xl"></i>
+                            </div>
+                            <div class="absolute top-1/2 right-2.5 -translate-y-1/2 z-10 text-white/50">
+                                <i class="ph ph-caret-right text-xl"></i>
+                            </div>
+
+                            <div class="absolute bottom-3 left-3 text-white z-10">
                                 <div class="text-xs font-bold leading-tight">Spirit Mountain</div>
-                                <div class="text-[10px] text-white/80">Duluth, MN</div>
+                                <div class="text-[10px] text-white/80 flex items-center gap-1 mt-0.5"><i class="ph-fill ph-map-pin text-primary text-[10px]"></i> High Above Spirit Mountain</div>
                             </div>
                         </div>
-                        <div class="w-full bg-secondary p-1 rounded-xl flex items-center mb-5 text-xs font-bold">
+                        <div class="w-full bg-secondary p-1 rounded-xl flex items-center mb-4 text-xs font-bold">
                             <div class="flex-1 py-1.5 text-center bg-card rounded-lg shadow-sm text-foreground">360° Scene</div>
                             <div class="flex-1 py-1.5 text-center text-muted-foreground">Route Map</div>
                         </div>
-                        <div class="rounded-2xl border border-border bg-card p-3.5 flex items-center gap-3 mb-5 shadow-sm">
+                        <div class="rounded-2xl border border-border bg-card p-3.5 flex items-center gap-3 mb-4 shadow-sm">
                             <div class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary"><i class="ph-fill ph-path text-base"></i></div>
                             <div class="flex-1"><div class="text-[13px] font-bold text-foreground">Route Overview</div><div class="text-[10px] text-muted-foreground mt-0.5">4 waypoints recorded</div></div>
                             <div class="text-right"><div class="text-xs font-bold text-foreground">4.2 km</div><div class="text-[10px] text-muted-foreground">+350 m</div></div>
@@ -1600,7 +1750,7 @@
                                 <div class="flex-1 py-1 text-center text-muted-foreground">Expert</div>
                             </div>
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-5">
                             <div class="text-[12px] font-semibold text-foreground mb-2">Activity</div>
                             <div class="flex p-1 bg-secondary rounded-xl overflow-x-auto no-scrollbar snap-x">
                                 <span class="flex-none px-3.5 h-8 rounded-lg bg-card border border-border/50 text-foreground font-semibold shadow-sm text-[11px] flex items-center gap-1.5 snap-start">
@@ -1614,6 +1764,73 @@
                                 </span>
                             </div>
                         </div>
+
+                        <!-- Key Waypoints & Highlights (Exact Image 3 & 4) -->
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between mb-2.5 px-0.5">
+                                <h2 class="text-[12px] font-bold text-foreground">Key Waypoints & Highlights</h2>
+                                <span class="text-[10px] text-muted-foreground font-medium">4 waypoints</span>
+                            </div>
+                            
+                            <div class="flex flex-col gap-2.5">
+                                <div class="bg-card border border-border/80 rounded-2xl p-3 shadow-sm flex items-start gap-2.5">
+                                    <div class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5 shadow-sm">1</div>
+                                    <div class="flex-1 flex flex-col gap-1.5 min-w-0">
+                                        <div class="bg-secondary/70 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold text-foreground truncate border border-border/30">Trailhead / Start Point</div>
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-[9px] uppercase font-bold tracking-wider text-muted-foreground">HEIGHT (M)</span>
+                                            <div class="flex items-center justify-between bg-secondary/70 rounded-xl border border-border/40 overflow-hidden">
+                                                <span class="px-2.5 py-1 text-[11px] font-semibold text-foreground">725</span>
+                                                <span class="border-l border-border/80 px-2.5 py-1 text-[11px] font-semibold text-primary">Get</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="text-muted-foreground/60 shrink-0 mt-1"><i class="ph-bold ph-dots-six-vertical text-base"></i></span>
+                                </div>
+                                <div class="bg-card border border-border/80 rounded-2xl p-3 shadow-sm flex items-start gap-2.5">
+                                    <div class="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5 shadow-sm">2</div>
+                                    <div class="flex-1 flex flex-col gap-1.5 min-w-0">
+                                        <div class="bg-secondary/70 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold text-foreground truncate border border-border/30">Taman Wisata Alam Gunun...</div>
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-[9px] uppercase font-bold tracking-wider text-muted-foreground">HEIGHT (M)</span>
+                                            <div class="flex items-center justify-between bg-secondary/70 rounded-xl border border-border/40 overflow-hidden">
+                                                <span class="px-2.5 py-1 text-[11px] font-semibold text-foreground">820</span>
+                                                <span class="border-l border-border/80 px-2.5 py-1 text-[11px] font-semibold text-primary">Get</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="text-muted-foreground/60 shrink-0 mt-1"><i class="ph-bold ph-dots-six-vertical text-base"></i></span>
+                                </div>
+                                <div class="bg-card border border-border/80 rounded-2xl p-3 shadow-sm flex items-start gap-2.5">
+                                    <div class="w-6 h-6 rounded-full bg-purple-500 text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5 shadow-sm">3</div>
+                                    <div class="flex-1 flex flex-col gap-1.5 min-w-0">
+                                        <div class="bg-secondary/70 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold text-foreground truncate border border-border/30">Pasir Limo Summit (1,075m)</div>
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-[9px] uppercase font-bold tracking-wider text-muted-foreground">HEIGHT (M)</span>
+                                            <div class="flex items-center justify-between bg-secondary/70 rounded-xl border border-border/40 overflow-hidden">
+                                                <span class="px-2.5 py-1 text-[11px] font-semibold text-foreground">1075</span>
+                                                <span class="border-l border-border/80 px-2.5 py-1 text-[11px] font-semibold text-primary">Get</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="text-muted-foreground/60 shrink-0 mt-1"><i class="ph-bold ph-dots-six-vertical text-base"></i></span>
+                                </div>
+                                <div class="bg-card border border-border/80 rounded-2xl p-3 shadow-sm flex items-start gap-2.5">
+                                    <div class="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5 shadow-sm">4</div>
+                                    <div class="flex-1 flex flex-col gap-1.5 min-w-0">
+                                        <div class="bg-secondary/70 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold text-foreground truncate border border-border/30">Pondok Pemburu Campsite</div>
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-[9px] uppercase font-bold tracking-wider text-muted-foreground">HEIGHT (M)</span>
+                                            <div class="flex items-center justify-between bg-secondary/70 rounded-xl border border-border/40 overflow-hidden">
+                                                <span class="px-2.5 py-1 text-[11px] font-semibold text-foreground">840</span>
+                                                <span class="border-l border-border/80 px-2.5 py-1 text-[11px] font-semibold text-primary">Get</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="text-muted-foreground/60 shrink-0 mt-1"><i class="ph-bold ph-dots-six-vertical text-base"></i></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="absolute bottom-0 inset-x-0 p-3.5 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex items-center gap-2.5">
                         <div class="flex-1 h-10 px-3 rounded-xl border border-border bg-card text-foreground text-[12px] font-semibold flex items-center justify-center gap-1">Back</div>
@@ -1622,7 +1839,7 @@
                 </div>
             </div>
 
-            <!-- ====== 4. STEP 2: ROUTE MAP & KEY POINTS ====== -->
+            <!-- ====== 4. STEP 2: ROUTE MAP & KEY POINTS (Exact Image 5, 6, 7) ====== -->
             <div class="flex flex-col gap-4 items-center">
                 <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">2️⃣ Step 2: Route Map View</span>
                 <div class="w-[340px] h-[736px] bg-background relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-border">
@@ -1642,31 +1859,38 @@
                             <div class="text-[13px] font-semibold text-foreground">Step 2: <span class="font-bold">Trail & Route Details</span></div>
                             <div class="text-[11px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">2 Out of 3</div>
                         </div>
-                        <!-- Route Map Card with Waypoints & Elevation -->
-                        <div class="rounded-2xl bg-card border border-border/60 overflow-hidden relative aspect-[4/3] w-full mb-3 shadow-sm bg-[#1a1c23]">
+                        <!-- Route Map Card (Exact Image 5) -->
+                        <div class="rounded-2xl bg-card border border-border/60 overflow-hidden relative w-full h-[210px] shrink-0 mb-3 shadow-sm bg-[#1a1c23]">
                             <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover opacity-85">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
-                            <!-- Floating Map Header -->
-                            <div class="absolute top-2.5 inset-x-2.5 flex items-center justify-between">
+                            <div class="absolute top-2.5 inset-x-2.5 flex items-center justify-between z-20">
                                 <span class="bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1"><i class="ph-fill ph-check-circle"></i> Discovery</span>
-                                <span class="bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 text-[10px] font-bold px-2 py-0.5 rounded-md">4.2 km • +350m</span>
+                                <div class="flex items-center gap-1">
+                                    <span class="bg-secondary/80 border border-border text-[9px] font-bold px-1.5 py-0.5 rounded">FIT</span>
+                                    <span class="bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 text-[10px] font-bold px-2 py-0.5 rounded-md">4.2 km • +350m</span>
+                                </div>
                             </div>
-                            <!-- Route Line SVG -->
-                            <svg class="absolute inset-0 w-full h-full pointer-events-none drop-shadow-md" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <svg class="absolute inset-0 w-full h-full pointer-events-none drop-shadow-md z-10" viewBox="0 0 100 100" preserveAspectRatio="none">
                                 <path d="M 20 80 Q 40 50 60 20 L 80 40 L 70 90" fill="none" stroke="#22c55e" stroke-width="2" />
                             </svg>
-                            <!-- Waypoints Pins -->
-                            <div class="absolute top-[75%] left-[20%] w-3.5 h-3.5 rounded-full bg-emerald-500 border border-white shadow"></div>
-                            <div class="absolute top-[20%] left-[60%] w-3.5 h-3.5 rounded-full bg-blue-500 border border-white shadow"></div>
-                            <div class="absolute top-[85%] left-[70%] w-3.5 h-3.5 rounded-full bg-red-500 border border-white shadow"></div>
-                            <!-- Waypoints List Chips below map (Fits cleanly without clipping) -->
-                            <div class="absolute bottom-2 inset-x-2 flex items-center justify-between gap-1 text-[9px] font-bold select-none">
-                                <div class="px-2 py-1 rounded-lg bg-card/95 text-foreground shrink-0 flex items-center gap-1 border border-border/80 shadow-sm"><i class="ph-fill ph-flag text-emerald-500"></i> Start 725m</div>
-                                <div class="px-2 py-1 rounded-lg bg-card/95 text-foreground shrink-0 flex items-center gap-1 border border-border/80 shadow-sm"><i class="ph-fill ph-eye text-blue-500"></i> Vista 820m</div>
-                                <div class="px-2 py-1 rounded-lg bg-card/95 text-foreground shrink-0 flex items-center gap-1 border border-border/80 shadow-sm"><i class="ph-fill ph-mountains text-purple-500"></i> Summit 1,075m</div>
+                            <div class="absolute top-[75%] left-[20%] w-3.5 h-3.5 rounded-full bg-emerald-500 border border-white shadow z-10"></div>
+                            <div class="absolute top-[20%] left-[60%] w-3.5 h-3.5 rounded-full bg-blue-500 border border-white shadow z-10"></div>
+                            <div class="absolute top-[85%] left-[70%] w-3.5 h-3.5 rounded-full bg-red-500 border border-white shadow z-10"></div>
+                            
+                            <!-- Bottom Carousel on Map (Exact Image 5) -->
+                            <div class="absolute bottom-2 inset-x-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar z-20">
+                                <div class="px-2 py-1 rounded-xl bg-card/95 text-foreground shrink-0 flex items-center gap-1.5 border border-border shadow-sm">
+                                    <i class="ph-fill ph-flag text-emerald-500 text-xs"></i>
+                                    <span class="text-[9px] font-bold">Trailhead / St... 725m</span>
+                                    <span class="text-[8px] bg-primary/10 text-primary font-bold px-1 rounded">360</span>
+                                </div>
+                                <div class="px-2 py-1 rounded-xl bg-card/95 text-foreground shrink-0 flex items-center gap-1.5 border border-border shadow-sm">
+                                    <span class="w-3.5 h-3.5 rounded-full bg-blue-500 text-white text-[8px] font-bold flex items-center justify-center">2</span>
+                                    <span class="text-[9px] font-bold">Taman Wisata 820m</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="w-full bg-secondary p-1 rounded-xl flex items-center mb-5 text-xs font-bold">
+                        <div class="w-full bg-secondary p-1 rounded-xl flex items-center mb-4 text-xs font-bold">
                             <div class="flex-1 py-1.5 text-center text-muted-foreground">360° Scene</div>
                             <div class="flex-1 py-1.5 text-center bg-card rounded-lg shadow-sm text-foreground">Route Map</div>
                         </div>
@@ -1674,6 +1898,96 @@
                             <div class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary"><i class="ph-fill ph-path text-base"></i></div>
                             <div class="flex-1"><div class="text-[13px] font-bold text-foreground">Route Overview</div><div class="text-[10px] text-muted-foreground mt-0.5">4 waypoints recorded</div></div>
                             <div class="text-right"><div class="text-xs font-bold text-foreground">4.2 km</div><div class="text-[10px] text-muted-foreground">+350 m</div></div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="text-[12px] font-semibold text-foreground mb-2">Difficulty</div>
+                            <div class="flex p-1 bg-secondary rounded-xl text-xs font-medium">
+                                <div class="flex-1 py-1 text-center text-muted-foreground">Easy</div>
+                                <div class="flex-1 py-1 text-center bg-card rounded-lg shadow-sm font-bold text-foreground">Moderate</div>
+                                <div class="flex-1 py-1 text-center text-muted-foreground">Hard</div>
+                                <div class="flex-1 py-1 text-center text-muted-foreground">Expert</div>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <div class="text-[12px] font-semibold text-foreground mb-2">Activity</div>
+                            <div class="flex p-1 bg-secondary rounded-xl overflow-x-auto no-scrollbar snap-x">
+                                <span class="flex-none px-3.5 h-8 rounded-lg bg-card border border-border/50 text-foreground font-semibold shadow-sm text-[11px] flex items-center gap-1.5 snap-start">
+                                    <i class="ph-fill ph-boot bg-primary/10 text-primary p-0.5 rounded text-xs"></i> Hiking
+                                </span>
+                                <span class="flex-none px-3.5 h-8 rounded-lg text-[11px] font-medium text-muted-foreground flex items-center gap-1.5 snap-start">
+                                    <i class="ph-fill ph-person-simple-run text-xs"></i> Trail Run
+                                </span>
+                                <span class="flex-none px-3.5 h-8 rounded-lg text-[11px] font-medium text-muted-foreground flex items-center gap-1.5 snap-start">
+                                    <i class="ph-fill ph-bicycle text-xs"></i> MTB
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Key Waypoints & Highlights (Exact Image 6 & 7) -->
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between mb-2.5 px-0.5">
+                                <h2 class="text-[12px] font-bold text-foreground">Key Waypoints & Highlights</h2>
+                                <span class="text-[10px] text-muted-foreground font-medium">4 waypoints</span>
+                            </div>
+                            
+                            <div class="flex flex-col gap-2.5">
+                                <div class="bg-card border border-border/80 rounded-2xl p-3 shadow-sm flex items-start gap-2.5">
+                                    <div class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5 shadow-sm">1</div>
+                                    <div class="flex-1 flex flex-col gap-1.5 min-w-0">
+                                        <div class="bg-secondary/70 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold text-foreground truncate border border-border/30">Trailhead / Start Point</div>
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-[9px] uppercase font-bold tracking-wider text-muted-foreground">HEIGHT (M)</span>
+                                            <div class="flex items-center justify-between bg-secondary/70 rounded-xl border border-border/40 overflow-hidden">
+                                                <span class="px-2.5 py-1 text-[11px] font-semibold text-foreground">725</span>
+                                                <span class="border-l border-border/80 px-2.5 py-1 text-[11px] font-semibold text-primary">Get</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="text-muted-foreground/60 shrink-0 mt-1"><i class="ph-bold ph-dots-six-vertical text-base"></i></span>
+                                </div>
+                                <div class="bg-card border border-border/80 rounded-2xl p-3 shadow-sm flex items-start gap-2.5">
+                                    <div class="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5 shadow-sm">2</div>
+                                    <div class="flex-1 flex flex-col gap-1.5 min-w-0">
+                                        <div class="bg-secondary/70 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold text-foreground truncate border border-border/30">Taman Wisata Alam Gunun...</div>
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-[9px] uppercase font-bold tracking-wider text-muted-foreground">HEIGHT (M)</span>
+                                            <div class="flex items-center justify-between bg-secondary/70 rounded-xl border border-border/40 overflow-hidden">
+                                                <span class="px-2.5 py-1 text-[11px] font-semibold text-foreground">820</span>
+                                                <span class="border-l border-border/80 px-2.5 py-1 text-[11px] font-semibold text-primary">Get</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="text-muted-foreground/60 shrink-0 mt-1"><i class="ph-bold ph-dots-six-vertical text-base"></i></span>
+                                </div>
+                                <div class="bg-card border border-border/80 rounded-2xl p-3 shadow-sm flex items-start gap-2.5">
+                                    <div class="w-6 h-6 rounded-full bg-purple-500 text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5 shadow-sm">3</div>
+                                    <div class="flex-1 flex flex-col gap-1.5 min-w-0">
+                                        <div class="bg-secondary/70 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold text-foreground truncate border border-border/30">Pasir Limo Summit (1,075m)</div>
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-[9px] uppercase font-bold tracking-wider text-muted-foreground">HEIGHT (M)</span>
+                                            <div class="flex items-center justify-between bg-secondary/70 rounded-xl border border-border/40 overflow-hidden">
+                                                <span class="px-2.5 py-1 text-[11px] font-semibold text-foreground">1075</span>
+                                                <span class="border-l border-border/80 px-2.5 py-1 text-[11px] font-semibold text-primary">Get</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="text-muted-foreground/60 shrink-0 mt-1"><i class="ph-bold ph-dots-six-vertical text-base"></i></span>
+                                </div>
+                                <div class="bg-card border border-border/80 rounded-2xl p-3 shadow-sm flex items-start gap-2.5">
+                                    <div class="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center text-[11px] font-bold shrink-0 mt-0.5 shadow-sm">4</div>
+                                    <div class="flex-1 flex flex-col gap-1.5 min-w-0">
+                                        <div class="bg-secondary/70 rounded-xl px-2.5 py-1.5 text-[11px] font-semibold text-foreground truncate border border-border/30">Pondok Pemburu Campsite</div>
+                                        <div class="flex flex-col gap-0.5">
+                                            <span class="text-[9px] uppercase font-bold tracking-wider text-muted-foreground">HEIGHT (M)</span>
+                                            <div class="flex items-center justify-between bg-secondary/70 rounded-xl border border-border/40 overflow-hidden">
+                                                <span class="px-2.5 py-1 text-[11px] font-semibold text-foreground">840</span>
+                                                <span class="border-l border-border/80 px-2.5 py-1 text-[11px] font-semibold text-primary">Get</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="text-muted-foreground/60 shrink-0 mt-1"><i class="ph-bold ph-dots-six-vertical text-base"></i></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="absolute bottom-0 inset-x-0 p-3.5 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex items-center gap-2.5">
@@ -1886,7 +2200,7 @@
 
                         <div class="flex flex-col gap-4">
                             <!-- Hero Preview Card (Exact Image 2 & 3) -->
-                            <div class="rounded-[1.5rem] bg-card border border-border/80 dark:border-[#202B42] overflow-hidden shadow-md relative group aspect-[16/10] w-full isolate">
+                            <div class="rounded-[1.5rem] bg-card border border-border/80 dark:border-[#202B42] overflow-hidden shadow-md relative group aspect-[16/10] w-full h-[180px] shrink-0 isolate">
                                 <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover">
                                 <div class="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/60 to-transparent z-10 pointer-events-none"></div>
                                 <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 pointer-events-none"></div>
