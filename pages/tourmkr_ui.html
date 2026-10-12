@@ -1263,13 +1263,16 @@
                         </div>
                         
                         <div class="flex-1 overflow-y-auto no-scrollbar px-6 pb-[120px]">
-                            <div class="flex flex-col gap-3.5">
+                            <div class="flex flex-col gap-3">
                                 <template x-for="item in trails" :key="item.id">
-                                    <label class="flex items-center justify-between gap-4 cursor-pointer group select-none transition-transform active:scale-[0.99]">
-                                        <div class="flex-1 flex items-center gap-3.5 p-3 rounded-2xl border transition-all" 
-                                             :class="selectedItem == item.id ? 'border-primary bg-primary/[0.04] ring-2 ring-primary/20' : 'border-border bg-card group-hover:border-muted-foreground/40'">
+                                    <label 
+                                        class="flex items-center justify-between gap-3.5 p-3.5 rounded-2xl border transition-all cursor-pointer group select-none shadow-sm"
+                                        :class="selectedItem == item.id ? 'border-primary bg-primary/[0.04] ring-2 ring-primary/20 shadow-md' : 'border-border bg-card hover:bg-secondary/40 hover:border-muted-foreground/30'"
+                                    >
+                                        <!-- Left: Image & Info -->
+                                        <div class="flex items-center gap-3.5 min-w-0 flex-1">
                                             <img :src="item.img" class="w-[52px] h-[52px] rounded-xl object-cover shrink-0 border border-border/50">
-                                            <div class="min-w-0 py-1 flex-1">
+                                            <div class="min-w-0 py-0.5 flex-1">
                                                 <div class="text-[14px] font-bold text-foreground truncate" x-text="item.name"></div>
                                                 <div class="flex items-center gap-1.5 mt-1.5">
                                                     <i class="ph-fill ph-map-pin text-[11px] text-muted-foreground"></i>
@@ -1279,7 +1282,17 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <input type="radio" name="selectedTrail" :value="item.id" x-model="selectedItem" @change="chooseTrail(item)" class="custom-radio shrink-0 shadow-sm ml-1">
+
+                                        <!-- Right: Integrated Radio Indicator Inside the Card -->
+                                        <div class="flex items-center justify-center shrink-0 pr-1">
+                                            <div 
+                                                class="w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all"
+                                                :class="selectedItem == item.id ? 'border-primary bg-primary shadow-sm' : 'border-muted-foreground/50 bg-background'"
+                                            >
+                                                <div x-show="selectedItem == item.id" class="w-1.5 h-1.5 rounded-full bg-white"></div>
+                                            </div>
+                                            <input type="radio" name="selectedTrail" :value="item.id" x-model="selectedItem" @change="chooseTrail(item)" class="hidden">
+                                        </div>
                                     </label>
                                 </template>
                             </div>
@@ -1499,25 +1512,25 @@
                         </div>
                         <div class="flex-1 overflow-hidden px-5 pt-1">
                             <div class="flex flex-col gap-3">
-                                <div class="flex items-center justify-between gap-3">
-                                    <div class="flex-1 flex items-center gap-3 p-2.5 rounded-2xl border-2 border-primary bg-primary/[0.04] shadow-sm">
+                                <div class="flex items-center justify-between gap-3 p-3 rounded-2xl border-2 border-primary bg-primary/[0.04] shadow-sm">
+                                    <div class="flex items-center gap-3 min-w-0 flex-1">
                                         <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=200&auto=format&fit=crop" class="w-[44px] h-[44px] rounded-xl object-cover shrink-0 border border-border/50" alt="">
                                         <div class="min-w-0">
                                             <div class="text-[12px] font-bold text-foreground truncate leading-tight">Batur Caldera Rim Trail</div>
                                             <div class="text-[10px] font-semibold text-muted-foreground mt-1 truncate"><i class="ph-fill ph-map-pin"></i> 28.4 km • Bali, Indonesia</div>
                                         </div>
                                     </div>
-                                    <div class="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center shrink-0 shadow-sm ml-1 text-white text-[10px]"><i class="ph-bold ph-check"></i></div>
+                                    <div class="w-5 h-5 rounded-full border-2 border-primary bg-primary flex items-center justify-center shrink-0 shadow-sm text-white text-[10px]"><i class="ph-bold ph-check"></i></div>
                                 </div>
-                                <div class="flex items-center justify-between gap-3">
-                                    <div class="flex-1 flex items-center gap-3 p-2.5 rounded-2xl border border-border bg-card shadow-sm">
+                                <div class="flex items-center justify-between gap-3 p-3 rounded-2xl border border-border bg-card shadow-sm">
+                                    <div class="flex items-center gap-3 min-w-0 flex-1">
                                         <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=200&auto=format&fit=crop" class="w-[44px] h-[44px] rounded-xl object-cover shrink-0 border border-border/50" alt="">
                                         <div class="min-w-0">
                                             <div class="text-[12px] font-bold text-foreground truncate leading-tight">Rinjani Summit Route</div>
                                             <div class="text-[10px] font-semibold text-muted-foreground mt-1 truncate"><i class="ph-fill ph-map-pin"></i> 41.2 km • Lombok</div>
                                         </div>
                                     </div>
-                                    <div class="w-5 h-5 rounded-full border-2 border-muted-foreground shrink-0 shadow-sm ml-1"></div>
+                                    <div class="w-5 h-5 rounded-full border-2 border-muted-foreground/50 shrink-0 shadow-sm"></div>
                                 </div>
                             </div>
                         </div>
