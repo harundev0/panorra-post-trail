@@ -268,7 +268,7 @@
                 </div>
 
                 <!-- Scrollable Content -->
-                <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-8 relative z-10 bg-background">
+                <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-28 relative z-10 bg-background">
                     <!-- Title Header -->
                     <div class="flex items-center gap-4 px-6 mt-3 mb-8 select-none">
                         <button class="p-2 -ml-2 text-muted-foreground hover:text-foreground active:scale-95 transition-transform outline-none"><i class="ph ph-arrow-left text-2xl"></i></button>
@@ -279,23 +279,10 @@
                     </div>
 
                     <div class="px-6">
-                        <div class="text-[14px] font-semibold text-foreground mb-4">Step 1 of 3: Add Image</div>
-
-                        <!-- Top Action Buttons: Change/Select Image & Next -->
-                        <div class="grid grid-cols-[1.2fr_1fr] gap-3 mb-6">
-                            <button 
-                                @click="$refs.fileInput.click()" 
-                                class="h-12 rounded-xl border border-border bg-card text-foreground text-[14px] font-semibold flex items-center justify-center gap-2 hover:bg-secondary active:scale-[0.98] transition-all shadow-sm outline-none"
-                            >
-                                <i class="ph ph-plus-circle text-lg text-muted-foreground"></i>
-                                <span x-text="customImageName ? 'Change Image' : 'Change'">Change</span>
-                            </button>
-                            <button 
-                                @click="flowStep = 'step2'" 
-                                class="h-12 rounded-xl bg-primary text-primary-foreground text-[14px] font-semibold flex items-center justify-center gap-2 hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md outline-none"
-                            >
-                                Next <i class="ph ph-arrow-right text-lg"></i>
-                            </button>
+                        <!-- Step Indicator -->
+                        <div class="flex items-center justify-between mb-5">
+                            <div class="text-[14px] font-semibold text-foreground">Step 1: <span class="font-bold">Add Image</span></div>
+                            <div class="text-[12px] font-medium text-primary bg-primary/10 px-2.5 py-0.5 rounded-full" x-text="`1 Out of ${totalSteps}`">1 Out of 3</div>
                         </div>
 
                         <!-- Selected Image Preview Chip if uploaded -->
@@ -311,69 +298,89 @@
                         </div>
 
                         <!-- Section: Virtual Tour / Trail Embed -->
-                        <div class="flex items-center gap-3 mb-8 select-none px-1">
-                            <i class="ph ph-aperture text-xl text-muted-foreground"></i>
+                        <div class="flex items-center gap-2.5 mb-6 select-none">
+                            <i class="ph ph-link text-lg text-muted-foreground"></i>
                             <span class="text-[13px] font-semibold text-foreground">Virtual Tour / Trail Embed</span>
                         </div>
 
-                        <!-- Select Platform -->
-                        <div class="mb-10 select-none">
-                            <h2 class="text-[13px] font-semibold text-foreground mb-3 px-1">Select Platform</h2>
+                        <!-- Experience Type -->
+                        <div class="mb-6 select-none">
+                            <h2 class="text-[13px] font-semibold text-foreground mb-2.5">Experience Type</h2>
                             <div class="grid grid-cols-2 gap-3">
-                                <button class="flex items-center gap-3 p-3.5 rounded-2xl border-2 border-primary bg-primary/[0.03] active:scale-[0.98] transition-all text-left shadow-sm outline-none">
-                                    <div class="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center relative overflow-hidden shrink-0">
-                                        <i class="ph-fill ph-mountains text-foreground text-lg"></i>
-                                        <div class="absolute bottom-0 w-full h-2/5 bg-gradient-to-t from-green-600/30 dark:from-green-900/60 to-transparent"></div>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <div class="text-[13px] text-foreground font-semibold leading-tight truncate">Tourmkr</div>
-                                        <div class="text-[11px] text-primary font-medium mt-0.5">Trails & Tours</div>
-                                    </div>
-                                </button>
-                                <button class="flex items-center gap-3 p-3.5 rounded-2xl border border-border hover:border-muted-foreground/30 hover:bg-secondary bg-card active:scale-[0.98] transition-all text-left shadow-sm outline-none">
-                                    <div class="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center shrink-0">
-                                        <i class="ph-fill ph-map-pin text-[#3B82F6] text-lg"></i>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <div class="text-[13px] text-foreground font-semibold leading-tight truncate">Google</div>
-                                        <div class="text-[11px] text-muted-foreground font-medium mt-0.5 truncate">Explore 360°</div>
-                                    </div>
-                                </button>
+                                <template x-for="opt in [
+                                    { id: 'panorama', icon: 'ph-image', title: 'Panorama', sub: 'Single 360° view' },
+                                    { id: 'trail', icon: 'ph-path', title: 'Trail', sub: 'Multiple 360° views' }
+                                ]" :key="opt.id">
+                                    <button @click="experienceType = opt.id" class="relative flex flex-col gap-2 p-3 rounded-2xl text-left shadow-sm active:scale-[0.97] transition-[transform,border-color,background-color] duration-150 outline-none"
+                                            :class="experienceType === opt.id ? 'border-2 border-primary bg-primary/[0.04]' : 'border border-border bg-card hover:bg-secondary'">
+                                        <span x-show="experienceType === opt.id" class="absolute top-3 right-3 w-2 h-2 rounded-full bg-primary"></span>
+                                        <div class="w-8 h-8 rounded-lg bg-card border border-border/50 flex items-center justify-center shrink-0">
+                                            <i class="ph-bold text-base" :class="[opt.icon, experienceType === opt.id ? 'text-primary' : 'text-foreground']"></i>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div class="text-[13px] font-semibold leading-tight truncate" :class="experienceType === opt.id ? 'text-primary' : 'text-foreground'" x-text="opt.title"></div>
+                                            <div class="text-[11px] text-muted-foreground font-medium mt-0.5 truncate" x-text="opt.sub"></div>
+                                        </div>
+                                    </button>
+                                </template>
                             </div>
                         </div>
 
-                        <!-- Tourmkr Source Selection -->
-                        <div class="mb-8">
-                            <div class="flex items-center justify-between mb-3 px-1 select-none">
-                                <h2 class="text-[13px] font-semibold text-foreground">Tourmkr Source</h2>
-                                <i class="ph-fill ph-info text-primary text-base"></i>
+                        <!-- Select Platform -->
+                        <div class="mb-6 select-none">
+                            <div class="flex items-center justify-between mb-2.5">
+                                <h2 class="text-[13px] font-semibold text-foreground">Select Platform</h2>
+                                <span class="text-[11px] text-muted-foreground font-medium">360° Virtual Tour</span>
                             </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <template x-for="opt in [
+                                    { id: 'tourmkr', icon: 'ph-fill ph-cube text-primary', title: 'TourMkr', sub: 'Tour & Trail GPS' },
+                                    { id: 'google', icon: 'ph-fill ph-map-pin text-[#3B82F6]', title: 'Google Street View', sub: 'Street View 360°' }
+                                ]" :key="opt.id">
+                                    <button @click="platform = opt.id" class="relative flex flex-col gap-2 p-3 rounded-2xl text-left shadow-sm active:scale-[0.97] transition-[transform,border-color,background-color] duration-150 outline-none"
+                                            :class="platform === opt.id ? 'border-2 border-primary bg-primary/[0.04]' : 'border border-border bg-card hover:bg-secondary'">
+                                        <span x-show="platform === opt.id" class="absolute top-3 right-3 w-2 h-2 rounded-full bg-primary"></span>
+                                        <div class="w-8 h-8 rounded-lg bg-card border border-border/50 flex items-center justify-center shrink-0">
+                                            <i class="text-base" :class="opt.icon"></i>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div class="text-[13px] font-semibold leading-tight truncate" :class="platform === opt.id ? 'text-primary' : 'text-foreground'" x-text="opt.title"></div>
+                                            <div class="text-[11px] text-muted-foreground font-medium mt-0.5 truncate" x-text="opt.sub"></div>
+                                        </div>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Source Selection -->
+                        <div class="mb-8">
+                            <h2 class="text-[13px] font-semibold text-foreground mb-2.5 select-none" x-text="platform === 'tourmkr' ? 'TourMkr source' : 'Street View source'">TourMkr source</h2>
                             
                             <div class="rounded-2xl border border-border bg-card shadow-sm flex flex-col overflow-hidden divide-y divide-border">
-                                <button @click="openModal('data')" class="flex items-center justify-between p-4 hover:bg-secondary active:bg-secondary/70 transition-colors text-left group outline-none">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-10 h-10 rounded-xl bg-secondary group-hover:bg-background flex items-center justify-center transition-colors shrink-0 border border-border/50">
-                                            <i class="ph ph-list-dashes text-xl text-foreground"></i>
+                                <button x-show="platform === 'tourmkr'" @click="openModal('data')" class="flex items-center justify-between gap-3 p-3.5 hover:bg-secondary active:bg-secondary/70 transition-colors text-left group outline-none">
+                                    <div class="flex items-center gap-3 min-w-0">
+                                        <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                                            <i class="ph-fill ph-images text-lg text-primary"></i>
                                         </div>
-                                        <div>
-                                            <div class="text-[14px] text-foreground font-semibold">Select from Tourmkr</div>
-                                            <div class="text-[12px] text-muted-foreground font-medium mt-0.5" x-text="selectedItem ? `Selected: ${selectedTrail.name}` : 'Use existing trails'">Use existing trails</div>
+                                        <div class="min-w-0">
+                                            <div class="text-[13px] text-foreground font-semibold">Select from my TourMkr</div>
+                                            <div class="text-[11px] text-muted-foreground font-medium mt-0.5 truncate" x-text="selectedItem ? `Selected: ${selectedTrail.name}` : 'Use your existing tours'">Use your existing tours</div>
                                         </div>
                                     </div>
-                                    <i class="ph ph-caret-right text-muted-foreground group-hover:text-foreground transition-colors text-lg"></i>
+                                    <i class="ph ph-caret-right text-muted-foreground group-hover:text-foreground transition-colors text-base shrink-0"></i>
                                 </button>
                                 
-                                <button @click="openModal('empty')" class="flex items-center justify-between p-4 hover:bg-secondary active:bg-secondary/70 transition-colors text-left group outline-none">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-10 h-10 rounded-xl bg-secondary group-hover:bg-background flex items-center justify-center transition-colors shrink-0 border border-border/50">
-                                            <i class="ph ph-link text-xl text-foreground"></i>
+                                <button @click="openModal('empty')" class="flex items-center justify-between gap-3 p-3.5 hover:bg-secondary active:bg-secondary/70 transition-colors text-left group outline-none">
+                                    <div class="flex items-center gap-3 min-w-0">
+                                        <div class="w-9 h-9 rounded-xl bg-secondary flex items-center justify-center shrink-0">
+                                            <i class="ph ph-link text-lg text-foreground"></i>
                                         </div>
-                                        <div>
-                                            <div class="text-[14px] text-foreground font-semibold">Add link instead</div>
-                                            <div class="text-[12px] text-muted-foreground font-medium mt-0.5">Paste a Tourmkr URL</div>
+                                        <div class="min-w-0">
+                                            <div class="text-[13px] text-foreground font-semibold" x-text="platform === 'tourmkr' ? 'Add link from TourMkr' : 'Add Street View link'">Add link from TourMkr</div>
+                                            <div class="text-[11px] text-muted-foreground font-medium mt-0.5 truncate" x-text="platform === 'tourmkr' ? 'Paste a TourMkr tour URL' : 'Paste a Google Maps 360° URL'">Paste a TourMkr tour URL</div>
                                         </div>
                                     </div>
-                                    <i class="ph ph-caret-right text-muted-foreground group-hover:text-foreground transition-colors text-lg"></i>
+                                    <i class="ph ph-caret-right text-muted-foreground group-hover:text-foreground transition-colors text-base shrink-0"></i>
                                 </button>
                             </div>
                         </div>
@@ -388,6 +395,17 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Fixed Bottom Actions Bar -->
+                <div class="absolute bottom-0 inset-x-0 p-4 pb-6 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex items-center justify-between gap-3 select-none">
+                    <button @click="$refs.fileInput.click()" class="flex-1 h-11 px-3 rounded-xl border border-border bg-card text-foreground text-[13px] font-semibold flex items-center justify-center gap-1.5 hover:bg-secondary active:scale-[0.98] transition-all shadow-sm outline-none whitespace-nowrap">
+                        <span x-text="customImageName ? 'Change image' : 'Change method'">Change method</span>
+                    </button>
+                    <button @click="flowStep = 'step2'" :disabled="!selectedItem && !customImageName" class="flex-1 h-11 px-3 rounded-xl bg-primary text-primary-foreground text-[13px] font-semibold flex items-center justify-center gap-1.5 hover:bg-primary/90 active:scale-[0.98] transition-all shadow-md outline-none whitespace-nowrap disabled:opacity-40 disabled:shadow-none">
+                        <span>Next</span>
+                        <i class="ph ph-arrow-right text-base"></i>
+                    </button>
                 </div>
             </div>
 
@@ -420,7 +438,7 @@
                         <!-- Step Indicator -->
                         <div class="flex items-center justify-between mb-5">
                             <div class="text-[14px] font-semibold text-foreground">Step 2: <span class="font-bold">Trail & Route Details</span></div>
-                            <div class="text-[12px] font-medium text-primary bg-primary/10 px-2.5 py-0.5 rounded-full">2 Out of 3</div>
+                            <div class="text-[12px] font-medium text-primary bg-primary/10 px-2.5 py-0.5 rounded-full" x-text="`2 Out of ${totalSteps}`">2 Out of 3</div>
                         </div>
 
                         <!-- 360 Scene / Post Preview Section -->
@@ -1036,10 +1054,10 @@
                     </button>
                     
                     <div class="flex-1 min-w-0 h-[46px] rounded-[16px] bg-black/60 backdrop-blur-md flex flex-col justify-center px-4 border border-slate-700/60 overflow-hidden">
-                        <h1 class="text-[13px] font-bold text-white leading-tight truncate">PT. Go Thru Media Indonesia</h1>
+                        <h1 class="text-[13px] font-bold text-white leading-tight truncate">Bon Echo Provincial Park 1</h1>
                         <div class="flex items-center gap-1 mt-0.5">
-                            <i class="ph-fill ph-map-pin text-[10px] text-gray-300 shrink-0"></i>
-                            <p class="text-[10px] font-medium text-gray-300 truncate">Wanareja, Subang, Subang Regency...</p>
+                            <i class="ph-fill ph-person-simple-hike text-[10px] text-gray-300 shrink-0"></i>
+                            <p class="text-[10px] font-medium text-gray-300 truncate">Hiking &bull; 0.5 km &bull; +81 m &bull; Easy</p>
                         </div>
                     </div>
 
@@ -1116,11 +1134,11 @@
                     <div class="flex items-center justify-between mb-4 w-full">
                         <div class="flex items-center gap-3">
                             <div class="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#A69389] shrink-0 overflow-hidden border border-[#A69389]/50">
-                                <span class="text-sm font-bold text-gray-700">FR</span>
+                                <span class="text-sm font-bold text-gray-700">ES</span>
                             </div>
                             <div class="flex-1 drop-shadow-md">
-                                <h2 class="text-[15px] font-bold text-white leading-tight">Filo Rial</h2>
-                                <p class="text-[12px] font-medium text-gray-300 mt-0.5">@filorial</p>
+                                <h2 class="text-[15px] font-bold text-white leading-tight">Eko Syaepulloh Qa</h2>
+                                <p class="text-[12px] font-medium text-gray-300 mt-0.5">@ekosymm</p>
                             </div>
                         </div>
                         <div class="flex items-center justify-between w-[72px] h-[38px] px-4 rounded-full bg-black/40 backdrop-blur-md border border-slate-700/60 text-white drop-shadow-sm cursor-pointer hover:bg-black/60 transition-colors shrink-0 outline-none">
@@ -1172,14 +1190,14 @@
                         <div class="px-6 pt-2 pb-6 max-h-[50vh] overflow-y-auto no-scrollbar">
                             <div class="flex items-center gap-3.5 mb-5">
                                 <div class="w-[48px] h-[48px] rounded-full flex items-center justify-center bg-[#A69389] shrink-0 border border-[#A69389]/50 overflow-hidden">
-                                    <span class="text-sm font-bold text-gray-700">FR</span>
+                                    <span class="text-sm font-bold text-gray-700">ES</span>
                                 </div>
                                 <div>
-                                    <h2 class="text-[15px] font-bold text-gray-900 leading-tight">Filo Rial</h2>
-                                    <p class="text-[12px] font-semibold text-gray-500 mt-0.5">@filorial</p>
+                                    <h2 class="text-[15px] font-bold text-gray-900 leading-tight">Eko Syaepulloh Qa</h2>
+                                    <p class="text-[12px] font-semibold text-gray-500 mt-0.5">@ekosymm</p>
                                 </div>
                             </div>
-                            <p class="text-[14px] text-gray-800 font-medium">My 360</p>
+                            <p class="text-[14px] text-gray-800 font-medium">Bon Echo Provincial Park 2</p>
                         </div>
                     </div>
                 </div>
@@ -1387,7 +1405,7 @@
                         <span>9:41</span>
                         <div class="flex gap-2 items-center"><i class="ph-fill ph-cell-signal-full"></i><i class="ph-fill ph-wifi-high"></i><i class="ph-fill ph-battery-full text-base"></i></div>
                     </div>
-                    <div class="flex-1 flex flex-col pb-6 px-5">
+                    <div class="flex-1 flex flex-col overflow-y-auto no-scrollbar pb-24 relative bg-background px-5">
                         <div class="flex items-center gap-3 mt-2 mb-6">
                             <span class="text-muted-foreground"><i class="ph ph-arrow-left text-xl"></i></span>
                             <div>
@@ -1395,46 +1413,65 @@
                                 <p class="text-[11px] font-medium text-muted-foreground mt-0.5">Share & Explore</p>
                             </div>
                         </div>
-                        <div class="text-[13px] font-bold mb-4">Step 1 of 3: Add Image</div>
-                        <!-- Tombol Pilih / Ganti File Gambar & Next -->
-                        <div class="grid grid-cols-[1.2fr_1fr] gap-3 mb-6">
-                            <div class="h-11 border border-border rounded-xl bg-card shadow-sm text-[12px] font-bold flex items-center justify-center gap-2 text-foreground"><i class="ph ph-plus-circle text-lg text-muted-foreground"></i> Change</div>
-                            <div class="h-11 bg-primary rounded-xl shadow-md text-primary-foreground text-[12px] font-bold flex items-center justify-center">Next &rarr;</div>
+                        <div class="flex items-center justify-between mb-5">
+                            <div class="text-[13px] font-semibold text-foreground">Step 1: <span class="font-bold">Add Image</span></div>
+                            <div class="text-[11px] font-medium text-primary bg-primary/10 px-2.5 py-0.5 rounded-full">1 Out of 3</div>
                         </div>
-                        <div class="flex items-center gap-2.5 mb-5 px-1">
-                            <i class="ph ph-aperture text-lg text-muted-foreground"></i>
+                        <div class="flex items-center gap-2 mb-5">
+                            <i class="ph ph-link text-lg text-muted-foreground"></i>
                             <span class="text-[12px] font-bold text-foreground">Virtual Tour / Trail Embed</span>
                         </div>
-                        <div class="mb-6">
-                            <h2 class="text-[12px] font-semibold text-foreground mb-2.5 px-1">Select Platform</h2>
+                        <div class="mb-4">
+                            <h2 class="text-[12px] font-semibold text-foreground mb-2">Experience Type</h2>
                             <div class="grid grid-cols-2 gap-2.5">
-                                <div class="flex items-center gap-2.5 p-3 rounded-2xl border-2 border-primary bg-primary/[0.03] shadow-sm">
-                                    <div class="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center"><i class="ph-fill ph-mountains text-foreground"></i></div>
-                                    <div class="flex-1 min-w-0"><div class="text-[12px] font-bold truncate leading-tight">Tourmkr</div><div class="text-[10px] font-semibold text-primary mt-0.5">Trails & Tours</div></div>
+                                <div class="flex flex-col gap-1.5 p-2.5 rounded-2xl border border-border bg-card shadow-sm">
+                                    <div class="w-7 h-7 rounded-lg bg-card border border-border/50 flex items-center justify-center"><i class="ph-bold ph-image text-foreground text-sm"></i></div>
+                                    <div><div class="text-[12px] font-semibold leading-tight">Panorama</div><div class="text-[10px] text-muted-foreground mt-0.5">Single 360° view</div></div>
                                 </div>
-                                <div class="flex items-center gap-2.5 p-3 rounded-2xl border border-border bg-card shadow-sm">
-                                    <div class="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center"><i class="ph-fill ph-map-pin text-[#3B82F6]"></i></div>
-                                    <div class="flex-1 min-w-0"><div class="text-[12px] font-bold truncate leading-tight">Google</div><div class="text-[10px] font-semibold text-muted-foreground mt-0.5">Explore 360°</div></div>
+                                <div class="relative flex flex-col gap-1.5 p-2.5 rounded-2xl border-2 border-primary bg-primary/[0.04] shadow-sm">
+                                    <span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-primary"></span>
+                                    <div class="w-7 h-7 rounded-lg bg-card border border-border/50 flex items-center justify-center"><i class="ph-bold ph-path text-primary text-sm"></i></div>
+                                    <div><div class="text-[12px] font-semibold text-primary leading-tight">Trail</div><div class="text-[10px] text-muted-foreground mt-0.5">Multiple 360° views</div></div>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-4">
-                            <div class="flex items-center justify-between mb-2.5 px-1">
-                                <h2 class="text-[12px] font-semibold text-foreground">Tourmkr Source</h2><i class="ph-fill ph-info text-primary text-[14px]"></i>
+                            <div class="flex items-center justify-between mb-2">
+                                <h2 class="text-[12px] font-semibold text-foreground">Select Platform</h2>
+                                <span class="text-[10px] text-muted-foreground font-medium">360° Virtual Tour</span>
                             </div>
-                            <div class="rounded-2xl border border-border overflow-hidden bg-card shadow-sm divide-y divide-border">
-                                <div class="flex items-center p-3.5 gap-3.5 bg-secondary/50">
-                                    <div class="w-8 h-8 rounded-xl bg-background flex items-center justify-center border border-border/50 shrink-0"><i class="ph ph-list-dashes text-base text-foreground"></i></div>
-                                    <div class="flex-1"><div class="text-[12px] font-bold">Select from Tourmkr</div><div class="text-[10px] text-muted-foreground mt-0.5">Use existing trails</div></div>
-                                    <i class="ph ph-caret-right text-foreground text-sm"></i>
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <div class="relative flex flex-col gap-1.5 p-2.5 rounded-2xl border-2 border-primary bg-primary/[0.04] shadow-sm">
+                                    <span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-primary"></span>
+                                    <div class="w-7 h-7 rounded-lg bg-card border border-border/50 flex items-center justify-center"><i class="ph-fill ph-cube text-primary text-sm"></i></div>
+                                    <div><div class="text-[12px] font-semibold text-primary leading-tight">TourMkr</div><div class="text-[10px] text-muted-foreground mt-0.5">Tour & Trail GPS</div></div>
                                 </div>
-                                <div class="flex items-center p-3.5 gap-3.5">
+                                <div class="flex flex-col gap-1.5 p-2.5 rounded-2xl border border-border bg-card shadow-sm">
+                                    <div class="w-7 h-7 rounded-lg bg-card border border-border/50 flex items-center justify-center"><i class="ph-fill ph-map-pin text-[#3B82F6] text-sm"></i></div>
+                                    <div class="min-w-0"><div class="text-[12px] font-semibold leading-tight truncate">Google Street View</div><div class="text-[10px] text-muted-foreground mt-0.5">Street View 360°</div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h2 class="text-[12px] font-semibold text-foreground mb-2">TourMkr source</h2>
+                            <div class="rounded-2xl border border-border overflow-hidden bg-card shadow-sm divide-y divide-border">
+                                <div class="flex items-center p-3 gap-3">
+                                    <div class="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0"><i class="ph-fill ph-images text-base text-primary"></i></div>
+                                    <div class="flex-1 min-w-0"><div class="text-[12px] font-semibold">Select from my TourMkr</div><div class="text-[10px] text-muted-foreground mt-0.5">Use your existing tours</div></div>
+                                    <i class="ph ph-caret-right text-muted-foreground text-sm"></i>
+                                </div>
+                                <div class="flex items-center p-3 gap-3">
                                     <div class="w-8 h-8 rounded-xl bg-secondary flex items-center justify-center shrink-0"><i class="ph ph-link text-base text-foreground"></i></div>
-                                    <div class="flex-1"><div class="text-[12px] font-bold">Add link instead</div><div class="text-[10px] text-muted-foreground mt-0.5">Paste a Tourmkr URL</div></div>
+                                    <div class="flex-1 min-w-0"><div class="text-[12px] font-semibold">Add link from TourMkr</div><div class="text-[10px] text-muted-foreground mt-0.5">Paste a TourMkr tour URL</div></div>
                                     <i class="ph ph-caret-right text-muted-foreground text-sm"></i>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <!-- Fixed Bottom Bar -->
+                    <div class="absolute bottom-0 inset-x-0 p-3.5 bg-background/95 backdrop-blur-xl border-t border-border z-30 flex items-center gap-2.5">
+                        <div class="flex-1 h-10 px-3 rounded-xl border border-border bg-card text-foreground text-[12px] font-semibold flex items-center justify-center gap-1">Change method</div>
+                        <div class="flex-1 h-10 px-3 rounded-xl bg-primary text-primary-foreground text-[12px] font-semibold flex items-center justify-center gap-1">Next &rarr;</div>
                     </div>
                 </div>
             </div>
@@ -1606,7 +1643,7 @@
                             </div>
                         </div>
                         <div class="flex items-center justify-between mb-5">
-                            <div class="text-[13px] font-semibold text-foreground">Step 1: <span class="font-bold">Select Tour</span></div>
+                            <div class="text-[13px] font-semibold text-foreground">Step 1: <span class="font-bold">Add Image</span></div>
                             <div class="text-[11px] font-medium text-muted-foreground">1 Out of 3</div>
                         </div>
                         <div class="flex items-center gap-2 mb-5">
@@ -1666,7 +1703,7 @@
                             </div>
                         </div>
                         <div class="flex items-center justify-between mb-4">
-                            <div class="text-[13px] font-semibold text-foreground">Step 1: <span class="font-bold">Select Tour</span></div>
+                            <div class="text-[13px] font-semibold text-foreground">Step 1: <span class="font-bold">Add Image</span></div>
                             <div class="text-[11px] font-medium text-primary bg-primary/10 px-2.5 py-0.5 rounded-full">1 Out of 3</div>
                         </div>
 
@@ -2397,7 +2434,7 @@
                 </div>
             </div>
 
-            <!-- ====== 7. POST DETAIL 360 (Live 360 View) ====== -->
+            <!-- ====== 7. POST DETAIL 360 (Live 360 View) — mirrors pages/tourmkr_post_detail.html ====== -->
             <div class="flex flex-col gap-4 items-center">
                 <span class="text-[12px] font-bold text-foreground bg-card border border-border px-4 py-1.5 rounded-full shadow-sm">📄 Post Detail 360 View</span>
                 <div class="w-[340px] h-[736px] bg-black relative overflow-hidden flex flex-col rounded-[2.25rem] border-8 border-black shadow-xl shrink-0 select-none ring-1 ring-white/10">
@@ -2427,15 +2464,23 @@
                         </div>
                         
                         <div class="flex-1 min-w-0 h-9 rounded-xl bg-black/60 backdrop-blur-md flex flex-col justify-center px-3 border border-slate-700/60 overflow-hidden">
-                            <h1 class="text-[11px] font-bold text-white leading-tight truncate">PT. Go Thru Media Indonesia</h1>
+                            <h1 class="text-[11px] font-bold text-white leading-tight truncate">Bon Echo Provincial Park 1</h1>
                             <div class="flex items-center gap-1 mt-0.5">
-                                <i class="ph-fill ph-map-pin text-[9px] text-gray-300 shrink-0"></i>
-                                <p class="text-[9px] font-medium text-gray-300 truncate">Wanareja, Subang, Subang Regency...</p>
+                                <i class="ph-fill ph-person-simple-hike text-[9px] text-gray-300 shrink-0"></i>
+                                <p class="text-[9px] font-medium text-gray-300 truncate">Key point 1 of 9 &bull; 276m</p>
                             </div>
                         </div>
 
                         <div class="w-9 h-9 rounded-xl bg-black/60 backdrop-blur-md flex items-center justify-center text-white shrink-0 border border-slate-700/60">
                             <i class="ph-bold ph-dots-three text-lg"></i>
+                        </div>
+                    </div>
+
+                    <!-- 360 / Map segmented toggle -->
+                    <div class="absolute top-[92px] inset-x-0 flex justify-center z-20 select-none">
+                        <div class="grid grid-cols-2 p-1 rounded-full bg-black/60 backdrop-blur-md border border-slate-700/60 text-[11px] font-semibold">
+                            <span class="px-3.5 py-1.5 rounded-full bg-white text-gray-900 flex items-center justify-center gap-1.5"><i class="ph-bold ph-panorama"></i>360 View</span>
+                            <span class="px-3.5 py-1.5 rounded-full text-white flex items-center justify-center gap-1.5"><i class="ph-bold ph-map-trifold"></i>Trail Map</span>
                         </div>
                     </div>
 
@@ -2497,14 +2542,14 @@
                         <div class="flex items-center justify-between mb-3 w-full">
                             <div class="flex items-center gap-2.5">
                                 <div class="w-10 h-10 rounded-full flex items-center justify-center bg-[#A69389] shrink-0 overflow-hidden border border-[#A69389]/50">
-                                    <span class="text-xs font-bold text-gray-700">FR</span>
+                                    <span class="text-xs font-bold text-gray-700">ES</span>
                                 </div>
                                 <div class="flex-1 drop-shadow-md">
-                                    <h2 class="text-[13px] font-bold text-white leading-tight">Filo Rial</h2>
-                                    <p class="text-[11px] font-medium text-gray-300 mt-0.5">@filorial</p>
+                                    <h2 class="text-[13px] font-bold text-white leading-tight">Eko Syaepulloh Qa</h2>
+                                    <p class="text-[11px] font-medium text-gray-300 mt-0.5">@ekosymm</p>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-between w-[64px] h-[34px] px-3 rounded-full bg-black/40 backdrop-blur-md border border-slate-700/60 text-white drop-shadow-sm shrink-0">
+                            <div class="flex items-center gap-4 h-[34px] px-3 rounded-full bg-black/40 backdrop-blur-md border border-slate-700/60 text-white drop-shadow-sm shrink-0">
                                 <i class="ph-bold ph-caret-left text-xs"></i>
                                 <i class="ph-bold ph-caret-right text-xs"></i>
                             </div>
@@ -2530,7 +2575,7 @@
                     <div class="absolute top-10 inset-x-3.5 px-1 flex justify-between gap-2 z-20 opacity-70">
                         <div class="w-9 h-9 rounded-xl bg-black/60 text-white flex items-center justify-center"><i class="ph-bold ph-arrow-left text-base"></i></div>
                         <div class="flex-1 h-9 rounded-xl bg-black/60 flex flex-col justify-center px-3">
-                            <h1 class="text-[11px] font-bold text-white">PT. Go Thru ...</h1>
+                            <h1 class="text-[11px] font-bold text-white">Bon Echo Provincial ...</h1>
                         </div>
                         <div class="w-9 h-9 rounded-xl bg-black/60 text-white flex items-center justify-center"><i class="ph-bold ph-dots-three text-base"></i></div>
                     </div>
@@ -2539,30 +2584,82 @@
                     <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px] z-30"></div>
 
                     <!-- Bottom Sheet (Always Expanded as per Design Spec) -->
-                    <div class="absolute bottom-0 inset-x-0 bg-white flex flex-col pt-3 pb-8 z-[70] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[1.75rem] overflow-hidden text-gray-900">
+                    <div class="absolute bottom-0 inset-x-0 max-h-[80%] bg-white flex flex-col pt-3 z-[70] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[1.75rem] overflow-hidden text-gray-900">
                         <!-- Drag Handle -->
                         <div class="w-full flex justify-center pb-3 pt-1 shrink-0">
                             <div class="w-10 h-1 bg-gray-300 rounded-full"></div>
                         </div>
 
                         <!-- Header -->
-                        <div class="px-6 pb-3 shrink-0 relative text-center">
+                        <div class="px-6 pb-3 shrink-0 text-center border-b border-gray-100">
                             <h2 class="text-[15px] font-bold text-gray-900">Details</h2>
                         </div>
 
                         <!-- Content -->
-                        <div class="px-6 pt-1 pb-4">
-                            <div class="flex items-center gap-3.5 mb-4">
-                                <div class="w-[44px] h-[44px] rounded-full flex items-center justify-center bg-[#A69389] shrink-0 border border-[#A69389]/50 overflow-hidden">
-                                    <span class="text-sm font-bold text-gray-700">FR</span>
+                        <div class="flex-1 min-h-0 px-5 pt-4 pb-6 overflow-y-auto no-scrollbar flex flex-col gap-4">
+                            <!-- Author -->
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center bg-[#A69389] shrink-0 border border-[#A69389]/50">
+                                    <span class="text-sm font-bold text-gray-700">ES</span>
                                 </div>
-                                <div>
-                                    <h2 class="text-[14px] font-bold text-gray-900 leading-tight">Filo Rial</h2>
-                                    <p class="text-[11px] font-semibold text-gray-500 mt-0.5">@filorial</p>
+                                <div class="min-w-0">
+                                    <h3 class="text-[14px] font-bold leading-tight truncate">Eko Syaepulloh Qa</h3>
+                                    <p class="text-[11px] font-medium text-gray-500 mt-0.5">@ekosymm</p>
                                 </div>
                             </div>
 
-                            <p class="text-[13px] text-gray-800 font-medium">My 360</p>
+                            <!-- Description -->
+                            <p class="text-[13px] font-medium text-gray-800">Bon Echo Provincial Park 2</p>
+
+                            <!-- Activity + stats -->
+                            <div class="rounded-2xl border border-gray-200 p-3 flex flex-col gap-3">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2.5">
+                                        <div class="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                                            <i class="ph-fill ph-person-simple-hike text-base"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[9px] font-semibold tracking-wider text-gray-500 uppercase">Activity</p>
+                                            <p class="text-[12px] font-bold">Hiking</p>
+                                        </div>
+                                    </div>
+                                    <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-[11px] font-bold">Easy</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="rounded-xl bg-gray-50 px-2 py-2">
+                                        <p class="flex items-center gap-1 text-[9px] font-semibold tracking-wider text-gray-500 uppercase"><i class="ph-bold ph-path text-primary"></i>Length</p>
+                                        <p class="text-[14px] font-bold mt-0.5">0.5<span class="text-[10px] font-medium text-gray-500 ml-0.5">km</span></p>
+                                    </div>
+                                    <div class="rounded-xl bg-gray-50 px-2 py-2">
+                                        <p class="flex items-center gap-1 text-[9px] font-semibold tracking-wider text-gray-500 uppercase"><i class="ph-fill ph-mountains text-emerald-600"></i>Elev.</p>
+                                        <p class="text-[14px] font-bold mt-0.5">+81<span class="text-[10px] font-medium text-gray-500 ml-0.5">m</span></p>
+                                    </div>
+                                    <div class="rounded-xl bg-gray-50 px-2 py-2">
+                                        <p class="flex items-center gap-1 text-[9px] font-semibold tracking-wider text-gray-500 uppercase"><i class="ph-fill ph-clock text-amber-600"></i>Time</p>
+                                        <p class="text-[14px] font-bold mt-0.5">24m</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Elevation profile -->
+                            <div class="rounded-2xl border border-gray-200 p-3">
+                                <div class="flex items-start justify-between">
+                                    <div>
+                                        <p class="text-[12px] font-bold">Elevation Profile</p>
+                                        <p class="text-[10px] text-gray-500">Min: 276m &bull; Max: 347m</p>
+                                    </div>
+                                    <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-900 text-white text-[10px] font-semibold"><i class="ph-bold ph-mountains"></i>+81 m</span>
+                                </div>
+                                <svg viewBox="0 0 300 80" class="w-full h-16 mt-2" aria-hidden="true">
+                                    <path d="M6,70 L42,63.2 L78,54.8 L114,48.9 L150,34.5 L186,28.6 L222,21.8 L258,15.9 L294,10 L294,78 L6,78 Z" fill="#5B4BFF" fill-opacity="0.12"/>
+                                    <polyline points="6,70 42,63.2 78,54.8 114,48.9 150,34.5 186,28.6 222,21.8 258,15.9 294,10" fill="none" stroke="#5B4BFF" stroke-width="2" stroke-linejoin="round"/>
+                                    <circle cx="6" cy="70" r="4" fill="#10B981" stroke="white" stroke-width="2"/>
+                                    <circle cx="294" cy="10" r="4" fill="#EF4444" stroke="white" stroke-width="2"/>
+                                </svg>
+                                <div class="flex justify-between text-[10px] text-gray-500 mt-1">
+                                    <span>0 km</span><span>0.3 km</span><span>0.5 km</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2580,6 +2677,11 @@
             previewMode: '360', // '360' | 'map'
             mapBottomTab: 'waypoints', // 'waypoints' | 'elevation'
             fullscreenOpen: false,
+
+            // Step 1 choices (mirrors web: Panorama = 2 steps, Trail = 3 steps)
+            experienceType: 'trail', // 'panorama' | 'trail'
+            platform: 'tourmkr', // 'tourmkr' | 'google'
+            get totalSteps() { return this.experienceType === 'panorama' ? 2 : 3 },
 
             // File selection
             customImageName: null,

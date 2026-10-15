@@ -80,7 +80,112 @@
         }
     </script>
 </head>
-<body x-data="{ detailsOpen: false }" class="bg-gray-950 flex flex-col items-center min-h-screen text-foreground antialiased p-4 sm:p-10 overflow-y-auto">
+<body x-data="{
+        detailsOpen: false,
+        view: 'post',
+        current: 0,
+        // x/y in trail-map viewBox units (360x800)
+        points: [
+            { elev: 276, x: 250, y: 588 }, { elev: 284, x: 262, y: 550 }, { elev: 294, x: 256, y: 462 },
+            { elev: 301, x: 262, y: 375 }, { elev: 318, x: 236, y: 328 }, { elev: 325, x: 226, y: 298 },
+            { elev: 333, x: 232, y: 250 }, { elev: 340, x: 248, y: 215 }, { elev: 347, x: 296, y: 200 }
+        ],
+        photos: [
+            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1000&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1000&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1000&auto=format&fit=crop'
+        ],
+        markerColor(i) { return i === 0 ? 'bg-emerald-500' : i === this.points.length - 1 ? 'bg-red-500' : 'bg-amber-500' },
+        go(step) { this.current = (this.current + step + this.points.length) % this.points.length }
+    }" class="bg-gray-950 flex flex-col items-center min-h-screen text-foreground antialiased p-4 sm:p-10 overflow-y-auto">
+
+    <!-- Shared details content: cloned into both phone sheets (see script at bottom). Mirrors the web Post Detail layout. -->
+    <template id="details-content">
+        <div class="flex flex-col gap-4 text-gray-900">
+            <!-- Author -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-full flex items-center justify-center bg-[#A69389] shrink-0 border border-[#A69389]/50">
+                    <span class="text-sm font-bold text-gray-700">ES</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-[15px] font-bold leading-tight truncate">Eko Syaepulloh Qa</h3>
+                    <p class="text-[12px] font-medium text-gray-500 mt-0.5">@ekosymm</p>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <p class="text-[14px] font-medium text-gray-800">Bon Echo Provincial Park 2</p>
+
+            <!-- Activity + stats -->
+            <div class="rounded-2xl border border-gray-200 p-3.5 flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                            <i class="ph-fill ph-person-simple-hike text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-semibold tracking-wider text-gray-500 uppercase">Activity</p>
+                            <p class="text-[13px] font-bold">Hiking</p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-[12px] font-bold">Easy</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="rounded-xl bg-gray-50 px-2.5 py-2">
+                        <p class="flex items-center gap-1 text-[10px] font-semibold tracking-wider text-gray-500 uppercase"><i class="ph-bold ph-path text-primary"></i>Length</p>
+                        <p class="text-[15px] font-bold mt-0.5">0.5<span class="text-[11px] font-medium text-gray-500 ml-0.5">km</span></p>
+                    </div>
+                    <div class="rounded-xl bg-gray-50 px-2.5 py-2">
+                        <p class="flex items-center gap-1 text-[10px] font-semibold tracking-wider text-gray-500 uppercase"><i class="ph-fill ph-mountains text-emerald-600"></i>Elev.</p>
+                        <p class="text-[15px] font-bold mt-0.5">+81<span class="text-[11px] font-medium text-gray-500 ml-0.5">m</span></p>
+                    </div>
+                    <div class="rounded-xl bg-gray-50 px-2.5 py-2">
+                        <p class="flex items-center gap-1 text-[10px] font-semibold tracking-wider text-gray-500 uppercase"><i class="ph-fill ph-clock text-amber-600"></i>Time</p>
+                        <p class="text-[15px] font-bold mt-0.5">24m</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elevation profile -->
+            <div class="rounded-2xl border border-gray-200 p-3.5">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <p class="text-[13px] font-bold">Elevation Profile</p>
+                        <p class="text-[11px] text-gray-500">Min: 276m &bull; Max: 347m</p>
+                    </div>
+                    <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-900 text-white text-[10px] font-semibold"><i class="ph-bold ph-mountains"></i>+81 m</span>
+                </div>
+                <svg viewBox="0 0 300 80" class="w-full h-20 mt-2" aria-hidden="true">
+                    <path d="M6,70 L42,63.2 L78,54.8 L114,48.9 L150,34.5 L186,28.6 L222,21.8 L258,15.9 L294,10 L294,78 L6,78 Z" fill="#5B4BFF" fill-opacity="0.12"/>
+                    <polyline points="6,70 42,63.2 78,54.8 114,48.9 150,34.5 186,28.6 222,21.8 258,15.9 294,10" fill="none" stroke="#5B4BFF" stroke-width="2" stroke-linejoin="round"/>
+                    <circle cx="6" cy="70" r="4" fill="#10B981" stroke="white" stroke-width="2"/>
+                    <circle cx="294" cy="10" r="4" fill="#EF4444" stroke="white" stroke-width="2"/>
+                </svg>
+                <div class="flex justify-between text-[10px] text-gray-500 mt-1">
+                    <span>0 km</span><span>0.3 km</span><span>0.5 km</span>
+                </div>
+            </div>
+
+        </div>
+    </template>
+
+    <!-- Stylized trail map, drawn once and rendered in the map view via <use> -->
+    <svg width="0" height="0" class="absolute" aria-hidden="true">
+        <symbol id="trail-map" viewBox="0 0 360 800">
+            <rect width="360" height="800" fill="#E4EADB"/>
+            <path d="M0,40 C80,20 130,80 160,150 C185,210 222,240 212,300 C204,360 236,410 246,500 C252,560 250,660 244,800 L130,800 C120,740 70,720 62,670 C50,610 100,580 90,530 C80,470 0,460 0,420 Z" fill="#BCD5F0"/>
+            <g fill="none" stroke="#C9B9A6" stroke-width="1.2" stroke-dasharray="3 3">
+                <path d="M300,0 C290,80 320,140 300,200"/>
+                <path d="M262,620 C300,660 330,700 360,720"/>
+                <path d="M40,500 C20,560 30,620 0,660"/>
+                <path d="M280,260 C320,300 340,360 360,380"/>
+            </g>
+            <text x="150" y="470" transform="rotate(90 150 470)" fill="#7FA6D6" font-size="11" font-style="italic" letter-spacing="2">Mississippi River</text>
+            <text x="200" y="130" fill="#6B7280" font-size="9" text-anchor="middle">Cliff Top Viewing Platforms</text>
+            <polyline points="250,588 262,550 256,462 262,375 236,328 226,298 232,250 248,215 296,200" fill="none" stroke="#10B981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+    </svg>
 
     <div class="w-full max-w-[1400px] flex flex-col items-center gap-8 mx-auto my-auto">
         
@@ -90,13 +195,122 @@
             <!-- ====== PHONE 1: BASE POST 360 VIEW ====== -->
             <div class="w-[375px] h-[812px] bg-black relative overflow-hidden flex flex-col rounded-[2.5rem] border-[8px] border-black shadow-[0_25px_60px_rgba(0,0,0,0.8)] shrink-0 select-none ring-1 ring-white/10">
                 <!-- 360 Background Image (Beach Sunset) -->
-                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0" alt="Beach 360">
+                <img :src="photos[current % photos.length]" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover z-0" alt="360 view">
 
                 <!-- Dark overlay at top for text legibility -->
                 <div class="absolute top-0 inset-x-0 h-36 bg-gradient-to-b from-black/80 to-transparent z-10 pointer-events-none"></div>
 
+                <!-- ====== MAP VIEW (toggled with 360 view) ====== -->
+                <div x-show="view === 'map'"
+                     x-transition:enter="transition-opacity ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition-opacity ease-out duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                     style="display: none;" class="absolute inset-0 z-30 bg-[#E4EADB]">
+                    <svg viewBox="0 0 360 800" preserveAspectRatio="none" class="absolute inset-0 w-full h-full"><use href="#trail-map" width="360" height="800"/></svg>
+                    <!-- Status bar backdrop so the clock stays readable on the light map -->
+                    <div class="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-white/90 to-transparent pointer-events-none"></div>
+
+                    <!-- Waypoint markers: positioned in % of the 360x800 map -->
+                    <template x-for="(p, i) in points" :key="i">
+                        <button @click="current = i; $refs.kp.children[i + 1].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })"
+                                :aria-label="'Key point ' + (i + 1)"
+                                class="absolute -translate-x-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center outline-none"
+                                :style="`left: ${p.x / 3.6}%; top: ${p.y / 8}%`">
+                            <span x-show="current === i" class="absolute inset-0 rounded-full animate-ring" :class="markerColor(i)"></span>
+                            <span class="relative w-6 h-6 rounded-full border-2 border-white shadow-md text-white text-[11px] font-bold flex items-center justify-center transition-transform duration-150"
+                                  :class="[markerColor(i), current === i ? 'scale-110' : '']" x-text="i + 1"></span>
+                        </button>
+                    </template>
+
+                    <!-- Bottom: Key Points / Elevation Graph tabs -->
+                    <div x-data="{ tab: 'points', gx(i) { return 4 + i * 92 / (points.length - 1) }, gy(e) { return 88 - (e - 276) / 71 * 76 } }"
+                         class="absolute bottom-0 inset-x-0 bg-white rounded-t-[1.5rem] pt-3 pb-5 shadow-[0_-10px_30px_rgba(0,0,0,0.15)]">
+                        <div class="flex items-center gap-1.5 px-4 pb-2.5">
+                            <button @click="tab = 'points'" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold flex items-center gap-1 transition-colors outline-none"
+                                    :class="tab === 'points' ? 'bg-primary/10 text-primary' : 'text-gray-600'">
+                                <i class="ph-fill ph-map-pin"></i>Key Points (9)
+                            </button>
+                            <button @click="tab = 'elev'" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold flex items-center gap-1 transition-colors outline-none"
+                                    :class="tab === 'elev' ? 'bg-primary/10 text-primary' : 'text-gray-600'">
+                                <i class="ph-bold ph-chart-line-up"></i>Elevation Graph
+                            </button>
+                        </div>
+
+                        <!-- Tab: Key Points -->
+                        <div x-show="tab === 'points'">
+                            <div class="flex items-center gap-3 px-4 pb-2.5 text-[10px] font-medium text-gray-600">
+                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Start</span>
+                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>Finish</span>
+                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Waypoint</span>
+                                <span class="flex items-center gap-1"><span class="w-4 h-1 rounded-full bg-emerald-500"></span>Route</span>
+                            </div>
+                            <div x-ref="kp" class="flex gap-2 overflow-x-auto no-scrollbar px-4 snap-x">
+                                <template x-for="(p, i) in points" :key="i">
+                                    <div @click="current = i" class="snap-center shrink-0 w-[200px] rounded-xl border p-2.5 flex items-center gap-2.5 cursor-pointer transition-colors"
+                                         :class="current === i ? 'border-primary bg-primary/5' : 'border-gray-200'">
+                                        <span class="w-7 h-7 rounded-full text-white text-[11px] font-bold flex items-center justify-center shrink-0" :class="markerColor(i)" x-text="i + 1"></span>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-[12px] font-semibold text-gray-900 truncate" x-text="'img_20260906_1' + (i + 1)"></p>
+                                            <p class="text-[10px] text-gray-500" x-text="p.elev + 'm elevation'"></p>
+                                        </div>
+                                        <button @click.stop="current = i; view = 'post'" class="px-2 py-1.5 rounded-lg bg-primary/10 text-primary text-[11px] font-semibold flex items-center gap-1 active:scale-[0.97] transition-transform outline-none shrink-0">
+                                            <i class="ph-bold ph-arrow-square-out"></i>360
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Tab: Elevation Graph (tap a dot to select that key point) -->
+                        <div x-show="tab === 'elev'" style="display: none;" class="px-4">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-[13px] font-bold text-gray-900">Elevation Profile</p>
+                                    <p class="text-[10px] text-gray-500">Min: 276m &bull; Max: 347m</p>
+                                </div>
+                                <span class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-900 text-white text-[10px] font-semibold tabular-nums"
+                                      x-text="`${(current * 0.5 / (points.length - 1)).toFixed(2)} km • ${points[current].elev} m`"></span>
+                            </div>
+                            <div class="relative h-[110px] mt-1">
+                                <!-- Line/area stretch to fit; dots are HTML so they stay round -->
+                                <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="absolute inset-0 w-full h-full overflow-visible">
+                                    <line x1="0" x2="100" y1="12" y2="12" stroke="#E5E7EB" stroke-dasharray="2 2" vector-effect="non-scaling-stroke"/>
+                                    <line x1="0" x2="100" y1="50" y2="50" stroke="#E5E7EB" stroke-dasharray="2 2" vector-effect="non-scaling-stroke"/>
+                                    <path :d="'M' + points.map((p, i) => gx(i) + ',' + gy(p.elev)).join(' L') + ` L${gx(points.length - 1)},100 L${gx(0)},100 Z`" fill="#5B4BFF" fill-opacity="0.1"/>
+                                    <polyline :points="points.map((p, i) => gx(i) + ',' + gy(p.elev)).join(' ')" fill="none" stroke="#5B4BFF" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+                                    <line :x1="gx(current)" :x2="gx(current)" :y1="gy(points[current].elev)" y2="100" stroke="#9CA3AF" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>
+                                </svg>
+                                <template x-for="(p, i) in points" :key="i">
+                                    <button @click="current = i" :aria-label="'Key point ' + (i + 1)"
+                                            class="absolute -translate-x-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center outline-none"
+                                            :style="`left: ${gx(i)}%; top: ${gy(p.elev)}%`">
+                                        <span class="rounded-full border-[3px] bg-white transition-transform duration-150"
+                                              :class="[current === i ? 'w-4 h-4 border-primary scale-110' : 'w-3 h-3', i === 0 ? 'border-emerald-500' : i === points.length - 1 ? 'border-red-500' : current === i ? '' : 'border-amber-500']"></span>
+                                    </button>
+                                </template>
+                            </div>
+                            <div class="flex justify-between text-[10px] text-gray-500 mt-1.5">
+                                <span>0 km (Start)</span><span>0.3 km</span><span>0.5 km (End)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 360 / Map segmented toggle -->
+                <div class="absolute top-[110px] inset-x-0 flex justify-center z-40 select-none">
+                    <div class="relative grid grid-cols-2 p-1 rounded-full bg-black/60 backdrop-blur-md border border-slate-700/60 text-[12px] font-semibold">
+                        <span class="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-full bg-white transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]"
+                              :class="view === 'map' ? 'translate-x-full' : ''"></span>
+                        <button @click="view = 'post'" class="relative px-4 py-1.5 flex items-center justify-center gap-1.5 transition-colors outline-none" :class="view === 'post' ? 'text-gray-900' : 'text-white'">
+                            <i class="ph-bold ph-panorama"></i>360 View
+                        </button>
+                        <button @click="view = 'map'" class="relative px-4 py-1.5 flex items-center justify-center gap-1.5 transition-colors outline-none" :class="view === 'map' ? 'text-gray-900' : 'text-white'">
+                            <i class="ph-bold ph-map-trifold"></i>Trail Map
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Status Bar -->
-                <div class="absolute top-0 inset-x-0 h-12 flex justify-between items-center px-6 text-[14px] font-semibold text-white z-20 select-none">
+                <div class="absolute top-0 inset-x-0 h-12 flex justify-between items-center px-6 text-[14px] font-semibold z-40 select-none transition-colors" :class="view === 'map' ? 'text-gray-900' : 'text-white'">
                     <span>14:19</span>
                     <div class="flex gap-2 items-center">
                         <i class="ph-fill ph-cell-signal-full"></i>
@@ -109,16 +323,16 @@
                 </div>
 
                 <!-- Top Navigation Area -->
-                <div class="absolute top-12 inset-x-0 px-4 flex justify-between gap-2.5 z-20 select-none">
+                <div class="absolute top-12 inset-x-0 px-4 flex justify-between gap-2.5 z-40 select-none">
                     <button class="w-[42px] h-[42px] rounded-[14px] bg-black/60 backdrop-blur-md flex items-center justify-center text-white active:scale-95 transition-transform shrink-0 border border-slate-700/60 outline-none">
                         <i class="ph-bold ph-arrow-left text-lg"></i>
                     </button>
-                    
+
                     <div class="flex-1 min-w-0 h-[46px] rounded-[16px] bg-black/60 backdrop-blur-md flex flex-col justify-center px-4 border border-slate-700/60 overflow-hidden">
-                        <h1 class="text-[13px] font-bold text-white leading-tight truncate">PT. Go Thru Media Indonesia</h1>
+                        <h1 class="text-[13px] font-bold text-white leading-tight truncate">Bon Echo Provincial Park 1</h1>
                         <div class="flex items-center gap-1 mt-0.5">
-                            <i class="ph-fill ph-map-pin text-[10px] text-gray-300 shrink-0"></i>
-                            <p class="text-[10px] font-medium text-gray-300 truncate">Wanareja, Subang, Subang Regency...</p>
+                            <i class="ph-fill ph-person-simple-hike text-[10px] text-gray-300 shrink-0"></i>
+                            <p class="text-[10px] font-medium text-gray-300 truncate" x-text="view === 'map' ? 'Hiking • 0.5 km • +81 m • Easy' : `Key point ${current + 1} of ${points.length} • ${points[current].elev}m`">Hiking &bull; 0.5 km &bull; +81 m &bull; Easy</p>
                         </div>
                     </div>
 
@@ -146,7 +360,7 @@
                         </div>
                         <span class="text-[11px] font-bold drop-shadow-sm">0</span>
                     </button>
-                    <button class="flex flex-col items-center gap-1 active:scale-90 transition-transform outline-none group text-white">
+                    <button @click="detailsOpen = true" class="flex flex-col items-center gap-1 active:scale-90 transition-transform outline-none group text-white">
                         <div class="w-[42px] h-[42px] rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-slate-700/60 group-hover:bg-black/60 transition-colors">
                             <i class="ph ph-chat-circle text-[22px]"></i>
                         </div>
@@ -185,16 +399,16 @@
                     <div class="flex items-center justify-between mb-4 w-full">
                         <div class="flex items-center gap-3">
                             <div class="w-[42px] h-[42px] rounded-full flex items-center justify-center bg-[#A69389] shrink-0 overflow-hidden border border-[#A69389]/50">
-                                <span class="text-sm font-bold text-gray-700">FR</span>
+                                <span class="text-sm font-bold text-gray-700">ES</span>
                             </div>
                             <div class="flex-1 drop-shadow-md">
-                                <h2 class="text-[15px] font-bold text-white leading-tight">Filo Rial</h2>
-                                <p class="text-[12px] font-medium text-gray-300 mt-0.5">@filorial</p>
+                                <h2 class="text-[15px] font-bold text-white leading-tight">Eko Syaepulloh Qa</h2>
+                                <p class="text-[12px] font-medium text-gray-300 mt-0.5">@ekosymm</p>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between w-[72px] h-[38px] px-4 rounded-full bg-black/40 backdrop-blur-md border border-slate-700/60 text-white drop-shadow-sm cursor-pointer hover:bg-black/60 transition-colors shrink-0 outline-none">
-                            <i class="ph-bold ph-caret-left text-[15px]"></i>
-                            <i class="ph-bold ph-caret-right text-[15px]"></i>
+                        <div class="flex items-center h-[38px] rounded-full bg-black/40 backdrop-blur-md border border-slate-700/60 text-white drop-shadow-sm shrink-0">
+                            <button @click="go(-1)" aria-label="Previous key point" class="h-full pl-3.5 pr-2 active:scale-90 transition-transform outline-none"><i class="ph-bold ph-caret-left text-[15px]"></i></button>
+                            <button @click="go(1)" aria-label="Next key point" class="h-full pl-2 pr-3.5 active:scale-90 transition-transform outline-none"><i class="ph-bold ph-caret-right text-[15px]"></i></button>
                         </div>
                     </div>
 
@@ -211,7 +425,7 @@
                     x-transition:enter="transition-opacity ease-out duration-200"
                     x-transition:enter-start="opacity-0"
                     x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition-opacity ease-in duration-150"
+                    x-transition:leave="transition-opacity ease-out duration-200"
                     x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                     style="display: none;"
@@ -220,32 +434,21 @@
                     <div @click="detailsOpen = false" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
                     <div 
                         x-show="detailsOpen"
-                        x-transition:enter="transition-transform ease-out duration-300"
+                        x-transition:enter="transition-transform ease-[cubic-bezier(0.32,0.72,0,1)] duration-300"
                         x-transition:enter-start="translate-y-full"
                         x-transition:enter-end="translate-y-0"
-                        x-transition:leave="transition-transform ease-in duration-200"
+                        x-transition:leave="transition-transform ease-[cubic-bezier(0.32,0.72,0,1)] duration-200"
                         x-transition:leave-start="translate-y-0"
                         x-transition:leave-end="translate-y-full"
-                        class="relative w-full bg-white flex flex-col pt-3 pb-12 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[1.75rem] overflow-hidden z-[70]"
+                        class="relative w-full max-h-[82%] bg-white flex flex-col pt-3 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[1.75rem] overflow-hidden z-[70]"
                     >
-                        <div class="w-full flex justify-center pb-4 pt-1 shrink-0">
+                        <button @click="detailsOpen = false" aria-label="Close details" class="w-full flex justify-center pb-3 pt-1 shrink-0 outline-none">
                             <div class="w-10 h-1 bg-gray-300 rounded-full"></div>
-                        </div>
-                        <div class="px-6 pb-4 shrink-0 relative select-none text-center">
+                        </button>
+                        <div class="px-6 pb-3 shrink-0 select-none text-center border-b border-gray-100">
                             <h2 class="text-[16px] font-bold text-gray-900">Details</h2>
                         </div>
-                        <div class="px-6 pt-2 pb-6 max-h-[50vh] overflow-y-auto no-scrollbar">
-                            <div class="flex items-center gap-3.5 mb-5">
-                                <div class="w-[48px] h-[48px] rounded-full flex items-center justify-center bg-[#A69389] shrink-0 border border-[#A69389]/50 overflow-hidden">
-                                    <span class="text-sm font-bold text-gray-700">FR</span>
-                                </div>
-                                <div>
-                                    <h2 class="text-[15px] font-bold text-gray-900 leading-tight">Filo Rial</h2>
-                                    <p class="text-[12px] font-semibold text-gray-500 mt-0.5">@filorial</p>
-                                </div>
-                            </div>
-                            <p class="text-[14px] text-gray-800 font-medium">My 360</p>
-                        </div>
+                        <div data-details class="flex-1 min-h-0 px-6 pt-4 pb-8 overflow-y-auto no-scrollbar select-text"></div>
                     </div>
                 </div>
             </div>
@@ -259,7 +462,7 @@
                 <div class="absolute top-10 inset-x-0 px-3 flex justify-between gap-2.5 z-20 opacity-80">
                     <div class="w-9 h-9 rounded-xl bg-black/60 text-white flex items-center justify-center"><i class="ph-bold ph-arrow-left text-base"></i></div>
                     <div class="flex-1 h-10 rounded-2xl bg-black/60 flex flex-col justify-center px-4">
-                        <h1 class="text-[12px] font-bold text-white">PT. Go Thru ...</h1>
+                        <h1 class="text-[12px] font-bold text-white">Bon Echo Provincial ...</h1>
                     </div>
                     <div class="w-9 h-9 rounded-xl bg-black/60 text-white flex items-center justify-center"><i class="ph-bold ph-dots-three text-base"></i></div>
                 </div>
@@ -268,31 +471,19 @@
                 <div class="absolute inset-0 bg-black/40 backdrop-blur-[2px] z-30"></div>
 
                 <!-- Bottom Sheet (Always Expanded as per Design Spec) -->
-                <div class="absolute bottom-0 inset-x-0 bg-white flex flex-col pt-3 pb-12 z-[70] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[1.75rem] overflow-hidden">
+                <div class="absolute bottom-0 inset-x-0 max-h-[82%] bg-white flex flex-col pt-3 z-[70] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[1.75rem] overflow-hidden">
                     <!-- Drag Handle -->
-                    <div class="w-full flex justify-center pb-4 pt-1 shrink-0">
+                    <div class="w-full flex justify-center pb-3 pt-1 shrink-0">
                         <div class="w-10 h-1 bg-gray-300 rounded-full"></div>
                     </div>
 
                     <!-- Header -->
-                    <div class="px-6 pb-4 shrink-0 relative text-center">
+                    <div class="px-6 pb-3 shrink-0 text-center border-b border-gray-100">
                         <h2 class="text-[16px] font-bold text-gray-900">Details</h2>
                     </div>
 
                     <!-- Content -->
-                    <div class="px-6 pt-2 pb-6">
-                        <div class="flex items-center gap-3.5 mb-5">
-                            <div class="w-[48px] h-[48px] rounded-full flex items-center justify-center bg-[#A69389] shrink-0 border border-[#A69389]/50 overflow-hidden">
-                                <span class="text-sm font-bold text-gray-700">FR</span>
-                            </div>
-                            <div>
-                                <h2 class="text-[15px] font-bold text-gray-900 leading-tight">Filo Rial</h2>
-                                <p class="text-[12px] font-semibold text-gray-500 mt-0.5">@filorial</p>
-                            </div>
-                        </div>
-
-                        <p class="text-[14px] text-gray-800 font-medium">My 360</p>
-                    </div>
+                    <div data-details class="flex-1 min-h-0 px-6 pt-4 pb-8 overflow-y-auto no-scrollbar select-text"></div>
                 </div>
             </div>
 
@@ -300,5 +491,10 @@
 
     </div>
 
+    <!-- Runs before deferred Alpine, so the cloned markup gets initialized normally -->
+    <script>
+        const detailsTpl = document.getElementById('details-content');
+        document.querySelectorAll('[data-details]').forEach(el => el.appendChild(detailsTpl.content.cloneNode(true)));
+    </script>
 </body>
 </html>
